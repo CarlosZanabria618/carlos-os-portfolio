@@ -1,4 +1,29 @@
-<!-- As a Hokie, I will conduct myself with honor and integrity at all times. I will not lie, cheat, or steal, nor will I accept the actions of those who do. LLM use: OpenAI Codex assisted with design, implementation, documentation, and testing. -->
-{% extends 'base.html' %}{% block content %}<main id="main" class="window"><div class="titlebar"><span>▣ {{title|lower}}.explorer</span><span aria-hidden="true">_ &nbsp; □ &nbsp; ×</span></div><div class="menubar"><a href="/">← My desktop</a><span class="menubar-right">C:\Portfolio\{{title}}</span></div><div class="window-content"><p class="eyebrow">THE THINGS I'M BUILDING</p><h1 class="page-heading">{{title}}<span class="period">.</span></h1><p class="page-intro">A collection of experiments, team projects, and ideas in progress. Open a file to take a closer look.</p>
-{% if active != 'games' %}<form class="search-form" action="/projects" method="get"><div><label for="q">Search the project files</label><input id="q" name="q" type="search" maxlength="100" value="{{query}}" placeholder="Try wallet, Roblox, or Python"></div><div><label for="category">Project type</label><select id="category" name="category"><option value="">All types</option><option {% if category=='Software' %}selected{% endif %}>Software</option><option {% if category=='Games' %}selected{% endif %}>Games</option></select></div><button class="button primary" type="submit">Find files</button><a class="reset" href="/projects">Reset</a></form>{% endif %}
-<p class="result-count" role="status">{{items|length}} {{'file' if items|length==1 else 'files'}} found{% if query %} for “{{query}}”{% endif %}</p><div class="project-grid">{% for item in items %}{% include 'card.html' %}{% else %}<div class="empty"><h2>No matching files</h2><p>Try a different word or choose another project type.</p><a class="button" href="/projects">Show all projects</a></div>{% endfor %}</div></div><div class="statusbar"><span>Read from SQLite · projects table</span><span>{{items|length}} {{'file' if items|length==1 else 'files'}}</span></div></main>{% endblock %}
+<!-- Original portfolio by Carlos Zanabria, with OpenAI Codex assistance. -->
+{% extends 'base.html' %}
+{% block content %}
+<main id="main" class="page-main">
+  <div class="content-wrap">
+    <header class="page-header" data-reveal>
+      <p class="eyebrow">{{ 'Interactive worlds' if active == 'games' else 'Selected work' }}</p>
+      <h1 class="page-heading">{{ 'Games & experiments.' if active == 'games' else 'Things I’m building.' }}</h1>
+      <p class="page-intro">{{ 'Learning how thoughtful systems and small details make a world worth exploring.' if active == 'games' else 'Software, interactive worlds, and ideas in progress. A closer look at the work and the thinking behind it.' }}</p>
+      <div class="page-actions"><a class="text-link" href="{{ url_for('boot') }}">Build a project briefing <span aria-hidden="true">↗</span></a></div>
+    </header>
+    {% if active != 'games' %}
+    <form class="search-form" action="{{ url_for('project_list') }}" method="get" data-reveal>
+      <div><label for="q">Search projects</label><input id="q" name="q" type="search" maxlength="100" value="{{ query }}" placeholder="Try wallet, Roblox, or Python"></div>
+      <div><label for="category">Project type</label><select id="category" name="category"><option value="">All types</option><option {% if category == 'Software' %}selected{% endif %}>Software</option><option {% if category == 'Games' %}selected{% endif %}>Games</option></select></div>
+      <button class="button primary" type="submit">Search</button>
+      {% if query or category %}<a class="text-link" href="{{ url_for('project_list') }}">Clear filters</a>{% endif %}
+    </form>
+    {% endif %}
+    <p class="result-count" role="status">{{ items|length }} {{ 'project' if items|length == 1 else 'projects' }} found{% if query %} for “{{ query }}”{% endif %}</p>
+    <div class="project-grid">
+      {% for item in items %}{% include 'card.html' %}
+      {% else %}
+      <section class="empty" data-reveal><h2>No matching projects.</h2><p>Try another search or explore the full collection.</p><a class="button secondary" href="{{ url_for('project_list') }}">View all projects</a></section>
+      {% endfor %}
+    </div>
+  </div>
+</main>
+{% endblock %}

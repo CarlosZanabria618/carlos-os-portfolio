@@ -19,6 +19,23 @@ def initialize(path):
             year TEXT, role TEXT, summary TEXT, detail TEXT, stack TEXT,
             url TEXT, link_label TEXT, art TEXT)""")
         source = Path(__file__).resolve().parent.parent / 'data/projects.json'
+        columns = ('slug', 'title', 'category', 'status', 'year', 'role',
+                   'summary', 'detail', 'stack', 'url', 'link_label', 'art')
         for record in json.loads(source.read_text())['projects']:
-            db.execute('INSERT OR IGNORE INTO projects VALUES (?,?,?,?,?,?,?,?,?,?,?,?)',
-                       tuple(record.values()))
+            # JSON owns catalog content; refresh edited projects on every startup.
+            db.execute("""INSERT INTO projects (
+                slug, title, category, status, year, role,
+                summary, detail, stack, url, link_label, art
+            ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)
+            ON CONFLICT(slug) DO UPDATE SET
+                title = excluded.title,
+                category = excluded.category,
+                status = excluded.status,
+                year = excluded.year,
+                role = excluded.role,
+                summary = excluded.summary,
+                detail = excluded.detail,
+                stack = excluded.stack,
+                url = excluded.url,
+                link_label = excluded.link_label,
+                art = excluded.art""", tuple(record[column] for column in columns))

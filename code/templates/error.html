@@ -1,2 +1,9 @@
-<!-- As a Hokie, I will conduct myself with honor and integrity at all times. I will not lie, cheat, or steal, nor will I accept the actions of those who do. LLM use: OpenAI Codex assisted with design, implementation, documentation, and testing. -->
-{% extends 'base.html' %}{% block content %}<main id='main' class='window'><div class='titlebar'>File not found</div><div class='window-content'><h1>This file has moved.</h1><p>Try the project explorer to find what you need.</p><a class='button' href='/projects'>Open projects</a></div></main>{% endblock %}
+<!-- Original portfolio by Carlos Zanabria, with OpenAI Codex assistance. -->
+{% extends 'base.html' %}
+{% block content %}
+<main id="main" class="page-main">
+  <div class="content-wrap">
+    <header class="page-header" data-reveal><p class="eyebrow">404</p><h1 class="page-heading">Let’s find your way.</h1><p class="page-intro">This page isn’t here. Explore my projects or head back home.</p><div class="page-actions"><a class="button primary" href="{{ url_for('project_list') }}">Explore projects <span aria-hidden="true">↗</span></a><a class="text-link" href="{{ url_for('home') }}">Back to home <span aria-hidden="true">→</span></a></div></header>
+  </div>
+</main>
+{% endblock %}

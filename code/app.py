@@ -27,7 +27,7 @@ def projects(category='', query=''):
 
 @app.route('/')
 def home():
-    return render_template('home.html', active='home', title='My desktop', items=projects())
+    return render_template('home.html', active='home', title='Software & thoughtful interfaces', items=projects())
 
 
 @app.get('/boot')
@@ -36,7 +36,7 @@ def boot():
     selected = set(request.args.getlist('project'))
     catalog = projects()
     briefing = [item for item in catalog if item['slug'] in selected]
-    return render_template('boot.html', title='Portfolio Boot Menu', catalog=catalog,
+    return render_template('boot.html', title='Your project briefing', catalog=catalog,
                            briefing=briefing, requested='launch' in request.args)
 
 

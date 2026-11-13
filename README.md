@@ -1,12 +1,13 @@
 # Carlos OS Portfolio
 
-A personal portfolio for Carlos Zanabria, a Virginia Tech computer science student. The interface takes the form of a warm retro desktop, with projects, games, skills, and a downloadable resume.
+A personal portfolio for Carlos Zanabria, a Virginia Tech computer science student. The interface uses a restrained pearl-and-graphite palette, scroll-linked project illustrations, and a clear overview of projects, skills, experience, and a downloadable resume.
 
 ## Features
 
 - Searchable SQLite project catalog, category filters, and individual project pages.
 - Portfolio Boot Menu: choose multiple projects and generate a bookmarkable briefing.
-- Responsive desktop navigation and keyboard-accessible controls.
+- Responsive navigation, keyboard-accessible controls, reduced-motion support, and native page transitions where supported.
+- Scroll-linked visual depth and progressive section reveals; content remains available without JavaScript.
 - Current education, experience, skills, GitHub link, and an updated resume PDF.
 
 ## Run locally
@@ -33,7 +34,7 @@ docker run --rm -p 8000:8000 carlos-os-portfolio
 python -m unittest discover -s tests -v
 ```
 
-The suite covers navigation, the PDF download, search and filtering, escaped input, SQL safety, database-driven pages, project briefings, and database initialization.
+The suite covers navigation, the PDF download, search and filtering, escaped input, SQL safety, database-driven pages, project briefings, and database initialization and source-catalog updates.
 
 ## Deploy on Render
 

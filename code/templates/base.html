@@ -1,13 +1,21 @@
-<!-- As a Hokie, I will conduct myself with honor and integrity at all times. I will not lie, cheat, or steal, nor will I accept the actions of those who do. LLM use: OpenAI Codex assisted with design, implementation, documentation, and testing. -->
+<!-- Portfolio by Carlos Zanabria. OpenAI Codex assisted with design and implementation. -->
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>{{ title }} · Carlos OS</title><meta name="description" content="Carlos Zanabria’s software engineering and game development portfolio.">
-<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"></head>
-<body><a class="skip" href="#main">Skip to content</a>
-<header class="desktop-top"><a href="/" class="brand">CZ<span> / personal computer</span></a><span class="system-label">PORTFOLIO SYSTEM · V.01</span><span class="online"><i></i> READY TO EXPLORE</span></header>
-<div class="desktop-layout"><nav class="desktop-icons" aria-label="Portfolio applications">
-{% for path, name, icon in [('/', 'My desktop', 'computer'),('/resume','Resume','paper'),('/projects','Projects','folder'),('/games','Games','gamepad'),('/skills','Skills','tools')] %}
-<a class="desktop-icon {% if request.path == path %}selected{% endif %}" href="{{ path }}" {% if request.path == path %}aria-current="page"{% endif %}><span class="icon icon-{{icon}}" aria-hidden="true"></span><span>{{name}}</span></a>{% endfor %}
-</nav><div class="workspace">{% block content %}{% endblock %}<footer class="workspace-footer"><span>Made with curiosity. Built to be used.</span><span>HTML / CSS / PYTHON / SQLITE</span></footer></div></div>
-<footer class="taskbar"><details class="start"><summary><span aria-hidden="true">▦</span> Start</summary><nav aria-label="Start menu"><strong>Carlos OS</strong><a href="{{ url_for('boot') }}">Boot portfolio</a><a href="/resume">Open resume</a><a href="/projects">Explore projects</a><a href="/games">Browse games</a><a href="/skills">View skills</a><a href="https://github.com/CarlosZanabria618">GitHub profile ↗</a></nav></details><a class="task active" href="{{request.path}}">▣ {{title}}</a><span class="taskbar-note">Carlos Zanabria</span><span class="clock">EST · 2026</span></footer>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#f5f5f7"><meta name="color-scheme" content="light">
+<title>{{ title }} · Carlos Zanabria</title>
+<meta name="description" content="Carlos Zanabria is a Computer Science student at Virginia Tech, building software and thoughtful interfaces. Explore his projects and résumé. Seeking Summer 2027 internships.">
+<meta property="og:title" content="Carlos Zanabria — Software & thoughtful interfaces"><meta property="og:description" content="Computer Science at Virginia Tech. Explore my work, approach, and Summer 2027 internship interests."><meta property="og:type" content="website">
+<link rel="icon" href="{{ url_for('static',filename='favicon.svg') }}" type="image/svg+xml">
+<link rel="stylesheet" href="{{ url_for('static',filename='style.css') }}?v=2">
+<script defer src="{{ url_for('static',filename='motion.js') }}?v=2"></script>
+</head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header"><nav class="site-nav" aria-label="Main navigation">
+<a class="brand" href="{{ url_for('home') }}" aria-label="Carlos Zanabria, home">Carlos<span>.</span></a>
+<div class="nav-links"><a href="{{ url_for('project_list') }}" {% if active in ['projects','games'] %}aria-current="page"{% endif %}>Work</a><a href="{{ url_for('home') }}#about">About</a><a href="{{ url_for('resume') }}" {% if active=='resume' %}aria-current="page"{% endif %}>Résumé</a></div>
+<a class="nav-contact" href="mailto:andrezanabria6180@gmail.com">Let’s talk <span aria-hidden="true">↗</span></a>
+</nav></header>
+{% block content %}{% endblock %}
+<footer class="site-footer"><div class="content-wrap footer-inner"><a class="footer-name" href="/">Carlos Zanabria<span>.</span></a><p>Curiosity, put into practice.</p><div class="footer-links"><a href="https://github.com/CarlosZanabria618">GitHub <span aria-hidden="true">↗</span></a><a href="mailto:andrezanabria6180@gmail.com">Email <span aria-hidden="true">↗</span></a><a href="{{ url_for('static',filename='Carlos_Zanabria_Resume_Updated.pdf') }}">Résumé <span aria-hidden="true">↓</span></a></div><small>© 2026 Carlos Zanabria</small></div></footer>
 </body></html>

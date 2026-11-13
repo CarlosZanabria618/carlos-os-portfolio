@@ -1,5 +1,6 @@
 # As a Hokie, I will conduct myself with honor and integrity at all times. I will not lie, cheat, or steal, nor will I accept the actions of those who do.
 # LLM use: OpenAI Codex assisted with these integration tests.
+import json
 import os
 import sqlite3
 import sys
@@ -30,16 +31,16 @@ class PortfolioTests(unittest.TestCase):
         text = self.client.get('/projects?q=wallet').get_data(as_text=True)
         self.assertIn('HokieWallet', text)
         self.assertNotIn('merge-a-brainrot.project', text)
-        self.assertIn('1 file found', text)
+        self.assertIn('1 project found', text)
 
     def test_category_filter_and_combined_search(self):
         text = self.client.get('/projects?category=Games&q=merge').get_data(as_text=True)
-        self.assertIn('1 file found', text)
+        self.assertIn('1 project found', text)
         self.assertIn('Merge a Brainrot', text)
-        self.assertIn('1 file found', self.client.get('/games').get_data(as_text=True))
+        self.assertIn('1 project found', self.client.get('/games').get_data(as_text=True))
 
     def test_empty_results_and_escaped_input(self):
-        self.assertIn(b'No matching files', self.client.get('/projects?q=not-a-project').data)
+        self.assertIn(b'No matching projects', self.client.get('/projects?q=not-a-project').data)
         response = self.client.get('/projects', query_string={'q':'<script>alert(1)</script>'})
         self.assertNotIn(b'<script>', response.data)
         self.assertIn(b'&lt;script&gt;', response.data)
@@ -48,7 +49,7 @@ class PortfolioTests(unittest.TestCase):
         response = self.client.get('/projects', query_string={'q':"'; DROP TABLE projects; --"})
         self.assertEqual(response.status_code, 200)
         with sqlite3.connect(app.config['DATABASE']) as db:
-            self.assertEqual(db.execute('SELECT count(*) FROM projects').fetchone()[0], 3)
+            self.assertEqual(db.execute('SELECT count(*) FROM projects').fetchone()[0], 4)
 
     def test_details_validation_and_missing_files(self):
         self.assertEqual(self.client.get('/projects/merge-a-brainrot').status_code, 200)
@@ -71,7 +72,7 @@ class PortfolioTests(unittest.TestCase):
         )
         self.assertEqual(response.status_code, 200)
         briefing = response.data.split(b'id="briefing"')[1]
-        self.assertIn(b'2 files loaded', briefing)
+        self.assertIn(b'2 projects selected', briefing)
         self.assertIn(b'Team of four', briefing)
         self.assertIn(b'Roblox Studio', briefing)
         self.assertNotIn(b'Trucking workflow tools', briefing)
@@ -79,13 +80,32 @@ class PortfolioTests(unittest.TestCase):
     def test_boot_briefing_handles_missing_and_invalid_selection(self):
         self.assertNotIn(b'id="briefing"', self.client.get('/boot').data)
         for path in ('/boot?launch=1', '/boot?launch=1&project=missing'):
-            self.assertIn(b'Choose at least one project file', self.client.get(path).data)
+            self.assertIn(b'Choose at least one project', self.client.get(path).data)
 
     def test_seed_is_idempotent(self):
         from database import initialize
         initialize(app.config['DATABASE'])
         with sqlite3.connect(app.config['DATABASE']) as db:
-            self.assertEqual(db.execute('SELECT count(*) FROM projects').fetchone()[0], 3)
+            self.assertEqual(db.execute('SELECT count(*) FROM projects').fetchone()[0], 4)
+
+    def test_seed_refreshes_existing_project_without_duplicates(self):
+        from database import initialize
+        catalog = json.loads((ROOT / 'data/projects.json').read_text())['projects']
+        expected = next(project for project in catalog if project['slug'] == 'hokiewallet')
+        with tempfile.TemporaryDirectory() as directory:
+            path = str(Path(directory) / 'catalog.sqlite3')
+            initialize(path)
+            with sqlite3.connect(path) as db:
+                db.execute('UPDATE projects SET title = ?, stack = ? WHERE slug = ?',
+                           ('Outdated project title', 'Outdated tools', expected['slug']))
+            initialize(path)
+            initialize(path)
+            with sqlite3.connect(path) as db:
+                actual = db.execute('SELECT title, stack FROM projects WHERE slug = ?',
+                                    (expected['slug'],)).fetchall()
+                self.assertEqual(actual, [(expected['title'], expected['stack'])])
+                self.assertEqual(db.execute('SELECT count(*) FROM projects').fetchone()[0],
+                                 len(catalog))
 
 
 if __name__ == '__main__':

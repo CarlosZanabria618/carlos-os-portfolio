@@ -8,7 +8,7 @@
       "category": "Games",
       "status": "Upcoming release",
       "year": "2026",
-      "role": "Co-owner \u00b7 And Fish for Treasure",
+      "role": "Co-owner · And Fish for Treasure",
       "summary": "A Roblox game about merging Brainrots, hatching Lucky Eggs, rebirthing, and fishing for treasure.",
       "detail": "I am part of the team behind Merge a Brainrot. Our And Fish for Treasure community brings together merging, collection, and a fishing loop. The game is preparing for release; this page links to our group for launch updates.",
       "stack": "Roblox Studio, Luau, Game design",
@@ -22,10 +22,10 @@
       "category": "Software",
       "status": "Hackathon prototype",
       "year": "2026",
-      "role": "Team of four \u00b7 VTHacks",
-      "summary": "A centralized wallet concept that brings a student budget and Hokie Dollars into one place.",
-      "detail": "At VTHacks, I worked with three teammates on HokieWallet. It was my first experience collaborating on a project at that scale. We explored how students could view their budget and Hokie Dollars together. This is a prototype, not an official university payment service.",
-      "stack": "TypeScript, Team collaboration, Prototyping",
+      "role": "Team of four · VTHacks",
+      "summary": "A student finance dashboard prototype bringing budgets, spending, and campus wallet information into one view.",
+      "detail": "At VTHacks, I worked with three teammates on HokieWallet, a student finance prototype built with TypeScript, Next.js, and React. The dashboard uses shared sample data to show balances, spending categories, recent transactions, and savings goals. This project helped me practice team collaboration and think through how financial information can be easier to understand. It is a prototype; it does not connect to real bank or university payment accounts.",
+      "stack": "TypeScript, Next.js, React, Team collaboration",
       "url": "https://github.com/CarlosZanabria618/hokie-wallet",
       "link_label": "Explore the source",
       "art": "wallet"
@@ -36,13 +36,27 @@
       "category": "Software",
       "status": "Planned",
       "year": "2026",
-      "role": "Personal project \u00b7 Family business",
+      "role": "Personal project · Family business",
       "summary": "Exploring a simpler way to organize asphalt tickets, loads, rates, and driver hours.",
-      "detail": "Working with my dad\u2019s trucking business made me want to apply what I learn in CS to everyday operations. I plan to explore tools for organizing tickets and calculating driver payouts from loads, rates, and hours. This idea is in planning and is not a finished payroll product.",
+      "detail": "Working with my dad’s trucking business made me want to apply what I learn in CS to everyday operations. I plan to explore tools for organizing tickets and calculating driver payouts from loads, rates, and hours. This idea is in planning and is not a finished payroll product.",
       "stack": "Python, Data organization, Problem solving",
       "url": "",
       "link_label": "",
       "art": "truck"
+    },
+    {
+      "slug": "carlos-os-portfolio",
+      "title": "Carlos OS Portfolio",
+      "category": "Software",
+      "status": "Live",
+      "year": "2026",
+      "role": "Creator · Virginia Tech CS 2104",
+      "summary": "A personal portfolio with a searchable project catalog and shareable project briefings.",
+      "detail": "This portfolio began as a Virginia Tech CS 2104 class project. I supplied the concept, visual direction, personal background, and project content, and used OpenAI Codex to assist with implementation and testing. The Flask application queries a SQLite project catalog, supports search and category filters, and creates bookmarkable briefings from selected projects. It is packaged with Docker, tested with Python, and now hosted publicly on Render.",
+      "stack": "Python, Flask, SQLite, HTML/CSS, JavaScript, Docker",
+      "url": "https://github.com/CarlosZanabria618/carlos-os-portfolio",
+      "link_label": "View source on GitHub",
+      "art": "portfolio"
     }
   ]
 }

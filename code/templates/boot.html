@@ -1,55 +1,39 @@
+<!-- Original portfolio by Carlos Zanabria, with OpenAI Codex assistance. -->
 {% extends 'base.html' %}
 {% block content %}
-<main id="main" class="window boot-window">
-  <div class="titlebar"><span>▣ boot.exe</span><span aria-hidden="true">_ &nbsp; □</span></div>
-  <div class="boot-content">
-    <p class="boot-status"><span aria-hidden="true">●</span> CARLOS OS / STARTUP UTILITY</p>
-    <h1>Portfolio Boot Menu</h1>
-    <p>Choose the projects you want to see together. Carlos OS will load a briefing with my role, the tools I used, and the status of each project.</p>
-    <a class="button boot-skip" href="{{ url_for('home') }}">Go straight to desktop</a>
-
-    <form action="{{ url_for('boot') }}#briefing" method="get">
+<main id="main" class="page-main">
+  <div class="content-wrap">
+    <header class="page-header" data-reveal>
+      <p class="eyebrow">A closer look at the work</p>
+      <h1 class="page-heading">Your project briefing.</h1>
+      <p class="page-intro">Choose what interests you. See my role, the tools I used, and where each project stands, together in one place.</p>
+    </header>
+    <form class="briefing-form detail-panel" action="{{ url_for('boot') }}#briefing" method="get" data-reveal>
       <fieldset>
-        <legend>Select project files</legend>
+        <legend>Select projects</legend>
         {% for item in catalog %}
-        <label class="boot-option">
-          <input type="checkbox" name="project" value="{{ item.slug }}"
-                 {% if item in briefing %}checked{% endif %}>
-          <span><strong>{{ item.title }}</strong><small>{{ item.category }} · {{ item.status }}</small></span>
-        </label>
-        {% else %}
-        <p>No project files are available.</p>
-        {% endfor %}
+        <label class="boot-option"><input type="checkbox" name="project" value="{{ item.slug }}" {% if item in briefing %}checked{% endif %}><span><strong>{{ item.title }}</strong><small>{{ item.category }} · {{ item.status }}</small></span></label>
+        {% else %}<p>No projects are available yet.</p>{% endfor %}
       </fieldset>
-      {% if catalog %}
-      <button class="button primary" type="submit" name="launch" value="1">Load project briefing</button>
-      {% endif %}
-      {% if requested %}
-      <a class="button boot-skip" href="{{ url_for('boot') }}">Clear selections</a>
-      {% endif %}
+      <div class="selection-actions">
+        {% if catalog %}<button class="button primary" type="submit" name="launch" value="1">Create briefing <span aria-hidden="true">↗</span></button>{% endif %}
+        {% if requested %}<a class="text-link" href="{{ url_for('boot') }}">Clear selections</a>{% endif %}
+      </div>
     </form>
-
     {% if requested %}
-    <section id="briefing" aria-labelledby="briefing-title">
-      <h2 id="briefing-title">Project briefing</h2>
+    <section id="briefing" aria-labelledby="briefing-title" data-reveal>
+      <div class="page-header"><p class="eyebrow">Selected for you</p><h2 id="briefing-title">Your briefing.</h2>
+      {% if briefing %}<p>{{ briefing|length }} {{ 'project' if briefing|length == 1 else 'projects' }} selected. Bookmark this page to return to your selection.</p>{% endif %}</div>
       {% if briefing %}
-      <p>{{ briefing|length }} {{ 'file' if briefing|length == 1 else 'files' }} loaded. Bookmark this page to return to this selection.</p>
       <div class="boot-results">
         {% for item in briefing %}
-        <article>
-          <h3><a href="{{ url_for('project_detail', slug=item.slug) }}">{{ item.title }}</a></h3>
-          <p>{{ item.summary }}</p>
-          <dl>
-            <dt>Role</dt><dd>{{ item.role }}</dd>
-            <dt>Tools</dt><dd>{{ item.stack }}</dd>
-            <dt>Status</dt><dd>{{ item.status }}</dd>
-          </dl>
+        <article class="detail-panel" data-reveal>
+          <span class="badge">{{ item.status }}</span><h3><a href="{{ url_for('project_detail', slug=item.slug) }}">{{ item.title }} <span aria-hidden="true">↗</span></a></h3><p>{{ item.summary }}</p>
+          <dl class="details-list"><dt>Role</dt><dd>{{ item.role }}</dd><dt>Tools</dt><dd>{{ item.stack }}</dd><dt>Status</dt><dd>{{ item.status }}</dd></dl>
         </article>
         {% endfor %}
       </div>
-      {% else %}
-      <p>Choose at least one project file above to load a briefing.</p>
-      {% endif %}
+      {% else %}<div class="empty"><h3>Start with a project.</h3><p>Choose at least one project above to create a briefing.</p></div>{% endif %}
     </section>
     {% endif %}
   </div>
