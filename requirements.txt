@@ -1,0 +1,5 @@
+# Academic integrity: I will identify assistance and follow the Virginia Tech Honor Code.
+# LLM use: OpenAI Codex assisted with design, implementation, documentation, and testing.
+# 
+Flask==3.1.2
+gunicorn==23.0.0

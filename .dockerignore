@@ -1,0 +1,12 @@
+.git
+.env
+.env.*
+.venv
+venv
+__pycache__
+**/__pycache__
+*.pyc
+**/*.pyc
+data/*.sqlite3*
+*.log
+.DS_Store

@@ -1,0 +1,48 @@
+{
+  "honor_code": "As a Hokie, I will conduct myself with honor and integrity at all times. I will not lie, cheat, or steal, nor will I accept the actions of those who do.",
+  "llm_use": "OpenAI Codex assisted with design, implementation, documentation, and testing.",
+  "projects": [
+    {
+      "slug": "merge-a-brainrot",
+      "title": "Merge a Brainrot",
+      "category": "Games",
+      "status": "Upcoming release",
+      "year": "2026",
+      "role": "Co-owner \u00b7 And Fish for Treasure",
+      "summary": "A Roblox game about merging Brainrots, hatching Lucky Eggs, rebirthing, and fishing for treasure.",
+      "detail": "I am part of the team behind Merge a Brainrot. Our And Fish for Treasure community brings together merging, collection, and a fishing loop. The game is preparing for release; this page links to our group for launch updates.",
+      "stack": "Roblox Studio, Luau, Game design",
+      "url": "https://www.roblox.com/communities/1065432679/And-Fish-for-Treasure",
+      "link_label": "Visit Roblox community",
+      "art": "game"
+    },
+    {
+      "slug": "hokiewallet",
+      "title": "HokieWallet",
+      "category": "Software",
+      "status": "Hackathon prototype",
+      "year": "2026",
+      "role": "Team of four \u00b7 VTHacks",
+      "summary": "A centralized wallet concept that brings a student budget and Hokie Dollars into one place.",
+      "detail": "At VTHacks, I worked with three teammates on HokieWallet. It was my first experience collaborating on a project at that scale. We explored how students could view their budget and Hokie Dollars together. This is a prototype, not an official university payment service.",
+      "stack": "TypeScript, Team collaboration, Prototyping",
+      "url": "https://github.com/CarlosZanabria618/hokie-wallet",
+      "link_label": "Explore the source",
+      "art": "wallet"
+    },
+    {
+      "slug": "trucking-tools",
+      "title": "Trucking workflow tools",
+      "category": "Software",
+      "status": "Planned",
+      "year": "2026",
+      "role": "Personal project \u00b7 Family business",
+      "summary": "Exploring a simpler way to organize asphalt tickets, loads, rates, and driver hours.",
+      "detail": "Working with my dad\u2019s trucking business made me want to apply what I learn in CS to everyday operations. I plan to explore tools for organizing tickets and calculating driver payouts from loads, rates, and hours. This idea is in planning and is not a finished payroll product.",
+      "stack": "Python, Data organization, Problem solving",
+      "url": "",
+      "link_label": "",
+      "art": "truck"
+    }
+  ]
+}

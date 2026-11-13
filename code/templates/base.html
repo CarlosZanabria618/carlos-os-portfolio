@@ -1,0 +1,13 @@
+<!-- As a Hokie, I will conduct myself with honor and integrity at all times. I will not lie, cheat, or steal, nor will I accept the actions of those who do. LLM use: OpenAI Codex assisted with design, implementation, documentation, and testing. -->
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ title }} · Carlos OS</title><meta name="description" content="Carlos Zanabria’s software engineering and game development portfolio.">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"></head>
+<body><a class="skip" href="#main">Skip to content</a>
+<header class="desktop-top"><a href="/" class="brand">CZ<span> / personal computer</span></a><span class="system-label">PORTFOLIO SYSTEM · V.01</span><span class="online"><i></i> READY TO EXPLORE</span></header>
+<div class="desktop-layout"><nav class="desktop-icons" aria-label="Portfolio applications">
+{% for path, name, icon in [('/', 'My desktop', 'computer'),('/resume','Resume','paper'),('/projects','Projects','folder'),('/games','Games','gamepad'),('/skills','Skills','tools')] %}
+<a class="desktop-icon {% if request.path == path %}selected{% endif %}" href="{{ path }}" {% if request.path == path %}aria-current="page"{% endif %}><span class="icon icon-{{icon}}" aria-hidden="true"></span><span>{{name}}</span></a>{% endfor %}
+</nav><div class="workspace">{% block content %}{% endblock %}<footer class="workspace-footer"><span>Made with curiosity. Built to be used.</span><span>HTML / CSS / PYTHON / SQLITE</span></footer></div></div>
+<footer class="taskbar"><details class="start"><summary><span aria-hidden="true">▦</span> Start</summary><nav aria-label="Start menu"><strong>Carlos OS</strong><a href="{{ url_for('boot') }}">Boot portfolio</a><a href="/resume">Open resume</a><a href="/projects">Explore projects</a><a href="/games">Browse games</a><a href="/skills">View skills</a><a href="https://github.com/CarlosZanabria618">GitHub profile ↗</a></nav></details><a class="task active" href="{{request.path}}">▣ {{title}}</a><span class="taskbar-note">Carlos Zanabria</span><span class="clock">EST · 2026</span></footer>
+</body></html>

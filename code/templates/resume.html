@@ -1,0 +1,26 @@
+<!-- Original class project by Carlos Zanabria, with OpenAI Codex assistance. -->
+{% extends 'base.html' %}
+{% block content %}
+<main id="main" class="window">
+<div class="titlebar"><span>▣ resume.txt</span><span aria-hidden="true">_ &nbsp; □ &nbsp; ×</span></div>
+<div class="menubar"><a href="/">← My desktop</a><a href="{{url_for('static',filename='Carlos_Zanabria_Resume_Updated.pdf')}}">Download resume PDF ↓</a></div>
+<div class="window-content">
+<p class="eyebrow">A LITTLE BACKGROUND</p><h1 class="page-heading">Carlos Zanabria<span class="period">.</span></h1>
+<p class="lead">Computer science student at Virginia Tech, interested in software engineering and game development.</p>
+<p><a href="mailto:andrezanabria6180@gmail.com">andrezanabria6180@gmail.com</a> · <a href="tel:+15714244882">571-424-4882</a> · <a href="https://github.com/CarlosZanabria618">GitHub ↗</a></p>
+<div class="resume-grid"><section>
+<h2>Projects</h2>
+<div class="resume-item"><span>2026</span><h3>HokieWallet · VTHacks</h3><p>TypeScript · Next.js · React</p><p>Collaborated with three teammates on a prototype combining student budgeting and campus wallet information, with spending breakdowns, transactions, and savings goals using sample data.</p></div>
+<div class="resume-item"><span>2026</span><h3>Carlos OS Portfolio</h3><p>Python · Flask · SQLite · HTML/CSS · Docker</p><p>Created an AI-assisted portfolio with project search, category filters, and bookmarkable project briefings. Packaged with Docker and originally deployed on Virginia Tech's Discovery environment.</p></div>
+<h2>Work Experience</h2>
+<div class="resume-item"><span>October 2025–present</span><h3>Andy Trucking Inc.</h3><p>Operations Manager · Part-time · Leesburg, VA</p><p>Maintain driver qualification files, vehicle records, permits, and compliance documentation for a 12+ truck fleet. Coordinate schedules and communication among 10+ drivers, contractors, and project stakeholders.</p></div>
+<div class="resume-item"><span>May 2022–August 2024</span><h3>Caballeros Professional Movers</h3><p>Mover · Leesburg, VA</p><p>Coordinated crews of 3–5 movers and inventory for 4–5 full-day moves weekly, with zero item loss. Served as a bilingual liaison between Spanish-speaking crew members and clients.</p></div>
+<div class="resume-item"><span>March 2023–August 2023</span><h3>Chipotle Mexican Grill</h3><p>Crew Member · Ashburn, VA</p><p>Fulfilled 100+ orders per shift and cross-trained across prep, line, and restocking. Resolved order issues while maintaining speed, accuracy, and food safety.</p></div>
+<div class="resume-item"><span>August 2024–present</span><h3>Blossom Together</h3><p>Volunteer · Charlottesville, VA</p><p>Collaborated with 15+ volunteers on stadium cleanup fundraisers supporting humanitarian projects in Africa.</p></div>
+</section><aside>
+<h2>Skills</h2><div class="resume-item"><p>Python · Data Analysis · Git · Project Management · Docker · Next.js</p></div>
+<h2>Education</h2>
+<div class="resume-item"><span>August 2026–May 2028</span><h3>Virginia Tech</h3><p>Bachelor of Science in Computer Science<br>College of Engineering · Blacksburg, VA</p><p>Coursework in progress: Human-Computer Interaction, Intro to Problem Solving, and Statistical Methods for Engineers (STAT 4604).</p></div>
+<div class="resume-item"><span>August 2024–May 2026</span><h3>University of Virginia</h3><p>Computer Science coursework<br>GPA: 3.8/4.0 · Charlottesville, VA</p><p>Relevant coursework: Intro to Programming with R, Foundations of Data Science, Data Structures, Software Development Essentials, Discrete Math Theory, and Computer Systems and Organization.</p></div>
+<a class="button" href="{{url_for('static',filename='Carlos_Zanabria_Resume_Updated.pdf')}}">Download resume PDF ↓</a>
+</aside></div></div></main>{% endblock %}
