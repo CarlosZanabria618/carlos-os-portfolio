@@ -37,7 +37,7 @@ class PortfolioTests(unittest.TestCase):
         text = self.client.get('/projects?category=Games&q=merge').get_data(as_text=True)
         self.assertIn('1 project found', text)
         self.assertIn('Merge a Brainrot', text)
-        self.assertIn('1 project found', self.client.get('/games').get_data(as_text=True))
+        self.assertIn('2 projects found', self.client.get('/games').get_data(as_text=True))
 
     def test_empty_results_and_escaped_input(self):
         self.assertIn(b'No matching projects', self.client.get('/projects?q=not-a-project').data)
@@ -49,7 +49,7 @@ class PortfolioTests(unittest.TestCase):
         response = self.client.get('/projects', query_string={'q':"'; DROP TABLE projects; --"})
         self.assertEqual(response.status_code, 200)
         with sqlite3.connect(app.config['DATABASE']) as db:
-            self.assertEqual(db.execute('SELECT count(*) FROM projects').fetchone()[0], 4)
+            self.assertEqual(db.execute('SELECT count(*) FROM projects').fetchone()[0], 5)
 
     def test_details_validation_and_missing_files(self):
         self.assertEqual(self.client.get('/projects/merge-a-brainrot').status_code, 200)
@@ -86,7 +86,7 @@ class PortfolioTests(unittest.TestCase):
         from database import initialize
         initialize(app.config['DATABASE'])
         with sqlite3.connect(app.config['DATABASE']) as db:
-            self.assertEqual(db.execute('SELECT count(*) FROM projects').fetchone()[0], 4)
+            self.assertEqual(db.execute('SELECT count(*) FROM projects').fetchone()[0], 5)
 
     def test_seed_refreshes_existing_project_without_duplicates(self):
         from database import initialize

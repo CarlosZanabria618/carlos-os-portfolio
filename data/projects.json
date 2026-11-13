@@ -3,6 +3,20 @@
   "llm_use": "OpenAI Codex assisted with design, implementation, documentation, and testing.",
   "projects": [
     {
+      "slug": "plus1-speed-catch-animals",
+      "title": "+1 Speed Catch Animals",
+      "category": "Games",
+      "status": "In development",
+      "year": "2026",
+      "role": "Team project · Roblox",
+      "summary": "A Roblox game where you gain +1 speed as you run, earn wins, and catch animals.",
+      "detail": "I'm building +1 Speed Catch Animals with a small team. It is a fast, simple Roblox game built around +1 speed progression, wins, and an animal theme. We designed it for phones first and reused proven systems from our earlier game, like saved player progress. It is still in development.",
+      "stack": "Roblox Studio, Luau, Game design",
+      "url": "",
+      "link_label": "",
+      "art": "game"
+    },
+    {
       "slug": "merge-a-brainrot",
       "title": "Merge a Brainrot",
       "category": "Games",
@@ -22,10 +36,10 @@
       "category": "Software",
       "status": "Hackathon prototype",
       "year": "2026",
-      "role": "Team of four · VTHacks",
+      "role": "Front-end lead · Team of four · VTHacks",
       "summary": "A student finance dashboard prototype bringing budgets, spending, and campus wallet information into one view.",
-      "detail": "At VTHacks, I worked with three teammates on HokieWallet, a student finance prototype built with TypeScript, Next.js, and React. The dashboard uses shared sample data to show balances, spending categories, recent transactions, and savings goals. This project helped me practice team collaboration and think through how financial information can be easier to understand. It is a prototype; it does not connect to real bank or university payment accounts.",
-      "stack": "TypeScript, Next.js, React, Team collaboration",
+      "detail": "At VTHacks, I owned the front end of HokieWallet, a student finance prototype built by a team of four. I built the balance and budget screens in React and connected them to our Node.js back end. I also designed the color scheme, added support for 10+ languages and accessibility settings, and tuned front-end performance. I set up our GitHub collaboration so all four of us could share and merge code. It is a prototype with sample data; it does not connect to real bank or university payment accounts.",
+      "stack": "TypeScript, Next.js, React, Node.js, Team collaboration",
       "url": "https://github.com/CarlosZanabria618/hokie-wallet",
       "link_label": "Explore the source",
       "art": "wallet"
