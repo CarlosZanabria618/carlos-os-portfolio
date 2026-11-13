@@ -11,9 +11,9 @@
 <meta property="og:description" content="Four projects you can scroll through. Computer Science at Virginia Tech.">
 <meta property="og:type" content="website">
 <link rel="icon" href="{{ url_for('static',filename='favicon.svg') }}" type="image/svg+xml">
-<link rel="stylesheet" href="{{ url_for('static',filename='home.css') }}?v=2">
+<link rel="stylesheet" href="{{ url_for('static',filename='home.css') }}?v=3">
 <script>document.documentElement.classList.replace('no-js','js')</script>
-<script defer src="{{ url_for('static',filename='story.js') }}?v=2"></script>
+<script defer src="{{ url_for('static',filename='story.js') }}?v=3"></script>
 </head>
 <body class="home">
 <a class="skip" href="#main">Skip to content</a>
@@ -29,22 +29,22 @@
 
 <main id="main">
 
-  <section class="intro" data-chapter="intro" data-bg="#ffffff" data-ink="light" aria-labelledby="intro-title">
+  <section class="intro" data-snap data-chapter="intro" data-bg="#ffffff" data-ink="light" aria-labelledby="intro-title">
     <div class="intro-stage">
       <h1 id="intro-title" class="intro-title" data-split aria-label="I build interfaces you can feel.">I build interfaces <br>you can feel.</h1>
-      <p class="intro-lede">I'm Carlos, a computer science student at Virginia Tech. Scroll through four things I've built, or jump straight to one.</p>
+      <p class="intro-lede">I'm Carlos, a computer science student at Virginia Tech. Watch four things I've built play out, or jump straight to one.</p>
       <ul class="jump" aria-label="Projects on this page">
         <li><a href="#hokiewallet"><span class="jump-swatch" style="--c:#630031"></span>HokieWallet</a></li>
         <li><a href="#plus-one"><span class="jump-swatch" style="--c:#2ba8f0"></span>+1 Speed Catch Animals</a></li>
         <li><a href="#topsecret"><span class="jump-swatch" style="--c:#000"></span>TopSecret</a></li>
         <li><a href="#carlos-os"><span class="jump-swatch" style="--c:#8a6f4e"></span>This site</a></li>
       </ul>
-      <p class="intro-how">Every chapter below uses a different front-end technique, and each one tells you how it works.</p>
+      <p class="intro-how">Each project plays on its own and uses a different front-end technique. Press <kbd>→</kbd> or <kbd>Space</kbd> to jump to the next one.</p>
     </div>
   </section>
 
   {# ───────────── HokieWallet ───────────── #}
-  <section id="hokiewallet" class="chapter ch-wallet" data-chapter="wallet" data-steps="6" data-bg="#4a0525" data-ink="dark" aria-labelledby="wallet-title">
+  <section id="hokiewallet" data-snap class="chapter ch-wallet" data-chapter="wallet" data-steps="6" data-bg="#4a0525" data-ink="dark" aria-labelledby="wallet-title">
     <div class="stage">
       <div class="story">
         <article class="beat" data-beat="0">
@@ -130,13 +130,13 @@
             </div>
           </div>
         </div>
-        <p class="device-note how"><b>How it works:</b> a clip-path circle reveal, then one sticky stage whose screens, counters and toggles follow your scroll. Sample data.</p>
+        <p class="device-note how"><b>How it works:</b> a clip-path circle reveal, then one stage whose screens, counters and toggles play on a timer you can pause. Sample data.</p>
       </div>
     </div>
   </section>
 
   {# ───────────── +1 Speed Catch Animals ───────────── #}
-  <section id="plus-one" class="chapter ch-game" data-chapter="game" data-steps="5" data-bg="#2ba8f0" data-ink="light" aria-labelledby="game-title">
+  <section id="plus-one" data-snap class="chapter ch-game" data-chapter="game" data-steps="5" data-bg="#2ba8f0" data-ink="light" aria-labelledby="game-title">
     <div class="stage">
       <div class="story">
         <article class="beat" data-beat="0">
@@ -178,13 +178,13 @@
           <figcaption class="spin-hint">Drag to spin</figcaption>
         </figure>
         </div>
-        <p class="device-note how"><b>How it works:</b> real play-test captures, then 24 frames rendered from the game's 3D model and drawn to a canvas. Scroll or drag to spin the cow.</p>
+        <p class="device-note how"><b>How it works:</b> real play-test captures, then 24 frames rendered from the game's 3D model and drawn to a canvas. Drag to spin the cow.</p>
       </div>
     </div>
   </section>
 
   {# ───────────── TopSecret ───────────── #}
-  <section id="topsecret" class="chapter ch-secret" data-chapter="secret" data-steps="5" data-bg="#000000" data-ink="dark" aria-labelledby="secret-title">
+  <section id="topsecret" data-snap class="chapter ch-secret" data-chapter="secret" data-steps="5" data-bg="#000000" data-ink="dark" aria-labelledby="secret-title">
     <div class="stage">
       <div class="story">
         <article class="beat" data-beat="0">
@@ -239,7 +239,7 @@
   </section>
 
   {# ───────────── This site ───────────── #}
-  <section id="carlos-os" class="chapter ch-os" data-chapter="os" data-steps="3" data-bg="#e9e1d2" data-ink="light" aria-labelledby="os-title">
+  <section id="carlos-os" data-snap class="chapter ch-os" data-chapter="os" data-steps="3" data-bg="#e9e1d2" data-ink="light" aria-labelledby="os-title">
     <div class="stage">
       <div class="story">
         <article class="beat" data-beat="0">
@@ -287,11 +287,12 @@
             </div>
           </div>
         </div>
-        <p class="device-note how"><b>How it works:</b> your vertical scroll drives a horizontal track. The typing and the test results follow the same progress value.</p>
+        <p class="device-note how"><b>How it works:</b> a horizontal track of windows that slides beat by beat, with the typing and test results driven by the same clock.</p>
       </div>
     </div>
   </section>
 
+  <div class="finale" data-snap>
   <section class="tools" aria-labelledby="tools-title" data-bg="#ffffff" data-ink="light">
     <h2 id="tools-title" class="tools-title">What I build with</h2>
     <div class="marquee" data-marquee="1"><span>Python</span><span>Java</span><span>TypeScript</span><span>JavaScript</span><span>R</span><span>SQL</span><span>Python</span><span>Java</span><span>TypeScript</span><span>JavaScript</span><span>R</span><span>SQL</span></div>
@@ -307,7 +308,10 @@
     </p>
     <p class="contact-links"><a href="https://github.com/CarlosZanabria618">GitHub</a><a href="https://www.linkedin.com/in/carlos-zanabria">LinkedIn</a><a href="{{ url_for('resume') }}">Résumé page</a></p>
   </section>
+  </div>
 </main>
+
+<button type="button" class="next-btn" data-next aria-label="Next section"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
 
 <footer class="foot"><span>Carlos Zanabria</span><span>Blacksburg, Virginia</span></footer>
 </body>

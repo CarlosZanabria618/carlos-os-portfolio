@@ -16,7 +16,6 @@
     step: -1,
   }));
   const tinted = [...document.querySelectorAll('[data-bg]')];
-  const marquees = [...document.querySelectorAll('[data-marquee]')];
 
   /* HokieWallet pieces */
   const wallet = document.querySelector('.ch-wallet');
@@ -166,12 +165,6 @@
 
   const money = n => '$' + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
-  function progressOf(el) {
-    const r = el.getBoundingClientRect();
-    const travel = r.height - window.innerHeight;
-    if (travel <= 0) return clamp(-r.top / Math.max(1, r.height));
-    return clamp(-r.top / travel);
-  }
 
   function setStep(ch, step) {
     if (step === ch.step) return;
@@ -256,22 +249,20 @@
     }
   }
 
-  function updateOS(p) {
+  function updateOS(step, local) {
     if (!track) return;
-    // Hold each window during its beat and slide between them at the beat boundaries
+    // Slide to the next window at the start of each beat, then hold it
     const smooth = t => t * t * (3 - 2 * t);
-    let pos = 0;
-    for (let k = 1; k < wins.length; k++) pos += smooth(clamp((p * wins.length - k + .35) / .7));
+    const pos = step === 0 ? 0 : step - 1 + smooth(clamp(local * 2.5));
     const stride = wins[1].offsetLeft - wins[0].offsetLeft;
     track.style.setProperty('--hx', (-pos * stride).toFixed(1) + 'px');
     wins.forEach((w, k) => { const d = k - pos; w.style.setProperty('--d', d.toFixed(3)); w.style.setProperty('--ad', Math.min(1, Math.abs(d)).toFixed(3)); });
-    // Type the search as window 2 arrives, then tick the tests as window 3 arrives
+    // Type the search during beat 2, tick the tests during beat 3
     const word = 'wallet';
-    const beat = p * wins.length;
-    const n = Math.round(clamp((beat - .95) / .6) * word.length);
+    const n = step < 1 ? 0 : step > 1 ? word.length : Math.round(clamp((local - .3) / .4) * word.length);
     if (typed) typed.textContent = word.slice(0, n);
-    results.forEach((li, k) => li.classList.toggle('dim', n > 0 && n < word.length ? false : n === word.length && k > 0));
-    const c = Math.floor(clamp((beat - 1.95) / .7) * (checks.length + 1));
+    results.forEach((li, k) => li.classList.toggle('dim', n === word.length && k > 0));
+    const c = step < 2 ? 0 : Math.floor(clamp((local - .15) / .6) * (checks.length + 1));
     checks.forEach((li, k) => li.classList.toggle('ok', k < c));
     if (testsBar) testsBar.classList.toggle('ok', c > checks.length);
   }
@@ -286,43 +277,101 @@
     b.addEventListener('pointerleave', () => { b.style.transform = ''; });
   });
 
-  let frame = 0;
-  function update() {
-    frame = 0;
+  /* Playback: each chapter fills one screen and plays its beats on a timer.
+     Arrow keys, Page Up/Down and Space jump a whole chapter. */
+  const timing = {
+    wallet: [3000, 2600, 2600, 3600, 3000, 4000],
+    game: [3000, 2600, 2800, 4400, 3600],
+    secret: [2800, 2400, 2600, 2400, 3400],
+    os: [2800, 3200, 3600],
+  };
+  const play = chapters.filter(ch => timing[ch.name]);
+  play.forEach(ch => {
+    ch.durs = timing[ch.name].slice(0, ch.steps);
+    ch.total = ch.durs.reduce((a, b) => a + b, 0);
+    ch.t = 0; ch.paused = false; ch.active = false;
+    const label = ch.el.querySelector('.beat-title')?.textContent || 'Project';
+    const bar = document.createElement('div');
+    bar.className = 'player';
+    bar.setAttribute('role', 'group');
+    bar.setAttribute('aria-label', label + ' playback');
+    bar.innerHTML = '<button type="button" class="pp" aria-label="Pause"><span class="pp-icon" aria-hidden="true"></span></button>' +
+      ch.durs.map((_, k) => '<button type="button" class="seg" aria-label="Part ' + (k + 1) + ' of ' + ch.durs.length + '"><i></i></button>').join('');
+    ch.el.querySelector('.story').appendChild(bar);
+    ch.pp = bar.querySelector('.pp');
+    ch.segs = [...bar.querySelectorAll('.seg')];
+    ch.segs.forEach((b, k) => b.addEventListener('click', () => { ch.t = ch.durs.slice(0, k).reduce((a, d) => a + d, 0) + 1; ch.paused = false; }));
+    ch.pp.addEventListener('click', () => {
+      if (ch.t >= ch.total) { ch.t = 0; ch.paused = false; }
+      else ch.paused = !ch.paused;
+    });
+  });
+
+  function timeline(ch) {
+    let t = Math.min(ch.t, ch.total - 1), step = 0;
+    while (step < ch.durs.length - 1 && t >= ch.durs[step]) { t -= ch.durs[step]; step++; }
+    return [step, clamp(t / ch.durs[step])];
+  }
+
+  const snaps = [...document.querySelectorAll('[data-snap]')];
+  const nextBtn = document.querySelector('[data-next]');
+  function currentSnap() {
+    const mid = window.innerHeight * .5;
+    let idx = 0;
+    snaps.forEach((el, k) => { if (el.getBoundingClientRect().top <= mid) idx = k; });
+    return idx;
+  }
+  function go(dir) {
+    const k = clamp(currentSnap() + dir, 0, snaps.length - 1);
+    snaps[k].scrollIntoView({ behavior: reduced.matches ? 'auto' : 'smooth', block: 'start' });
+  }
+  window.addEventListener('keydown', e => {
+    if (e.defaultPrevented || e.metaKey || e.ctrlKey || e.altKey) return;
+    const tag = (e.target.tagName || '').toLowerCase();
+    if (['input', 'textarea', 'select', 'canvas', 'button', 'a'].includes(tag) && e.key === ' ') return;
+    if (tag === 'canvas' || tag === 'input' || tag === 'textarea' || e.target.isContentEditable) return;
+    if (['ArrowRight', 'ArrowDown', 'PageDown', ' '].includes(e.key)) { e.preventDefault(); go(e.shiftKey && e.key === ' ' ? -1 : 1); }
+    else if (['ArrowLeft', 'ArrowUp', 'PageUp'].includes(e.key)) { e.preventDefault(); go(-1); }
+  });
+  if (nextBtn) nextBtn.addEventListener('click', () => go(1));
+
+  let last = performance.now();
+  function frame(now) {
+    const dt = Math.min(100, now - last);
+    last = now;
+    const mid = window.innerHeight * .5;
     for (const ch of chapters) {
-      const p = progressOf(ch.el);
-      ch.el.style.setProperty('--p', p.toFixed(4));
-      if (ch.name === 'intro') continue;
-      const raw = p * ch.steps;
-      const step = Math.min(ch.steps - 1, Math.floor(raw));
-      const local = raw - step;
-      // Device rises in during the first part of the chapter
       const r = ch.el.getBoundingClientRect();
-      const enter = clamp(1 - (r.top / window.innerHeight));
-      ch.el.style.setProperty('--enter', reduced.matches ? 1 : enter.toFixed(4));
+      if (ch.name === 'intro') { ch.el.style.setProperty('--p', clamp(-r.top / Math.max(1, r.height)).toFixed(4)); continue; }
+      // Entrance effects follow the section as it scrolls in
+      const enter = reduced.matches ? 1 : clamp(1 - r.top / window.innerHeight);
+      ch.el.style.setProperty('--enter', enter.toFixed(4));
       if (ch.name === 'secret') {
         ch.el.style.setProperty('--crtX', reduced.matches ? 1 : clamp((enter - .5) / .2).toFixed(4));
         ch.el.style.setProperty('--crtY', reduced.matches ? 1 : clamp((enter - .72) / .26).toFixed(4));
       }
+      if (!ch.durs) continue;
+      const active = r.top <= mid && r.bottom > mid;
+      if (active && !ch.active) { ch.t = 0; ch.paused = false; }
+      ch.active = active;
+      if (active && !ch.paused && enter > .9) ch.t = Math.min(ch.total, ch.t + dt);
+      const [step, local] = timeline(ch);
       setStep(ch, step);
-      if (ch.name === 'wallet') updateWallet(p, step, local);
+      const done = ch.t >= ch.total;
+      ch.segs.forEach((s, k) => s.style.setProperty('--fill', k < step ? 1 : k > step ? 0 : (done ? 1 : local).toFixed(3)));
+      const state = done ? 'replay' : ch.paused ? 'play' : 'pause';
+      if (ch.pp.dataset.state !== state) {
+        ch.pp.dataset.state = state;
+        ch.pp.setAttribute('aria-label', state === 'replay' ? 'Replay' : state === 'play' ? 'Play' : 'Pause');
+      }
+      if (ch.name === 'wallet') updateWallet(0, step, local);
       else if (ch.name === 'game') updateGame(step, local, r.top < window.innerHeight * 2.5);
       else if (ch.name === 'secret') updateSecret(step);
-      else if (ch.name === 'os') updateOS(p);
+      else if (ch.name === 'os') updateOS(step, local);
     }
-    if (!reduced.matches) {
-      for (const m of marquees) {
-        const r = m.getBoundingClientRect();
-        const t = (window.innerHeight - r.top) / (window.innerHeight + r.height);
-        const dir = Number(m.dataset.marquee);
-        m.style.setProperty('--mx', ((dir > 0 ? -1 : 0) * 0.35 * m.scrollWidth + dir * t * 0.25 * m.scrollWidth).toFixed(1) + 'px');
-      }
-    }
+    if (nextBtn) nextBtn.classList.toggle('is-hidden', currentSnap() >= snaps.length - 1);
     tint();
+    requestAnimationFrame(frame);
   }
-  const schedule = () => { if (!frame) frame = requestAnimationFrame(update); };
-  window.addEventListener('scroll', schedule, { passive: true });
-  window.addEventListener('resize', schedule, { passive: true });
-  reduced.addEventListener('change', schedule);
-  update();
+  requestAnimationFrame(frame);
 })();

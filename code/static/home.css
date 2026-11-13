@@ -16,7 +16,8 @@
   --ease: cubic-bezier(.2,.7,.1,1);
 }
 *{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%}
+html{-webkit-text-size-adjust:100%;scroll-snap-type:y proximity}
+[data-snap]{scroll-snap-align:start}
 body{margin:0;font-family:var(--font);font-size:19px;line-height:1.5;color:var(--ink);background:var(--page-bg);transition:background-color .7s var(--ease),color .7s var(--ease);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
 body.ink-dark{--ink:#ffffff;--ink-2:rgba(255,255,255,.72)}
 a{color:inherit}
@@ -49,10 +50,22 @@ h1,h2,h3,p{margin:0}
 .jump-swatch{width:14px;height:14px;border-radius:50%;background:var(--c)}
 
 /* Chapters: a tall section with a pinned stage */
-.chapter{position:relative;height:calc(var(--steps,4)*100svh)}
-.ch-wallet{--steps:6}.ch-secret{--steps:5}.ch-os{--steps:4.5}
+.chapter{position:relative;height:100svh}
 .stage{position:sticky;top:0;height:100svh;display:grid;grid-template-columns:minmax(300px,.85fr) 1.15fr;align-items:center;gap:clamp(24px,5vw,80px);padding:72px max(20px,5vw) 40px;overflow:hidden}
 .story{position:relative;height:min(460px,60svh)}
+.player{position:absolute;left:0;bottom:-56px;display:flex;align-items:center;gap:6px;width:min(100%,340px)}
+.seg{color:inherit;flex:1;height:22px;padding:0;border:0;background:none;cursor:pointer;display:flex;align-items:center}
+.seg i{display:block;width:100%;height:3px;border-radius:3px;background:color-mix(in srgb,currentColor 22%,transparent);position:relative;overflow:hidden}
+.seg i::after{content:"";position:absolute;inset:0;background:currentColor;transform-origin:left;transform:scaleX(var(--fill,0))}
+.seg:hover i{height:5px}
+.pp{flex:none;width:30px;height:30px;margin-right:6px;border:0;border-radius:50%;background:color-mix(in srgb,currentColor 12%,transparent);color:inherit;cursor:pointer;display:grid;place-items:center}
+.pp-icon{width:10px;height:11px;border-left:3px solid currentColor;border-right:3px solid currentColor}
+.pp[data-state="play"] .pp-icon,.pp[data-state="replay"] .pp-icon{width:0;height:0;border:0;border-left:10px solid currentColor;border-top:6px solid transparent;border-bottom:6px solid transparent;margin-left:3px}
+.player{color:var(--ink)}
+.next-btn{position:fixed;right:max(18px,3vw);bottom:24px;z-index:45;width:52px;height:52px;border:0;border-radius:50%;background:var(--ink);color:var(--page-bg);display:grid;place-items:center;cursor:pointer;box-shadow:0 10px 30px -10px rgba(0,0,0,.4);transition:opacity .4s,transform .4s var(--ease),background-color .7s,color .7s}
+.next-btn:hover{transform:translateY(2px)}
+.next-btn.is-hidden{opacity:0;pointer-events:none;transform:translateY(12px)}
+kbd{font:inherit;font-size:.9em;padding:1px 7px;border-radius:6px;background:#f0f0f2;border:1px solid #dcdce0}
 .beat{position:absolute;inset:auto 0 auto 0;top:50%;transform:translateY(calc(-50% + 28px));opacity:0;transition:opacity .55s var(--ease),transform .7s var(--ease);pointer-events:none;max-width:30ch}
 .beat.is-on{opacity:1;transform:translateY(-50%);pointer-events:auto}
 .kicker{font-size:15px;color:var(--ink-2);margin-bottom:14px;letter-spacing:-.01em}
@@ -128,7 +141,6 @@ h1,h2,h3,p{margin:0}
 .ch-wallet .kicker{color:#f2a07f}
 
 /* ───── +1 Speed Catch Animals ───── */
-.ch-game{--steps:5}
 .ch-game .stage{grid-template-columns:minmax(280px,.62fr) 1.38fr;background:#2ba8f0;border-radius:calc((1 - var(--enter,1))*64px);transform:scale(calc(.86 + var(--enter,1)*.14));transform-origin:50% 100%}
 .game-stack{display:grid;width:100%;max-width:980px;place-items:center}
 .game-stack>*{grid-area:1/1}
@@ -203,15 +215,17 @@ h1,h2,h3,p{margin:0}
 .ch-os .btn.ghost{background:transparent;color:var(--bark)}
 
 /* Tools */
-.tools{padding:22vh 0 16vh;overflow:hidden}
+.tools{padding:14vh 0 6vh;overflow:hidden}
 .tools-title{font-size:clamp(34px,4.4vw,60px);letter-spacing:-.045em;line-height:1.05;padding:0 max(20px,6vw);margin-bottom:6vh}
-.marquee{display:flex;gap:.5em;white-space:nowrap;font-size:clamp(48px,9vw,128px);font-weight:700;letter-spacing:-.05em;line-height:1.1;transform:translateX(var(--mx,0px));will-change:transform}
+.marquee{display:flex;gap:.5em;width:max-content;white-space:nowrap;font-size:clamp(44px,7vw,104px);font-weight:700;letter-spacing:-.05em;line-height:1.1;animation:marquee 38s linear infinite;will-change:transform}
+.marquee.alt{animation-direction:reverse;animation-duration:46s}
+@keyframes marquee{to{transform:translateX(-50%)}}
 .marquee span{flex:none}
 .marquee span::after{content:"";display:inline-block;width:.18em;height:.18em;margin-left:.5em;border-radius:50%;background:currentColor;vertical-align:middle;opacity:.25}
 .marquee.alt{color:#9a9ca3}
 
 /* Contact */
-.contact{padding:14vh max(20px,6vw) 18vh;text-align:center}
+.contact{padding:8vh max(20px,6vw) 16vh;text-align:center}
 .contact-title{font-size:clamp(56px,10vw,150px);letter-spacing:-.06em;line-height:.98;font-weight:700}
 .contact-lede{max-width:36ch;margin:28px auto 0;font-size:clamp(19px,1.8vw,24px);color:var(--ink-2);line-height:1.4}
 .contact .btn.ghost{color:#000}
@@ -222,6 +236,7 @@ h1,h2,h3,p{margin:0}
 
 /* Without JavaScript: stack each chapter's beats so everything reads in order */
 .no-js .chapter{height:auto}
+.no-js .next-btn{display:none}
 .no-js .stage{position:relative;height:auto;min-height:100svh}
 .no-js .story{height:auto}
 .no-js .beat{position:static;opacity:1;transform:none;margin-bottom:36px}
@@ -241,6 +256,9 @@ h1,h2,h3,p{margin:0}
   .beat-title.big{font-size:44px}
   .beat p:not(.kicker):not(.actions){font-size:17px}
   .actions{margin-top:16px}
+  .player{bottom:auto;top:-34px;width:100%}
+  .story{margin-top:30px}
+  .next-btn{width:46px;height:46px;bottom:18px;right:16px}
   .browser{aspect-ratio:auto;height:46svh;border-radius:14px}
   .hw{grid-template-columns:1fr}
   .hw-side{display:none}
