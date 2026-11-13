@@ -49,7 +49,7 @@ class PortfolioTests(unittest.TestCase):
         response = self.client.get('/projects', query_string={'q':"'; DROP TABLE projects; --"})
         self.assertEqual(response.status_code, 200)
         with sqlite3.connect(app.config['DATABASE']) as db:
-            self.assertEqual(db.execute('SELECT count(*) FROM projects').fetchone()[0], 5)
+            self.assertEqual(db.execute('SELECT count(*) FROM projects').fetchone()[0], 6)
 
     def test_details_validation_and_missing_files(self):
         self.assertEqual(self.client.get('/projects/merge-a-brainrot').status_code, 200)
@@ -86,7 +86,7 @@ class PortfolioTests(unittest.TestCase):
         from database import initialize
         initialize(app.config['DATABASE'])
         with sqlite3.connect(app.config['DATABASE']) as db:
-            self.assertEqual(db.execute('SELECT count(*) FROM projects').fetchone()[0], 5)
+            self.assertEqual(db.execute('SELECT count(*) FROM projects').fetchone()[0], 6)
 
     def test_seed_refreshes_existing_project_without_duplicates(self):
         from database import initialize

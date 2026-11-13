@@ -1,6 +1,6 @@
 {
   "honor_code": "As a Hokie, I will conduct myself with honor and integrity at all times. I will not lie, cheat, or steal, nor will I accept the actions of those who do.",
-  "llm_use": "OpenAI Codex assisted with design, implementation, documentation, and testing.",
+  "llm_use": "AI tools assisted with design, implementation, documentation, and testing.",
   "projects": [
     {
       "slug": "plus1-speed-catch-animals",
@@ -45,6 +45,20 @@
       "art": "wallet"
     },
     {
+      "slug": "topsecret",
+      "title": "TopSecret",
+      "category": "Software",
+      "status": "Team project",
+      "year": "2026",
+      "role": "User roles and access · Intro to Problem Solving",
+      "summary": "A team Java app with logins, passwords, audit logging and SQLite storage. I built the user roles and access levels.",
+      "detail": "TopSecret is a team Java app we built for Intro to Problem Solving, with account registration, login, password management, audit logging and SQLite storage. I owned user roles and access levels. The first account to register becomes the administrator and everyone after starts as a standard user. Admins can promote and demote other users but cannot demote themselves, and menu options a user cannot access stay hidden.",
+      "stack": "Java, SQLite, Team collaboration",
+      "url": "",
+      "link_label": "",
+      "art": "portfolio"
+    },
+    {
       "slug": "trucking-tools",
       "title": "Trucking workflow tools",
       "category": "Software",
@@ -66,7 +80,7 @@
       "year": "2026",
       "role": "Creator · Virginia Tech CS 2104",
       "summary": "A personal portfolio with a searchable project catalog and shareable project briefings.",
-      "detail": "This portfolio began as a Virginia Tech CS 2104 class project. I supplied the concept, visual direction, personal background, and project content, and used OpenAI Codex to assist with implementation and testing. The Flask application queries a SQLite project catalog, supports search and category filters, and creates bookmarkable briefings from selected projects. It is packaged with Docker, tested with Python, and now hosted publicly on Render.",
+      "detail": "This portfolio began as a Virginia Tech CS 2104 class project. I supplied the concept, visual direction, personal background, and project content, and used AI tools to assist with implementation and testing. The Flask application queries a SQLite project catalog, supports search and category filters, and creates bookmarkable briefings from selected projects. It is packaged with Docker, tested with Python, and now hosted publicly on Render.",
       "stack": "Python, Flask, SQLite, HTML/CSS, JavaScript, Docker",
       "url": "https://github.com/CarlosZanabria618/carlos-os-portfolio",
       "link_label": "View source on GitHub",
