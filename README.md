@@ -46,6 +46,4 @@ The read-only catalog is initialized from `data/projects.json` at startup. It ne
 
 Originally developed for a Virginia Tech CS 2104 class project and deployed on the university's Discovery environment. This repository is a separate public copy for portfolio hosting.
 
-Carlos supplied the concept, visual direction, personal background, project information, and resume. OpenAI Codex assisted with design, implementation, tests, documentation, and deployment preparation. Original attribution comments are retained. Preview illustrations are CSS artwork; project status labels distinguish prototypes, planned work, and upcoming releases.
-
 Class reports, recordings, credentials, runtime databases, and the old address-bearing resume are excluded from this public copy.
