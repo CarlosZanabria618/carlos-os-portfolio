@@ -37,12 +37,27 @@ h1,h2,h3,p{margin:0}
 /* Intro */
 .intro{min-height:100svh;display:grid;place-items:center;padding:120px max(20px,6vw) 80px}
 .intro-stage{max-width:1100px;width:100%;transform:scale(calc(1 - var(--p,0)*.08));opacity:calc(1 - var(--p,0)*1.4)}
-.intro-title{font-size:clamp(56px,10.5vw,152px);line-height:.98;letter-spacing:-.055em;font-weight:700}
+.intro-title{font-size:clamp(56px,9vw,132px);line-height:.98;letter-spacing:-.055em;font-weight:700}
 .intro-title .w{display:inline-block;white-space:nowrap}
 .intro-title .ch{display:inline-block;transform:translate3d(0,calc(var(--lift,0)*-1px + var(--p,0)*var(--fy,0)*1px),0) rotate(calc(var(--p,0)*var(--fr,0)*1deg));transition:transform .5s var(--ease);will-change:transform}
 .js .intro-title .ch{animation:letter-in .9s var(--ease) both;animation-delay:calc(var(--i)*28ms + 120ms)}
 @keyframes letter-in{from{opacity:0;transform:translate3d(0,.6em,0) rotate(6deg)}to{opacity:1}}
-.intro-how{margin-top:44px;font-size:15px;color:var(--ink-2);letter-spacing:-.01em}
+.intro-stage{position:relative}
+.me{position:absolute;right:0;bottom:44px;margin:0;width:clamp(210px,20vw,290px);padding:10px 10px 0;background:#fff;border-radius:6px;box-shadow:0 24px 50px -18px rgba(0,0,0,.35),0 0 0 1px rgba(0,0,0,.06);transform:rotate(3.5deg);transition:transform .5s var(--ease)}
+.me:hover{transform:rotate(1deg) scale(1.03)}
+.me-photo{position:relative}
+.me-photo img{display:block;width:100%;height:auto;border-radius:3px}
+.me-arrow{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.me-arrow path{fill:none;stroke:#e5241d;stroke-width:16;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1;filter:drop-shadow(0 0 3px #fff) drop-shadow(0 0 3px #fff)}
+.js .me-arrow .arrow-line{animation:draw .7s var(--ease) 1.5s forwards}
+.js .me-arrow .arrow-head{animation:draw .3s var(--ease) 2.15s forwards}
+.no-js .me-arrow path{stroke-dashoffset:0}
+@keyframes draw{to{stroke-dashoffset:0}}
+.me-arrow text{font-family:"Marker Felt","Bradley Hand","Segoe Print","Comic Sans MS",cursive;font-size:110px;font-weight:700;fill:#e5241d;paint-order:stroke;stroke:#fff;stroke-width:14px;stroke-linejoin:round}
+.js .me-arrow text{opacity:0;animation:fadein .4s 1.3s forwards}
+@keyframes fadein{to{opacity:1}}
+.me figcaption{padding:9px 2px 11px;font-size:13px;color:#5f6168;text-align:center}
+.intro-how{margin-top:44px;max-width:calc(100% - 340px);font-size:15px;color:var(--ink-2);letter-spacing:-.01em}
 .intro-lede{max-width:34ch;margin-top:32px;font-size:clamp(20px,2vw,26px);line-height:1.35;color:var(--ink-2);letter-spacing:-.015em}
 .jump{list-style:none;padding:0;margin:48px 0 0;display:flex;flex-wrap:wrap;gap:12px}
 .jump a{display:inline-flex;align-items:center;gap:10px;padding:12px 18px 12px 14px;border-radius:999px;background:#f2f2f4;text-decoration:none;font-size:16px;font-weight:500;transition:transform .3s var(--ease),background-color .3s}
@@ -247,6 +262,8 @@ kbd{font:inherit;font-size:.9em;padding:1px 7px;border-radius:6px;background:#f0
 @media (max-width: 860px){
   body{font-size:17px}
   .topbar nav{gap:18px}
+  .intro-how{max-width:none}
+  .me{position:relative;right:auto;bottom:auto;width:min(62vw,260px);margin:34px 0 0 6px}
   .stage{grid-template-columns:1fr;grid-template-rows:1fr auto;align-items:end;padding:60px 18px 26px;gap:10px}
   .device-wrap{grid-row:1;align-self:center;max-height:58svh}
   .story{grid-row:2;height:34svh}
@@ -294,6 +311,8 @@ kbd{font:inherit;font-size:.9em;padding:1px 7px;border-radius:6px;background:#f0
   *,*::before,*::after{transition-duration:.01ms!important;animation:none!important}
   .device-wrap,.intro-stage{transform:none!important;opacity:1!important}
   .intro-title .ch{transform:none!important}
+  .me-arrow path{stroke-dashoffset:0!important}
+  .me-arrow text{opacity:1!important}
   .stage{clip-path:none!important;transform:none!important;filter:none!important;border-radius:0!important}
   .marquee{transform:none!important;flex-wrap:wrap;white-space:normal;padding:0 max(20px,6vw)}
   .marquee span:nth-child(n+7){display:none}
