@@ -16,9 +16,9 @@
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="{{ url_for('static',filename='favicon.svg') }}" type="image/svg+xml">
-<link rel="stylesheet" href="{{ url_for('static',filename='home.css') }}?v=8">
+<link rel="stylesheet" href="{{ url_for('static',filename='home.css') }}?v=12">
 <script>document.documentElement.classList.replace('no-js','js')</script>
-<script defer src="{{ url_for('static',filename='story.js') }}?v=8"></script>
+<script defer src="{{ url_for('static',filename='story.js') }}?v=11"></script>
 </head>
 <body class="home">
 <a class="skip" href="#main">Skip to content</a>
@@ -46,11 +46,11 @@
       </ul>
       <figure class="me">
         <div class="me-photo">
-          <img src="{{ url_for('static',filename='img/me-machu-picchu.webp') }}" srcset="{{ url_for('static',filename='img/me-machu-picchu-sm.webp') }} 476w, {{ url_for('static',filename='img/me-machu-picchu.webp') }} 952w" sizes="(max-width: 860px) 60vw, 300px" width="952" height="969" alt="Carlos standing behind his family at Machu Picchu. A hand-drawn red arrow points to him.">
-          <svg class="me-arrow" viewBox="0 0 952 969" aria-hidden="true">
-            <path class="arrow-line" pathLength="1" d="M690 105 Q 560 185 418 286"/>
-            <path class="arrow-head" pathLength="1" d="M498 278 L 418 286 L 456 216"/>
-            <text x="775" y="95" text-anchor="middle">me</text>
+          <img src="{{ url_for('static',filename='img/me-machu-picchu.webp') }}" srcset="{{ url_for('static',filename='img/me-machu-picchu-sm.webp') }} 570w, {{ url_for('static',filename='img/me-machu-picchu.webp') }} 1140w" sizes="(max-width: 860px) 70vw, 400px" width="1140" height="1229" alt="Carlos standing behind his family at Machu Picchu. A hand-drawn red arrow points to him.">
+          <svg class="me-arrow" viewBox="0 0 760 819" aria-hidden="true">
+            <path class="arrow-line" pathLength="1" d="M560 50 Q 450 85 331 147"/>
+            <path class="arrow-head" pathLength="1" d="M406 151 L 331 147 L 376 87"/>
+            <text x="640" y="78" text-anchor="middle">me</text>
           </svg>
         </div>
         <figcaption>With my family at Machu Picchu</figcaption>
@@ -91,8 +91,8 @@
         </article>
       </div>
 
-      <div class="device-wrap" aria-hidden="true">
-        <div class="browser">
+      <div class="device-wrap">
+        <div class="browser" aria-hidden="true">
           <div class="browser-bar"><i></i><i></i><i></i><span>Hokie Wallet</span></div>
           <div class="hw-frame">
             <img class="hw-real" data-screen="1" src="{{ url_for('static',filename='img/hw-overview.webp') }}" srcset="{{ url_for('static',filename='img/hw-overview-sm.webp') }} 800w, {{ url_for('static',filename='img/hw-overview.webp') }} 1600w" sizes="(max-width: 860px) 94vw, 56vw" width="1600" height="900" alt="">
@@ -182,8 +182,8 @@
         </article>
       </div>
 
-      <div class="device-wrap" aria-hidden="true">
-        <div class="console">
+      <div class="device-wrap">
+        <div class="console" aria-hidden="true">
           <div class="console-bar"><span>TopSecret</span><span class="role" data-role>Signed in as alex, Standard</span></div>
           <div class="console-body">
             <ol class="menu">
@@ -240,12 +240,9 @@
                 <p class="retro-sub">Computer Science, Virginia Tech</p>
               </div>
             </div>
-            <div class="retro win-2">
-              <div class="retro-bar"><span>search.exe</span><span>_ □ ×</span></div>
-              <div class="retro-body">
-                <div class="retro-search"><span>Search projects</span><b data-typed>wallet</b></div>
-                <ul class="retro-results"><li>HokieWallet<small>Web, VTHacks</small></li><li>+1 Speed Catch Animals<small>Games</small></li><li>TopSecret<small>Software</small></li></ul>
-              </div>
+            <div class="retro win-2 real">
+              <div class="retro-bar"><span>/projects?q=wallet</span><span>_ □ ×</span></div>
+              <img src="{{ url_for('static',filename='img/site-search.webp') }}" width="1100" height="640" alt="" loading="lazy">
             </div>
             <div class="retro win-3">
               <div class="retro-bar"><span>tests.exe</span><span>_ □ ×</span></div>
@@ -258,7 +255,7 @@
             </div>
           </div>
         </div>
-        <details class="how"><summary>How it works</summary><p>A horizontal track of windows that slides beat by beat, with the typing and test results driven by the same clock.</p></details>
+        <details class="how"><summary>How it works</summary><p>A horizontal track of windows that slides beat by beat, with the test results driven by the same clock. The middle window is a live capture of the search page.</p></details>
       </div>
     </div>
   </section>
@@ -266,8 +263,12 @@
   <div class="finale" data-snap>
   <section class="tools" aria-labelledby="tools-title" data-bg="#f1f5fc" data-ink="light">
     <h2 id="tools-title" class="tools-title">What I build with</h2>
-    <div class="marquee" data-marquee="1"><span>Python</span><span>Java</span><span>TypeScript</span><span>JavaScript</span><span>R</span><span>SQL</span><span>Python</span><span>Java</span><span>TypeScript</span><span>JavaScript</span><span>R</span><span>SQL</span></div>
-    <div class="marquee alt" data-marquee="-1"><span>React</span><span>Next.js</span><span>Node.js</span><span>Flask</span><span>SQLite</span><span>Docker</span><span>Git</span><span>HTML &amp; CSS</span><span>React</span><span>Next.js</span><span>Node.js</span><span>Flask</span><span>SQLite</span><span>Docker</span><span>Git</span><span>HTML &amp; CSS</span></div>
+    <div class="stack">
+      <h3>Languages</h3>
+      <ul><li>Python</li><li>Java</li><li>TypeScript</li><li>JavaScript</li><li>R</li><li>SQL</li></ul>
+      <h3>Frameworks and tools</h3>
+      <ul><li>React</li><li>Next.js</li><li>Node.js</li><li>Flask</li><li>SQLite</li><li>Docker</li><li>Git</li><li>HTML &amp; CSS</li></ul>
+    </div>
   </section>
 
   <section id="contact" class="contact" aria-labelledby="contact-title" data-bg="#f1f5fc" data-ink="light">

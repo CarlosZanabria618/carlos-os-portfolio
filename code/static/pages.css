@@ -52,8 +52,8 @@ h1,h2,h3,p,dl,dd{margin:0}
 .tone-topsecret .cover-word{font-family:var(--mono);letter-spacing:-.02em}
 .card-body{padding:20px 22px 24px}
 .card-meta{font-size:13px;color:var(--ink-2)}
-.card-body h3{margin:8px 0;font-size:24px;letter-spacing:-.03em;line-height:1.15}
-.card-body h3 a{text-decoration:none}
+.card-body h2{margin:8px 0;font-size:24px;letter-spacing:-.03em;line-height:1.15}
+.card-body h2 a{text-decoration:none}
 .card-body p{font-size:16px;color:var(--ink-2)}
 .card-stack{margin-top:12px;font-size:13.5px!important}
 .empty{grid-column:1/-1;padding:40px;border-radius:22px;background:var(--card);text-align:center}

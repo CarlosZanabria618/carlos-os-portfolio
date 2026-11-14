@@ -245,7 +245,7 @@ kbd{font:inherit;font-size:.9em;padding:1px 7px;border-radius:6px;background:#ff
 @keyframes marquee{to{transform:translateX(-50%)}}
 .marquee span{flex:none}
 .marquee span::after{content:"";display:inline-block;width:.18em;height:.18em;margin-left:.5em;border-radius:50%;background:currentColor;vertical-align:middle;opacity:.25}
-.marquee.alt{color:#9aa8c6}
+.marquee.alt{color:#6b7a9e}
 
 /* Contact */
 .contact{padding:8vh max(20px,6vw) 16vh;text-align:center}
@@ -377,4 +377,31 @@ body:not(.ink-dark) .next-btn{background:var(--navy);color:#fff}
   .hw-real{object-position:58% 22%;transform-origin:58% 22%}
   .hw-real,.hw-real.is-on{transform:scale(1.45)}
   .hw-real[data-screen="4"],.hw-real[data-screen="4"].is-on{object-position:88% 40%;transform-origin:88% 40%}
+}
+.retro.real img{display:block;width:100%;height:auto}
+
+/* What I build with: every skill visible, no scrolling row */
+.tools{overflow:visible;padding:12vh max(20px,6vw) 5vh}
+.tools-title{padding:0;margin-bottom:5vh}
+.stack{max-width:1100px}
+.stack h3{margin:0 0 12px;font-size:15px;font-weight:600;color:var(--ink-2)}
+.stack ul{display:flex;flex-wrap:wrap;gap:10px 12px;margin:0 0 5vh;padding:0;list-style:none}
+.stack li{padding:.28em .7em;border-radius:999px;background:#fff;box-shadow:0 1px 2px rgba(11,27,58,.08),0 0 0 1px rgba(11,27,58,.07);font-size:clamp(22px,3vw,40px);font-weight:700;letter-spacing:-.035em;line-height:1.2;transition:transform .3s var(--ease),box-shadow .3s}
+.stack li:hover{transform:translateY(-3px);box-shadow:0 10px 22px -10px rgba(31,79,216,.45),0 0 0 1.5px var(--cobalt)}
+
+/* Bigger intro photo on wide screens */
+.me-arrow path{stroke-width:13}
+.me-arrow text{font-size:88px;stroke-width:12px}
+@media (min-width:861px){
+  .intro-stage{--me-w:clamp(280px,29vw,410px)}
+  .me{width:var(--me-w);top:50%;bottom:auto;transform:translateY(-50%) rotate(3deg)}
+  .me:hover{transform:translateY(-50%) rotate(1deg) scale(1.02)}
+  .intro-title{font-size:clamp(46px,6.1vw,88px)}
+  .intro-lede,.jump,.intro-how{max-width:calc(100% - var(--me-w) - 48px)}
+}
+@media (max-width:860px){.me{width:min(70vw,300px)}}
+/* HokieWallet: keep the title clear of the screen */
+@media (min-width:861px){
+  .ch-wallet .stage{grid-template-columns:minmax(320px,.74fr) 1.26fr}
+  .ch-wallet .beat-title.big{font-size:clamp(40px,4.7vw,70px)}
 }

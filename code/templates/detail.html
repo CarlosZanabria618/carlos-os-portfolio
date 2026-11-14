@@ -15,6 +15,7 @@
       </div>
     </div>
   </header>
+  {% if item.slug == 'plus1-speed-catch-animals' %}<div class="content-wrap"><img class="case-shot" src="{{ url_for('static',filename='img/game-hud.webp') }}" width="1920" height="694" alt="A play test of +1 Speed Catch Animals showing the speed counter, level bar and training buttons."></div>{% endif %}
   {% if item.slug == 'hokiewallet' %}<div class="content-wrap"><img class="case-shot" src="{{ url_for('static',filename='img/hw-overview.webp') }}" width="1600" height="900" alt="The Hokie Wallet overview screen in dark mode, showing bank balance, campus funds and spending this month, with sample data."></div>{% endif %}
   <div class="content-wrap case-body">
     <section class="case-story"><h2>What I did</h2><p>{{ item.detail }}</p></section>
