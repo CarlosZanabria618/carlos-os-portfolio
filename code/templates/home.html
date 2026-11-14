@@ -5,15 +5,20 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#f1f5fc">
-<title>Carlos Zanabria · Interfaces you can scroll through</title>
+<title>Carlos Zanabria, interfaces you can feel</title>
 <meta name="description" content="Carlos Zanabria builds interfaces. Scroll through HokieWallet, +1 Speed Catch Animals, TopSecret and this site. Computer Science at Virginia Tech, seeking Summer 2027 internships.">
 <meta property="og:title" content="Carlos Zanabria">
-<meta property="og:description" content="Four projects you can scroll through. Computer Science at Virginia Tech.">
+<meta property="og:description" content="I build interfaces you can feel. Four projects that play themselves. Computer Science at Virginia Tech.">
 <meta property="og:type" content="website">
+<meta property="og:url" content="https://carlos-os-portfolio.onrender.com/">
+<meta property="og:image" content="https://carlos-os-portfolio.onrender.com/static/img/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="{{ url_for('static',filename='favicon.svg') }}" type="image/svg+xml">
-<link rel="stylesheet" href="{{ url_for('static',filename='home.css') }}?v=5">
+<link rel="stylesheet" href="{{ url_for('static',filename='home.css') }}?v=6">
 <script>document.documentElement.classList.replace('no-js','js')</script>
-<script defer src="{{ url_for('static',filename='story.js') }}?v=5"></script>
+<script defer src="{{ url_for('static',filename='story.js') }}?v=6"></script>
 </head>
 <body class="home">
 <a class="skip" href="#main">Skip to content</a>
@@ -32,7 +37,7 @@
   <section class="intro" data-snap data-chapter="intro" data-bg="#f1f5fc" data-ink="light" aria-labelledby="intro-title">
     <div class="intro-stage">
       <h1 id="intro-title" class="intro-title" data-split aria-label="I build interfaces you can feel.">I build interfaces <br>you can feel.</h1>
-      <p class="intro-lede">I'm Carlos, a computer science student at Virginia Tech. Watch four things I've built play out, or jump straight to one.</p>
+      <p class="intro-lede">I'm Carlos, a computer science student at Virginia Tech. Here are four things I built.</p>
       <ul class="jump" aria-label="Projects on this page">
         <li><a href="#hokiewallet"><span class="jump-swatch" style="--c:#630031"></span>HokieWallet</a></li>
         <li><a href="#plus-one"><span class="jump-swatch" style="--c:#2ba8f0"></span>+1 Speed Catch Animals</a></li>
@@ -41,16 +46,16 @@
       </ul>
       <figure class="me">
         <div class="me-photo">
-          <img src="{{ url_for('static',filename='img/me-machu-picchu.webp') }}" srcset="{{ url_for('static',filename='img/me-machu-picchu-sm.webp') }} 440w, {{ url_for('static',filename='img/me-machu-picchu.webp') }} 880w" sizes="(max-width: 860px) 60vw, 300px" width="880" height="975" alt="Carlos standing behind his family at Machu Picchu. A hand-drawn red arrow points to him.">
-          <svg class="me-arrow" viewBox="0 0 880 975" aria-hidden="true">
-            <path class="arrow-line" pathLength="1" d="M690 250 C 640 380, 540 440, 425 478"/>
-            <path class="arrow-head" pathLength="1" d="M492 418 L 422 479 L 512 492"/>
-            <text x="700" y="215" text-anchor="middle">me</text>
+          <img src="{{ url_for('static',filename='img/me-machu-picchu.webp') }}" srcset="{{ url_for('static',filename='img/me-machu-picchu-sm.webp') }} 476w, {{ url_for('static',filename='img/me-machu-picchu.webp') }} 952w" sizes="(max-width: 860px) 60vw, 300px" width="952" height="969" alt="Carlos standing behind his family at Machu Picchu. A hand-drawn red arrow points to him.">
+          <svg class="me-arrow" viewBox="0 0 952 969" aria-hidden="true">
+            <path class="arrow-line" pathLength="1" d="M700 60 C 660 180, 550 235, 428 268"/>
+            <path class="arrow-head" pathLength="1" d="M494 208 L 425 269 L 515 282"/>
+            <text x="760" y="95" text-anchor="middle">me</text>
           </svg>
         </div>
         <figcaption>With my family at Machu Picchu</figcaption>
       </figure>
-      <p class="intro-how">Each project plays on its own and uses a different front-end technique. Press <kbd>→</kbd> or <kbd>Space</kbd> to jump to the next one.</p>
+      <p class="intro-how">Click anywhere to skip ahead. <kbd>→</kbd> jumps to the next project.</p>
     </div>
   </section>
 
@@ -61,27 +66,27 @@
         <article class="beat" data-beat="0">
           <p class="kicker">Built at VTHacks with a team of four</p>
           <h2 id="wallet-title" class="beat-title big">HokieWallet</h2>
-          <p>A student finance dashboard that puts your bank balance and campus wallet in one place. I owned the front end.</p>
+          <p>A student finance dashboard. I owned the front end.</p>
         </article>
         <article class="beat" data-beat="1">
           <h3 class="beat-title">Every balance, one screen.</h3>
-          <p>I built the balance screen in React and connected it to our Node.js back end.</p>
+          <p>Built in React on a Node.js back end.</p>
         </article>
         <article class="beat" data-beat="2">
           <h3 class="beat-title">Budgets you can read at a glance.</h3>
-          <p>The budget screen shows what you've spent in each category and what's left.</p>
+          <p>What you've spent, and what's left.</p>
         </article>
         <article class="beat" data-beat="3">
           <h3 class="beat-title">More than ten languages.</h3>
-          <p>I added support for 10+ languages, so students can use it in the language they think in.</p>
+          <p>Use it in the language you think in.</p>
         </article>
         <article class="beat" data-beat="4">
           <h3 class="beat-title">Built for everyone.</h3>
-          <p>Larger text, higher contrast and reduced motion are one tap away. I also designed the color scheme and tuned front-end performance.</p>
+          <p>Larger text, higher contrast, less motion.</p>
         </article>
         <article class="beat" data-beat="5">
           <h3 class="beat-title">See how it came together.</h3>
-          <p>I set up our team's GitHub so four people could build it in one weekend.</p>
+          <p>I set up the GitHub that let four of us build it.</p>
           <p class="actions"><a class="btn" href="{{ url_for('project_detail', slug='hokiewallet') }}">Read the case study</a><a class="btn ghost" href="https://github.com/CarlosZanabria618/hokie-wallet">View the code</a></p>
         </article>
       </div>
@@ -141,7 +146,7 @@
             </div>
           </div>
         </div>
-        <p class="device-note how"><b>How it works:</b> a clip-path circle reveal, then one stage whose screens, counters and toggles play on a timer you can pause. Sample data.</p>
+        <details class="how"><summary>How it works</summary><p>A clip-path circle reveal, then one stage whose screens, counters and toggles play on a timer you can pause. Sample data.</p></details>
       </div>
     </div>
   </section>
@@ -153,23 +158,23 @@
         <article class="beat" data-beat="0">
           <p class="kicker">Roblox game, in development, built for phones first</p>
           <h2 id="game-title" class="beat-title big">+1 Speed Catch Animals</h2>
-          <p>A Roblox game I'm building with a small team. You train your speed, catch speedy animals and race other players.</p>
+          <p>A Roblox game I'm building with a small team.</p>
         </article>
         <article class="beat" data-beat="1">
           <h3 class="beat-title">Plus one, again and again.</h3>
-          <p>Training adds speed a little at a time. You level up, unlock boosts and watch the number climb.</p>
+          <p>Train, level up, watch your speed climb.</p>
         </article>
         <article class="beat" data-beat="2">
           <h3 class="beat-title">Catch it to move on.</h3>
-          <p>Every stage has a speedy animal. Get fast enough, catch it, and the next stage opens. Stage 1 starts with a chicken at 100 speed.</p>
+          <p>Get fast enough to catch each stage's animal.</p>
         </article>
         <article class="beat" data-beat="3">
           <h3 class="beat-title">You become the animal.</h3>
-          <p>Reach an animal's speed and you turn into it. Your character grows as you rank up.</p>
+          <p>Match an animal's speed and you turn into it.</p>
         </article>
         <article class="beat" data-beat="4">
           <h3 class="beat-title">Then race anyone.</h3>
-          <p>Tap to race other players over three laps. Bosses, pets, crates and rebirths keep it going.</p>
+          <p>Race other players over three laps.</p>
           <p class="actions"><a class="btn" href="{{ url_for('project_detail', slug='plus1-speed-catch-animals') }}">Read about the game</a></p>
         </article>
       </div>
@@ -189,7 +194,7 @@
           <figcaption class="spin-hint">Drag to spin</figcaption>
         </figure>
         </div>
-        <p class="device-note how"><b>How it works:</b> real play-test captures, then 24 frames rendered from the game's 3D model and drawn to a canvas. Drag to spin the cow.</p>
+        <details class="how"><summary>How it works</summary><p>Real play-test captures, then 24 frames rendered from the game's 3D model and drawn to a canvas. Drag to spin the cow.</p></details>
       </div>
     </div>
   </section>
@@ -201,7 +206,7 @@
         <article class="beat" data-beat="0">
           <p class="kicker">Java and SQLite team project</p>
           <h2 id="secret-title" class="beat-title big">TopSecret</h2>
-          <p>A team Java app for Intro to Problem Solving, with logins, passwords and an audit log. I built the user roles and access levels.</p>
+          <p>A team Java app with logins and an audit log. I built the roles.</p>
         </article>
         <article class="beat" data-beat="1">
           <h3 class="beat-title">You only see what you're allowed to.</h3>
@@ -209,7 +214,7 @@
         </article>
         <article class="beat" data-beat="2">
           <h3 class="beat-title">The first account runs the place.</h3>
-          <p>The first person to register becomes the administrator. Everyone after starts as a standard user.</p>
+          <p>Whoever registers first becomes the admin.</p>
         </article>
         <article class="beat" data-beat="3">
           <h3 class="beat-title">Admins manage everyone else.</h3>
@@ -244,7 +249,7 @@
             <p class="console-msg" data-msg></p>
           </div>
         </div>
-        <p class="device-note how"><b>How it works:</b> a CRT-style clip-path power-on, then a text-scramble effect that decodes each message.</p>
+        <details class="how"><summary>How it works</summary><p>A CRT-style clip-path power-on, then a text-scramble effect that decodes each message.</p></details>
       </div>
     </div>
   </section>
@@ -260,11 +265,11 @@
         </article>
         <article class="beat" data-beat="1">
           <h3 class="beat-title">Real software under the hood.</h3>
-          <p>A Flask app reads every project from a SQLite catalog, with search, filters and shareable project briefings.</p>
+          <p>Flask reads every project from a searchable SQLite catalog.</p>
         </article>
         <article class="beat" data-beat="2">
           <h3 class="beat-title">Shipped and tested.</h3>
-          <p>It runs in Docker on Render, with 11 tests covering search, input escaping and SQL injection safety.</p>
+          <p>Runs in Docker on Render. 11 tests pass.</p>
           <p class="actions"><a class="btn" href="{{ url_for('project_list') }}">Browse every project</a><a class="btn ghost" href="https://github.com/CarlosZanabria618/carlos-os-portfolio">View the code</a></p>
         </article>
       </div>
@@ -298,7 +303,7 @@
             </div>
           </div>
         </div>
-        <p class="device-note how"><b>How it works:</b> a horizontal track of windows that slides beat by beat, with the typing and test results driven by the same clock.</p>
+        <details class="how"><summary>How it works</summary><p>A horizontal track of windows that slides beat by beat, with the typing and test results driven by the same clock.</p></details>
       </div>
     </div>
   </section>

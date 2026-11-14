@@ -1,26 +1,25 @@
 <!-- Original portfolio by Carlos Zanabria, with AI-assisted development. -->
 {% extends 'base.html' %}
 {% block content %}
-<main id="main" class="page-main">
-  <div class="content-wrap">
-    <header class="page-header" data-reveal>
-      <a class="text-link" href="{{ url_for('project_list') }}"><span aria-hidden="true">←</span> All projects</a>
-      <p class="eyebrow">{{ item.category }} · {{ item.year }}</p>
+{% set chapter = {'hokiewallet':'hokiewallet','plus1-speed-catch-animals':'plus-one','topsecret':'topsecret','carlos-os-portfolio':'carlos-os'}.get(item.slug) %}
+<main id="main" class="page-main tone-{{ item.slug }}">
+  <header class="case-hero">
+    <div class="content-wrap">
+      <a class="back" href="{{ url_for('project_list') }}">All projects</a>
+      <p class="case-meta">{{ item.category }}, {{ item.year }}<span class="badge">{{ item.status }}</span></p>
       <h1 class="page-heading">{{ item.title }}</h1>
       <p class="page-intro">{{ item.summary }}</p>
-      <span class="badge">{{ item.status }}</span>
-    </header>
-    <div class="detail-grid">
-      <section class="detail-panel" data-reveal>
-        <p class="eyebrow">The project</p><h2>A closer look.</h2>
-        <p>{{ item.detail }}</p>
-        {% if item.url %}<div class="page-actions"><a class="button primary" href="{{ item.url }}">{{ item.link_label }} <span aria-hidden="true">↗</span></a></div>{% endif %}
-      </section>
-      <aside class="detail-panel" aria-label="Project overview" data-reveal>
-        <p class="eyebrow">At a glance</p>
-        <dl class="details-list"><dt>My involvement</dt><dd>{{ item.role }}</dd><dt>Tools & focus</dt><dd>{{ item.stack }}</dd><dt>Current status</dt><dd>{{ item.status }}</dd></dl>
-      </aside>
+      <div class="page-actions">
+        {% if chapter %}<a class="button primary" href="{{ url_for('home') }}#{{ chapter }}">Watch it play</a>{% endif %}
+        {% if item.url %}<a class="button {{ 'secondary' if chapter else 'primary' }}" href="{{ item.url }}">{{ item.link_label }}</a>{% endif %}
+      </div>
     </div>
+  </header>
+  <div class="content-wrap case-body">
+    <section class="case-story"><h2>What I did</h2><p>{{ item.detail }}</p></section>
+    <aside class="case-facts" aria-label="Project overview">
+      <dl class="details-list"><dt>My role</dt><dd>{{ item.role }}</dd><dt>Built with</dt><dd>{{ item.stack }}</dd><dt>Status</dt><dd>{{ item.status }}</dd></dl>
+    </aside>
   </div>
 </main>
 {% endblock %}

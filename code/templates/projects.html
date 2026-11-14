@@ -3,14 +3,13 @@
 {% block content %}
 <main id="main" class="page-main">
   <div class="content-wrap">
-    <header class="page-header" data-reveal>
-      <p class="eyebrow">{{ 'Interactive worlds' if active == 'games' else 'Selected work' }}</p>
-      <h1 class="page-heading">{{ 'Games & experiments.' if active == 'games' else 'Things I’m building.' }}</h1>
-      <p class="page-intro">{{ 'Learning how thoughtful systems and small details make a world worth exploring.' if active == 'games' else 'Software, interactive worlds, and ideas in progress. A closer look at the work and the thinking behind it.' }}</p>
-      <div class="page-actions"><a class="text-link" href="{{ url_for('boot') }}">Build a project briefing <span aria-hidden="true">↗</span></a></div>
+    <header class="page-header">
+            <h1 class="page-heading">{{ 'Games' if active == 'games' else 'Projects' }}</h1>
+      <p class="page-intro">{{ 'Roblox games I have worked on.' if active == 'games' else 'Everything I have built so far. Search by name, tool or type.' }}</p>
+      <div class="page-actions"><a class="text-link" href="{{ url_for('boot') }}">Compare projects side by side</a></div>
     </header>
     {% if active != 'games' %}
-    <form class="search-form" action="{{ url_for('project_list') }}" method="get" data-reveal>
+    <form class="search-form" action="{{ url_for('project_list') }}" method="get">
       <div><label for="q">Search projects</label><input id="q" name="q" type="search" maxlength="100" value="{{ query }}" placeholder="Try wallet, Roblox, or Python"></div>
       <div><label for="category">Project type</label><select id="category" name="category"><option value="">All types</option><option {% if category == 'Software' %}selected{% endif %}>Software</option><option {% if category == 'Games' %}selected{% endif %}>Games</option></select></div>
       <button class="button primary" type="submit">Search</button>
@@ -21,7 +20,7 @@
     <div class="project-grid">
       {% for item in items %}{% include 'card.html' %}
       {% else %}
-      <section class="empty" data-reveal><h2>No matching projects.</h2><p>Try another search or explore the full collection.</p><a class="button secondary" href="{{ url_for('project_list') }}">View all projects</a></section>
+      <section class="empty"><h2>No matching projects.</h2><p>Try another search or explore the full collection.</p><a class="button secondary" href="{{ url_for('project_list') }}">View all projects</a></section>
       {% endfor %}
     </div>
   </div>

@@ -3,32 +3,32 @@
 {% block content %}
 <main id="main" class="page-main">
   <div class="content-wrap">
-    <header class="page-header" data-reveal>
-      <p class="eyebrow">A closer look at the work</p>
-      <h1 class="page-heading">Your project briefing.</h1>
-      <p class="page-intro">Choose what interests you. See my role, the tools I used, and where each project stands, together in one place.</p>
+    <header class="page-header">
+      
+      <h1 class="page-heading">Compare projects</h1>
+      <p class="page-intro">Pick projects to see my role, the tools and the status side by side.</p>
     </header>
-    <form class="briefing-form detail-panel" action="{{ url_for('boot') }}#briefing" method="get" data-reveal>
+    <form class="briefing-form detail-panel" action="{{ url_for('boot') }}#briefing" method="get">
       <fieldset>
         <legend>Select projects</legend>
         {% for item in catalog %}
-        <label class="boot-option"><input type="checkbox" name="project" value="{{ item.slug }}" {% if item in briefing %}checked{% endif %}><span><strong>{{ item.title }}</strong><small>{{ item.category }} · {{ item.status }}</small></span></label>
+        <label class="boot-option"><input type="checkbox" name="project" value="{{ item.slug }}" {% if item in briefing %}checked{% endif %}><span><strong>{{ item.title }}</strong><small>{{ item.category }}, {{ item.status }}</small></span></label>
         {% else %}<p>No projects are available yet.</p>{% endfor %}
       </fieldset>
       <div class="selection-actions">
-        {% if catalog %}<button class="button primary" type="submit" name="launch" value="1">Create briefing <span aria-hidden="true">↗</span></button>{% endif %}
+        {% if catalog %}<button class="button primary" type="submit" name="launch" value="1">Compare</button>{% endif %}
         {% if requested %}<a class="text-link" href="{{ url_for('boot') }}">Clear selections</a>{% endif %}
       </div>
     </form>
     {% if requested %}
-    <section id="briefing" aria-labelledby="briefing-title" data-reveal>
-      <div class="page-header"><p class="eyebrow">Selected for you</p><h2 id="briefing-title">Your briefing.</h2>
+    <section id="briefing" aria-labelledby="briefing-title">
+      <div class="page-header"><h2 id="briefing-title">Side by side</h2>
       {% if briefing %}<p>{{ briefing|length }} {{ 'project' if briefing|length == 1 else 'projects' }} selected. Bookmark this page to return to your selection.</p>{% endif %}</div>
       {% if briefing %}
       <div class="boot-results">
         {% for item in briefing %}
-        <article class="detail-panel" data-reveal>
-          <span class="badge">{{ item.status }}</span><h3><a href="{{ url_for('project_detail', slug=item.slug) }}">{{ item.title }} <span aria-hidden="true">↗</span></a></h3><p>{{ item.summary }}</p>
+        <article class="detail-panel">
+          <span class="badge">{{ item.status }}</span><h3><a href="{{ url_for('project_detail', slug=item.slug) }}">{{ item.title }}</a></h3><p>{{ item.summary }}</p>
           <dl class="details-list"><dt>Role</dt><dd>{{ item.role }}</dd><dt>Tools</dt><dd>{{ item.stack }}</dd><dt>Status</dt><dd>{{ item.status }}</dd></dl>
         </article>
         {% endfor %}
