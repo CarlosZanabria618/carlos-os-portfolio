@@ -1,14 +1,25 @@
-# Carlos OS Portfolio
+# Carlos Zanabria's portfolio
 
-A personal portfolio for Carlos Zanabria, a Virginia Tech computer science student. The interface uses a restrained pearl-and-graphite palette, scroll-linked project illustrations, and a clear overview of projects, skills, experience, and a downloadable resume.
+Live at https://carlos-os-portfolio.onrender.com
 
-## Features
+A Flask and SQLite portfolio for Carlos Zanabria, a computer science student at Virginia Tech. The home page presents four projects as short chapters that play on their own. Each chapter uses a different front-end technique, written by hand in plain HTML, CSS and JavaScript with no framework or animation library.
 
-- Searchable SQLite project catalog, category filters, and individual project pages.
-- Portfolio Boot Menu: choose multiple projects and generate a bookmarkable briefing.
-- Responsive navigation, keyboard-accessible controls, reduced-motion support, and native page transitions where supported.
-- Scroll-linked visual depth and progressive section reveals; content remains available without JavaScript.
-- Current education, experience, skills, GitHub link, and an updated resume PDF.
+## What's on the home page
+
+- **Intro:** a headline split into letters that animate in and react to the pointer.
+- **HokieWallet:** a clip-path circle reveal, then real screens from the app on a timed player.
+- **+1 Speed Catch Animals:** play-test captures, then a 24-frame turntable of a 3D model drawn to a canvas. Drag to spin it.
+- **TopSecret:** a CRT-style power-on and a text-scramble effect.
+- **This site:** a horizontal track of windows driven by one clock.
+
+Each chapter has pause, replay and per-part controls. Click anywhere to skip a part, or use the arrow keys to jump between projects. The page works without JavaScript and respects the reduced-motion setting.
+
+## Behind it
+
+- Searchable SQLite project catalog with category filters and a page per project.
+- A compare page that puts selected projects side by side at a bookmarkable address.
+- Parameterized queries and escaped output, covered by tests.
+- Docker image deployed on Render, redeployed on every push.
 
 ## Run locally
 
@@ -45,5 +56,7 @@ The read-only catalog is initialized from `data/projects.json` at startup. It ne
 ## Project background and assistance
 
 Originally developed for a Virginia Tech CS 2104 class project and deployed on the university's Discovery environment. This repository is a separate public copy for portfolio hosting.
+
+Carlos supplied the concept, visual direction, personal background, project information, and resume. AI coding tools assisted with implementation, tests, documentation, and deployment preparation. Original attribution comments are retained. Project status labels distinguish prototypes, planned work, and upcoming releases.
 
 Class reports, recordings, credentials, runtime databases, and the old address-bearing resume are excluded from this public copy.

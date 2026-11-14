@@ -40,7 +40,7 @@
       "summary": "A student finance dashboard prototype bringing budgets, spending, and campus wallet information into one view.",
       "detail": "At VTHacks, I owned the front end of HokieWallet, a student finance prototype built by a team of four. I built the balance and budget screens in React and connected them to our Node.js back end. I also designed the color scheme, added support for 10+ languages and accessibility settings, and tuned front-end performance. I set up our GitHub collaboration so all four of us could share and merge code. It is a prototype with sample data; it does not connect to real bank or university payment accounts.",
       "stack": "React, Node.js, Team collaboration",
-      "url": "https://github.com/CarlosZanabria618/hokie-wallet",
+      "url": "https://github.com/CarlosZanabria618/hokie-wallet-vthacks",
       "link_label": "Explore the source",
       "art": "wallet"
     },

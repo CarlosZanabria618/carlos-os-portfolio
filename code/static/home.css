@@ -365,3 +365,16 @@ body:not(.ink-dark) .next-btn{background:var(--navy);color:#fff}
 .intro-title{font-size:clamp(46px,7.2vw,106px)}
 .me{bottom:-24px}
 @media (max-width:860px){.me{bottom:auto}}
+
+@media (max-width:860px){
+  .mail-menu{left:0;transform:none;min-width:240px}
+  .jump{gap:8px;margin-top:28px}
+  .jump a{padding:9px 14px 9px 11px;font-size:14.5px}
+  .intro{padding-top:84px}
+  .intro-lede{margin-top:20px}
+  .me{width:min(54vw,230px);margin-top:22px}
+  .hw-frame{aspect-ratio:4/3.3}
+  .hw-real{object-position:58% 22%;transform-origin:58% 22%}
+  .hw-real,.hw-real.is-on{transform:scale(1.45)}
+  .hw-real[data-screen="4"],.hw-real[data-screen="4"].is-on{object-position:88% 40%;transform-origin:88% 40%}
+}
