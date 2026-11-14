@@ -267,6 +267,21 @@
     if (testsBar) testsBar.classList.toggle('ok', c > checks.length);
   }
 
+  /* Email menu: Gmail, Outlook, default mail app, or copy */
+  document.querySelectorAll('[data-mail]').forEach(wrap => {
+    const btn = wrap.querySelector('button'), menu = wrap.querySelector('.mail-menu');
+    const set = open => { menu.hidden = !open; btn.setAttribute('aria-expanded', String(open)); if (open) menu.querySelector('a').focus(); };
+    btn.addEventListener('click', e => { e.stopPropagation(); set(menu.hidden); });
+    document.addEventListener('click', e => { if (!wrap.contains(e.target)) set(false); });
+    wrap.addEventListener('keydown', e => { if (e.key === 'Escape') { set(false); btn.focus(); } e.stopPropagation(); });
+    const copy = wrap.querySelector('[data-copy]');
+    copy.addEventListener('click', async () => {
+      try { await navigator.clipboard.writeText(copy.dataset.copy); copy.textContent = 'Copied'; }
+      catch { copy.textContent = copy.dataset.copy; }
+      setTimeout(() => { copy.textContent = 'Copy address'; }, 1800);
+    });
+  });
+
   /* Contact buttons lean toward the pointer */
   document.querySelectorAll('.contact .btn').forEach(b => {
     b.addEventListener('pointermove', e => {
@@ -280,10 +295,10 @@
   /* Playback: each chapter fills one screen and plays its beats on a timer.
      Arrow keys, Page Up/Down and Space jump a whole chapter. */
   const timing = {
-    wallet: [3000, 2600, 2600, 3600, 3000, 4000],
-    game: [3000, 2600, 2800, 4400, 3600],
-    secret: [2800, 2400, 2600, 2400, 3400],
-    os: [2800, 3200, 3600],
+    wallet: [2200, 1900, 1900, 2800, 2300, 3200],
+    game: [2200, 1900, 2000, 3400, 2800],
+    secret: [2000, 1800, 2000, 1800, 2600],
+    os: [2000, 2400, 2800],
   };
   const play = chapters.filter(ch => timing[ch.name]);
   play.forEach(ch => {
@@ -301,6 +316,14 @@
     ch.pp = bar.querySelector('.pp');
     ch.segs = [...bar.querySelectorAll('.seg')];
     ch.segs.forEach((b, k) => b.addEventListener('click', () => { ch.t = ch.durs.slice(0, k).reduce((a, d) => a + d, 0) + 1; ch.paused = false; }));
+    // Click or tap anywhere on the stage to skip to the next part
+    ch.el.addEventListener('click', e => {
+      if (e.target.closest('a,button,canvas,details,summary')) return;
+      const [step] = timeline(ch);
+      if (ch.t >= ch.total || step >= ch.durs.length - 1) { go(1); return; }
+      ch.t = ch.durs.slice(0, step + 1).reduce((x, d) => x + d, 0) + 1;
+      ch.paused = false;
+    });
     ch.pp.addEventListener('click', () => {
       if (ch.t >= ch.total) { ch.t = 0; ch.paused = false; }
       else ch.paused = !ch.paused;

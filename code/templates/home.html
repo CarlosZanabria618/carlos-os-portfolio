@@ -5,10 +5,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#f1f5fc">
-<title>Carlos Zanabria, interfaces you can feel</title>
-<meta name="description" content="Carlos Zanabria builds interfaces. Scroll through HokieWallet, +1 Speed Catch Animals, TopSecret and this site. Computer Science at Virginia Tech, seeking Summer 2027 internships.">
+<title>Carlos Zanabria, front-end developer</title>
+<meta name="description" content="Carlos Zanabria builds front ends. Watch HokieWallet, +1 Speed Catch Animals, TopSecret and this site. Computer Science at Virginia Tech, seeking Summer 2027 internships.">
 <meta property="og:title" content="Carlos Zanabria">
-<meta property="og:description" content="I build interfaces you can feel. Four projects that play themselves. Computer Science at Virginia Tech.">
+<meta property="og:description" content="I build front ends. Four projects that play themselves. Computer science at Virginia Tech, seeking a Summer 2027 internship.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://carlos-os-portfolio.onrender.com/">
 <meta property="og:image" content="https://carlos-os-portfolio.onrender.com/static/img/og.jpg">
@@ -16,9 +16,9 @@
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="{{ url_for('static',filename='favicon.svg') }}" type="image/svg+xml">
-<link rel="stylesheet" href="{{ url_for('static',filename='home.css') }}?v=6">
+<link rel="stylesheet" href="{{ url_for('static',filename='home.css') }}?v=7">
 <script>document.documentElement.classList.replace('no-js','js')</script>
-<script defer src="{{ url_for('static',filename='story.js') }}?v=6"></script>
+<script defer src="{{ url_for('static',filename='story.js') }}?v=7"></script>
 </head>
 <body class="home">
 <a class="skip" href="#main">Skip to content</a>
@@ -36,8 +36,8 @@
 
   <section class="intro" data-snap data-chapter="intro" data-bg="#f1f5fc" data-ink="light" aria-labelledby="intro-title">
     <div class="intro-stage">
-      <h1 id="intro-title" class="intro-title" data-split aria-label="I build interfaces you can feel.">I build interfaces <br>you can feel.</h1>
-      <p class="intro-lede">I'm Carlos, a computer science student at Virginia Tech. Here are four things I built.</p>
+      <h1 id="intro-title" class="intro-title" data-split aria-label="Hi, I'm Carlos. I build front ends.">Hi, I'm Carlos. <br>I build front ends.</h1>
+      <p class="intro-lede">Computer science at Virginia Tech, looking for a Summer 2027 software internship. Here are four things I built.</p>
       <ul class="jump" aria-label="Projects on this page">
         <li><a href="#hokiewallet"><span class="jump-swatch" style="--c:#630031"></span>HokieWallet</a></li>
         <li><a href="#plus-one"><span class="jump-swatch" style="--c:#2ba8f0"></span>+1 Speed Catch Animals</a></li>
@@ -48,9 +48,9 @@
         <div class="me-photo">
           <img src="{{ url_for('static',filename='img/me-machu-picchu.webp') }}" srcset="{{ url_for('static',filename='img/me-machu-picchu-sm.webp') }} 476w, {{ url_for('static',filename='img/me-machu-picchu.webp') }} 952w" sizes="(max-width: 860px) 60vw, 300px" width="952" height="969" alt="Carlos standing behind his family at Machu Picchu. A hand-drawn red arrow points to him.">
           <svg class="me-arrow" viewBox="0 0 952 969" aria-hidden="true">
-            <path class="arrow-line" pathLength="1" d="M700 60 C 660 180, 550 235, 428 268"/>
-            <path class="arrow-head" pathLength="1" d="M494 208 L 425 269 L 515 282"/>
-            <text x="760" y="95" text-anchor="middle">me</text>
+            <path class="arrow-line" pathLength="1" d="M690 105 Q 560 185 418 286"/>
+            <path class="arrow-head" pathLength="1" d="M498 278 L 418 286 L 456 216"/>
+            <text x="775" y="95" text-anchor="middle">me</text>
           </svg>
         </div>
         <figcaption>With my family at Machu Picchu</figcaption>
@@ -66,18 +66,18 @@
         <article class="beat" data-beat="0">
           <p class="kicker">Built at VTHacks with a team of four</p>
           <h2 id="wallet-title" class="beat-title big">HokieWallet</h2>
-          <p>A student finance dashboard. I owned the front end.</p>
+          <p>A student finance dashboard. I led the front end.</p>
         </article>
         <article class="beat" data-beat="1">
           <h3 class="beat-title">Every balance, one screen.</h3>
           <p>Built in React on a Node.js back end.</p>
         </article>
         <article class="beat" data-beat="2">
-          <h3 class="beat-title">Budgets you can read at a glance.</h3>
-          <p>What you've spent, and what's left.</p>
+          <h3 class="beat-title">Goals you can see.</h3>
+          <p>What you've saved, and what's left.</p>
         </article>
         <article class="beat" data-beat="3">
-          <h3 class="beat-title">More than ten languages.</h3>
+          <h3 class="beat-title">Ten languages.</h3>
           <p>Use it in the language you think in.</p>
         </article>
         <article class="beat" data-beat="4">
@@ -93,60 +93,15 @@
 
       <div class="device-wrap" aria-hidden="true">
         <div class="browser">
-          <div class="browser-bar"><i></i><i></i><i></i><span>hokiewallet.app</span></div>
-          <div class="hw">
-            <aside class="hw-side">
-              <b class="hw-logo">hw</b>
-              <span class="hw-nav" data-screen-link="1">Overview</span>
-              <span class="hw-nav" data-screen-link="2">Budgets</span>
-              <span class="hw-nav" data-screen-link="3">Language</span>
-              <span class="hw-nav" data-screen-link="4">Accessibility</span>
-            </aside>
-            <div class="hw-main">
-              <section class="hw-screen" data-screen="1">
-                <p class="hw-greet" data-greet>Good to see you, Hokie.</p>
-                <div class="hw-cards">
-                  <div class="hw-card"><span>Bank balance</span><strong data-count="1250.42" data-prefix="$">$1,250.42</strong></div>
-                  <div class="hw-card accent"><span>Hokie Dollars</span><strong data-count="347.80" data-prefix="$">$347.80</strong></div>
-                </div>
-                <ul class="hw-tx">
-                  <li><span>Turner Place</span><b>−$11.40</b></li>
-                  <li><span>Bookstore</span><b>−$32.15</b></li>
-                  <li><span>Paycheck</span><b class="in">+$412.00</b></li>
-                </ul>
-              </section>
-              <section class="hw-screen" data-screen="2">
-                <p class="hw-greet">November budget</p>
-                <ul class="hw-budgets">
-                  <li style="--used:.72"><span>Food</span><i></i><b>$216 of $300</b></li>
-                  <li style="--used:.45"><span>Books &amp; supplies</span><i></i><b>$90 of $200</b></li>
-                  <li style="--used:.9"><span>Transportation</span><i></i><b>$54 of $60</b></li>
-                  <li style="--used:.3"><span>Fun</span><i></i><b>$36 of $120</b></li>
-                </ul>
-              </section>
-              <section class="hw-screen" data-screen="3">
-                <p class="hw-greet hw-lang-greet" data-lang-greet>Good to see you, Hokie.</p>
-                <p class="hw-lang-name" data-lang-name>English</p>
-                <div class="hw-lang-dots" data-lang-dots></div>
-              </section>
-              <section class="hw-screen" data-screen="4">
-                <div class="hw-a11y">
-                  <ul class="hw-toggles">
-                    <li data-toggle="0"><span>Larger text</span><i></i></li>
-                    <li data-toggle="1"><span>High contrast</span><i></i></li>
-                    <li data-toggle="2"><span>Reduce motion</span><i></i></li>
-                  </ul>
-                  <div class="hw-preview" data-preview>
-                    <span>Hokie Dollars</span>
-                    <strong>$347.80</strong>
-                    <small>Updated just now</small>
-                  </div>
-                </div>
-              </section>
-            </div>
+          <div class="browser-bar"><i></i><i></i><i></i><span>Hokie Wallet</span></div>
+          <div class="hw-frame">
+            <img class="hw-real" data-screen="1" src="{{ url_for('static',filename='img/hw-overview.webp') }}" srcset="{{ url_for('static',filename='img/hw-overview-sm.webp') }} 800w, {{ url_for('static',filename='img/hw-overview.webp') }} 1600w" sizes="(max-width: 860px) 94vw, 56vw" width="1600" height="900" alt="">
+            <img class="hw-real" data-screen="2" src="{{ url_for('static',filename='img/hw-savings.webp') }}" srcset="{{ url_for('static',filename='img/hw-savings-sm.webp') }} 800w, {{ url_for('static',filename='img/hw-savings.webp') }} 1600w" sizes="(max-width: 860px) 94vw, 56vw" width="1600" height="900" alt="" loading="lazy">
+            <img class="hw-real" data-screen="3" src="{{ url_for('static',filename='img/hw-spanish.webp') }}" srcset="{{ url_for('static',filename='img/hw-spanish-sm.webp') }} 800w, {{ url_for('static',filename='img/hw-spanish.webp') }} 1600w" sizes="(max-width: 860px) 94vw, 56vw" width="1600" height="900" alt="" loading="lazy">
+            <img class="hw-real" data-screen="4" src="{{ url_for('static',filename='img/hw-access.webp') }}" srcset="{{ url_for('static',filename='img/hw-access-sm.webp') }} 800w, {{ url_for('static',filename='img/hw-access.webp') }} 1600w" sizes="(max-width: 860px) 94vw, 56vw" width="1600" height="900" alt="" loading="lazy">
           </div>
         </div>
-        <details class="how"><summary>How it works</summary><p>A clip-path circle reveal, then one stage whose screens, counters and toggles play on a timer you can pause. Sample data.</p></details>
+        <details class="how"><summary>How it works</summary><p>A clip-path circle reveal, then real screens from the app playing on a timer you can pause. Captured in demo mode with sample data.</p></details>
       </div>
     </div>
   </section>
@@ -319,7 +274,16 @@
     <h2 id="contact-title" class="contact-title">Let's build something.</h2>
     <p class="contact-lede">I'm looking for a Summer 2027 software or data internship in Northern Virginia or remote.</p>
     <p class="actions center">
-      <a class="btn solid" href="mailto:andrezanabria6180@gmail.com">Email me</a>
+      <span class="mail" data-mail>
+        <button type="button" class="btn solid" aria-haspopup="true" aria-expanded="false" aria-controls="mail-menu">Email me</button>
+        <span class="mail-menu" id="mail-menu" hidden>
+          <span class="mail-addr">andrezanabria6180@gmail.com</span>
+          <a href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=andrezanabria6180@gmail.com" target="_blank" rel="noopener">Open in Gmail</a>
+          <a href="https://outlook.office.com/mail/deeplink/compose?to=andrezanabria6180@gmail.com" target="_blank" rel="noopener">Open in Outlook</a>
+          <a href="mailto:andrezanabria6180@gmail.com">Open in my mail app</a>
+          <button type="button" data-copy="andrezanabria6180@gmail.com">Copy address</button>
+        </span>
+      </span>
       <a class="btn ghost" href="{{ url_for('static',filename='Carlos_Zanabria_Resume_Updated.pdf') }}">Download résumé</a>
     </p>
     <p class="contact-links"><a href="https://github.com/CarlosZanabria618">GitHub</a><a href="https://www.linkedin.com/in/carlos-zanabria">LinkedIn</a><a href="{{ url_for('resume') }}">Résumé page</a></p>

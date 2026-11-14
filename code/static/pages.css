@@ -111,3 +111,4 @@ h1,h2,h3,p,dl,dd{margin:0}
   .resume-section h2{grid-row:auto}
 }
 @media (prefers-reduced-motion:reduce){*{transition-duration:.01ms!important}}
+.case-shot{display:block;width:100%;height:auto;margin-top:-5vh;border-radius:18px;box-shadow:0 40px 80px -30px rgba(11,27,58,.55),0 0 0 1px rgba(11,27,58,.1)}

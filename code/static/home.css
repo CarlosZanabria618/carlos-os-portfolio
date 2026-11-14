@@ -327,3 +327,41 @@ kbd{font:inherit;font-size:.9em;padding:1px 7px;border-radius:6px;background:#ff
   .marquee.alt span:nth-child(n+9){display:none}
 }
 body:not(.ink-dark) .next-btn{background:var(--navy);color:#fff}
+
+/* How it works: tucked behind a small pill so the stage stays quiet */
+.how{margin-top:16px;font-size:13px;color:var(--ink-2);text-align:center;max-width:52ch}
+.how summary{display:inline-block;list-style:none;cursor:pointer;padding:6px 14px;border-radius:999px;background:color-mix(in srgb,var(--ink) 9%,transparent);color:var(--ink);font-weight:600;font-size:12.5px}
+.how summary::-webkit-details-marker{display:none}
+.how summary::after{content:" +"}
+.how[open] summary::after{content:" −"}
+.how p{margin-top:10px;line-height:1.45}
+.ch-game .how,.ch-game .how summary{color:#05324f}
+.js .chapter .stage{cursor:pointer}
+.chapter .stage a,.chapter .stage button{cursor:pointer}
+.me{width:clamp(200px,19vw,280px)}
+@media (max-width:860px){.how{margin-top:8px}.me{width:min(62vw,260px)}}
+
+/* HokieWallet: real app screens */
+.browser{aspect-ratio:auto;background:#17121a}
+.browser-bar{background:#221a26;border-bottom-color:#33283a}
+.browser-bar i{background:#4a3d52}.browser-bar span{color:#b9adc2}
+.hw-frame{position:relative;aspect-ratio:16/9;overflow:hidden}
+.hw-real{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transform:scale(1.03);transition:opacity .55s var(--ease),transform .9s var(--ease)}
+.hw-real.is-on{opacity:1;transform:none}
+.no-js .hw-real[data-screen="1"]{opacity:1;transform:none}
+@media (max-width:860px){.browser{height:auto}}
+/* Email menu */
+.mail{position:relative;display:inline-block}
+.mail .btn{border:0;font:inherit;font-size:16px;font-weight:600;cursor:pointer}
+.mail-menu{position:absolute;left:50%;bottom:calc(100% + 12px);transform:translateX(-50%);z-index:5;display:grid;min-width:250px;padding:8px;border-radius:16px;background:#fff;box-shadow:0 24px 50px -16px rgba(11,27,58,.4),0 0 0 1px rgba(11,27,58,.08);text-align:left}
+.mail-menu[hidden]{display:none}
+.mail-addr{padding:8px 12px 10px;font-size:13px;color:#4b5a7a;border-bottom:1px solid #e6ecf7;margin-bottom:6px;user-select:all}
+.mail-menu a,.mail-menu button{display:block;width:100%;padding:10px 12px;border:0;border-radius:10px;background:none;font:inherit;font-size:15.5px;font-weight:500;color:var(--navy);text-align:left;text-decoration:none;cursor:pointer}
+.mail-menu a:hover,.mail-menu button:hover,.mail-menu a:focus-visible,.mail-menu button:focus-visible{background:#eef3fd}
+.ch-wallet .stage{grid-template-columns:minmax(280px,.62fr) 1.38fr}
+.ch-wallet .device-wrap{width:100%;min-width:0}
+.ch-wallet .browser{width:100%;max-width:940px}
+@media (max-width:860px){.ch-wallet .stage{grid-template-columns:1fr}}
+.intro-title{font-size:clamp(46px,7.2vw,106px)}
+.me{bottom:-24px}
+@media (max-width:860px){.me{bottom:auto}}

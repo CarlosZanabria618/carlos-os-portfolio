@@ -15,6 +15,7 @@
       </div>
     </div>
   </header>
+  {% if item.slug == 'hokiewallet' %}<div class="content-wrap"><img class="case-shot" src="{{ url_for('static',filename='img/hw-overview.webp') }}" width="1600" height="900" alt="The Hokie Wallet overview screen in dark mode, showing bank balance, campus funds and spending this month, with sample data."></div>{% endif %}
   <div class="content-wrap case-body">
     <section class="case-story"><h2>What I did</h2><p>{{ item.detail }}</p></section>
     <aside class="case-facts" aria-label="Project overview">
