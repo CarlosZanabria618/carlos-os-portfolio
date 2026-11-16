@@ -278,9 +278,10 @@
     wrap.addEventListener('keydown', e => { if (e.key === 'Escape') { set(false); btn.focus(); } e.stopPropagation(); });
     const copy = wrap.querySelector('[data-copy]');
     copy.addEventListener('click', async () => {
-      try { await navigator.clipboard.writeText(copy.dataset.copy); copy.textContent = 'Copied'; }
-      catch { copy.textContent = copy.dataset.copy; }
-      setTimeout(() => { copy.textContent = 'Copy address'; }, 1800);
+      const label = copy.querySelector('span') || copy;
+      try { await navigator.clipboard.writeText(copy.dataset.copy); label.textContent = 'Copied'; }
+      catch { label.textContent = copy.dataset.copy; }
+      setTimeout(() => { label.textContent = 'Copy address'; }, 1800);
     });
   });
 
