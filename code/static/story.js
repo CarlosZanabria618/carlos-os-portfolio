@@ -68,6 +68,8 @@
     ).join('<br>');
     title.innerHTML = html;
     letters = [...title.querySelectorAll('.ch')];
+    // Underline the name
+    title.querySelectorAll('.w').forEach(w => { if (w.textContent.startsWith('Carlos')) w.classList.add('name'); });
     // Letters near the pointer lift toward it
     let raf = 0, px = -1e4, py = -1e4;
     const lift = () => {

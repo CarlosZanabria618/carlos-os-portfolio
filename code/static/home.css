@@ -405,3 +405,17 @@ body:not(.ink-dark) .next-btn{background:var(--navy);color:#fff}
   .ch-wallet .stage{grid-template-columns:minmax(320px,.74fr) 1.26fr}
   .ch-wallet .beat-title.big{font-size:clamp(40px,4.7vw,70px)}
 }
+
+/* Underline under the name, borders on the clickable pills */
+.intro-title .w.name{position:relative}
+.intro-title .w.name::after{content:"";position:absolute;left:.02em;right:.2em;bottom:-.04em;height:.085em;border-radius:99px;background:var(--cobalt);transform:scaleX(0);transform-origin:left;animation:underline .7s var(--ease) 1.05s forwards;opacity:calc(1 - var(--p,0)*4)}
+@keyframes underline{to{transform:scaleX(1)}}
+.jump a{box-shadow:none;border:1.5px solid var(--navy);transition:transform .3s var(--ease),background-color .3s,color .3s,border-color .3s}
+.jump a:hover{background:var(--navy);color:#fff;box-shadow:0 10px 22px -10px rgba(11,27,58,.55);border-color:var(--navy);transform:translateY(-2px)}
+.topbar-name{padding-bottom:2px;border-bottom:2px solid currentColor}
+.topbar nav a{padding-bottom:2px;border-bottom:2px solid transparent;transition:border-color .25s,opacity .25s}
+.topbar nav a:hover{border-bottom-color:currentColor}
+.contact .btn.ghost{box-shadow:inset 0 0 0 2px currentColor}
+@media (prefers-reduced-motion:reduce){.intro-title .w.name::after{animation:none;transform:none}}
+.intro-title .w.name::after{display:none}
+.topbar-name{padding-bottom:0;border-bottom:0}
