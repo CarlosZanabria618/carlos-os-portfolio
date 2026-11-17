@@ -16,9 +16,9 @@
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="{{ url_for('static',filename='favicon.svg') }}" type="image/svg+xml">
-<link rel="stylesheet" href="{{ url_for('static',filename='home.css') }}?v=15">
+<link rel="stylesheet" href="{{ url_for('static',filename='home.css') }}?v=16">
 <script>document.documentElement.classList.replace('no-js','js')</script>
-<script defer src="{{ url_for('static',filename='story.js') }}?v=15"></script>
+<script defer src="{{ url_for('static',filename='story.js') }}?v=16"></script>
 </head>
 <body class="home">
 <a class="skip" href="#main">Skip to content</a>
@@ -155,52 +155,82 @@
   </section>
 
   {# ───────────── TopSecret ───────────── #}
-  <section id="topsecret" data-snap class="chapter ch-secret" data-chapter="secret" data-steps="5" data-bg="#000000" data-ink="dark" aria-labelledby="secret-title">
+  <section id="topsecret" data-snap class="chapter ch-secret" data-chapter="secret" data-steps="6" data-bg="#000000" data-ink="dark" aria-labelledby="secret-title">
     <div class="stage">
       <div class="story">
         <article class="beat" data-beat="0">
           <p class="kicker">Java and SQLite, team of four at UVA</p>
           <h2 id="secret-title" class="beat-title big">TopSecret</h2>
-          <p>A team Java app with logins, roles and an audit log. I built the roles and the web login.</p>
+          <p>One Java app, grown over a semester. I built four parts of it.</p>
         </article>
         <article class="beat" data-beat="1">
-          <h3 class="beat-title">You only see what you're allowed to.</h3>
-          <p>Menu options a user can't access stay hidden.</p>
+          <h3 class="beat-title">It started as a command line.</h3>
+          <p>My entry point lists the secret files and deciphers the one you pick.</p>
         </article>
         <article class="beat" data-beat="2">
-          <h3 class="beat-title">The first account runs the place.</h3>
-          <p>Whoever registers first becomes the admin.</p>
+          <h3 class="beat-title">Then the files moved into SQLite.</h3>
+          <p>I wrote the connection manager and the first repository.</p>
         </article>
         <article class="beat" data-beat="3">
-          <h3 class="beat-title">Admins manage everyone else.</h3>
-          <p>An admin can promote and demote other users.</p>
+          <h3 class="beat-title">The first account runs the place.</h3>
+          <p>Everyone after is a standard user and never sees the admin menu.</p>
         </article>
         <article class="beat" data-beat="4">
-          <h3 class="beat-title">But never themselves.</h3>
-          <p>An admin can't demote their own account.</p>
+          <h3 class="beat-title">Admins manage everyone but themselves.</h3>
+          <p>Every promotion and demotion lands in the audit log.</p>
+        </article>
+        <article class="beat" data-beat="5">
+          <h3 class="beat-title">Then it went to the web.</h3>
+          <p>I added the login page, sessions and protected routes.</p>
           <p class="actions"><a class="btn" href="{{ url_for('project_detail', slug='topsecret') }}">Read the case study</a></p>
         </article>
       </div>
 
       <div class="device-wrap">
-        <div class="console" aria-hidden="true">
-          <div class="console-bar"><span>TopSecret</span><span class="role" data-role>Signed in as alex, Standard</span></div>
+        <div class="console" aria-hidden="true" data-screen="cli">
+          <div class="console-bar"><span>TopSecret</span><span class="role" data-role>Command line</span></div>
           <div class="console-body">
-            <ol class="menu">
-              <li>View my profile</li>
-              <li>Change password</li>
-              <li class="admin-only">Manage users</li>
-              <li class="admin-only">View audit log</li>
-              <li>Log out</li>
-            </ol>
-            <table class="users">
-              <thead><tr><th>User</th><th>Role</th><th></th></tr></thead>
-              <tbody>
-                <tr><td>carlos <em>(you)</em></td><td>Admin</td><td><button tabindex="-1" class="self">Demote</button></td></tr>
-                <tr><td>alex</td><td>Standard</td><td><button tabindex="-1">Promote</button></td></tr>
-                <tr><td>jordan</td><td>Standard</td><td><button tabindex="-1">Promote</button></td></tr>
-              </tbody>
-            </table>
+            <div class="scr scr-cli">
+              <p><span class="pr">$</span> java topsecret.TopSecret</p>
+              <p class="dim">Available files:</p>
+              <p>01 carnivore.txt&nbsp;&nbsp;02 cointelpro.txt</p>
+              <p>03 filea.txt&nbsp;&nbsp;04 fileb.txt</p>
+              <p class="run"><span class="pr">$</span> java topsecret.TopSecret 4</p>
+              <p class="run out" data-decode data-cipher="Dbsmpt 1bobcsjb" data-plain="Carlos Zanabria">Dbsmpt 1bobcsjb</p>
+            </div>
+            <div class="scr scr-db">
+              <p><span class="pr">sqlite&gt;</span> .tables</p>
+              <p class="cols"><span>agents</span><span>facilities</span><span>mission_agents</span><span>users</span><span>audit_log</span><span>messages</span><span class="mine">missions</span></p>
+            </div>
+            <div class="scr scr-roles">
+              <ol class="menu">
+                <li>List missions</li>
+                <li>Read a mission</li>
+                <li>Search mission briefs</li>
+                <li class="admin-only">Create user</li>
+                <li class="admin-only">Promote user</li>
+                <li class="admin-only">Demote user</li>
+                <li>Exit</li>
+              </ol>
+              <table class="users">
+                <thead><tr><th>User</th><th>Role</th><th></th></tr></thead>
+                <tbody>
+                  <tr><td>carlos <em>(you)</em></td><td>Admin</td><td><button tabindex="-1" class="self">Demote</button></td></tr>
+                  <tr><td>alex</td><td>Standard</td><td><button tabindex="-1">Promote</button></td></tr>
+                  <tr><td>jordan</td><td>Standard</td><td><button tabindex="-1">Promote</button></td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="scr scr-web">
+              <table class="reqs">
+                <tbody>
+                  <tr><td>POST</td><td>/login</td><td>session cookie set</td></tr>
+                  <tr><td>GET</td><td>/missions</td><td>signed in</td></tr>
+                  <tr><td>GET</td><td>/audit</td><td class="deny">alex: 403 Forbidden</td></tr>
+                  <tr><td>GET</td><td>/logout</td><td>session removed</td></tr>
+                </tbody>
+              </table>
+            </div>
             <p class="console-msg" data-msg></p>
           </div>
         </div>

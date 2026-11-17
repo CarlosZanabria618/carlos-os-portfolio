@@ -221,17 +221,30 @@
     ttDraw();
   }
 
+  const decodeEl = document.querySelector('[data-decode]');
   function updateSecret(step) {
     if (!consoleEl) return;
-    const admin = step >= 2;
-    consoleEl.classList.toggle('is-admin', step >= 2);
-    consoleEl.classList.toggle('show-users', step >= 3);
+    // One screen per part of the project: command line, database, roles, web
+    const screen = step <= 1 ? 'cli' : step === 2 ? 'db' : step <= 4 ? 'roles' : 'web';
+    if (consoleEl.dataset.screen !== screen) consoleEl.dataset.screen = screen;
+    consoleEl.classList.toggle('ran', step >= 1);
+    consoleEl.classList.toggle('is-admin', step >= 3);
+    consoleEl.classList.toggle('show-users', step >= 4);
     consoleEl.classList.toggle('lock-self', step >= 4);
-    scramble(roleEl, admin ? 'Signed in as carlos, Admin' : 'Signed in as alex, Standard');
-    scramble(msgEl, step === 1 ? 'Two options hidden for this role.'
-      : step === 2 ? 'First account registered. You are the administrator.'
-      : step === 3 ? 'Choose a user to promote or demote.'
-      : step >= 4 ? 'You can’t demote your own account.' : '');
+    if (decodeEl) {
+      if (step >= 1) scramble(decodeEl, decodeEl.dataset.plain);
+      else if (decodeEl.dataset.text) {
+        cancelAnimationFrame(decodeEl._scr);
+        decodeEl.dataset.text = '';
+        decodeEl.textContent = decodeEl.dataset.cipher;
+      }
+    }
+    scramble(roleEl, step <= 1 ? 'Command line' : step === 2 ? 'SQLite' : step <= 4 ? 'Signed in as carlos, Admin' : '--web, port 3002');
+    scramble(msgEl, step === 1 ? 'Deciphered with the key file.'
+      : step === 2 ? 'I wrote the first table and its repository: missions.'
+      : step === 3 ? 'First account registered. You are the administrator.'
+      : step === 4 ? 'You cannot demote yourself.'
+      : step >= 5 ? 'Not signed in? You get the login page.' : '');
   }
 
   function tint() {
@@ -300,7 +313,7 @@
   const timing = {
     wallet: [2200, 1900, 1900, 2800, 2300, 3200],
     game: [2200, 1900, 2000, 3400, 2800],
-    secret: [2000, 1800, 2000, 1800, 2600],
+    secret: [2200, 2600, 2400, 2400, 2400, 3000],
     os: [2000, 2400, 2800],
   };
   const play = chapters.filter(ch => timing[ch.name]);
