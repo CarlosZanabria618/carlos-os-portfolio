@@ -70,6 +70,12 @@ h1,h2,h3,p,dl,dd{margin:0}
 .case-body{display:grid;grid-template-columns:1.6fr 1fr;gap:clamp(28px,5vw,72px);padding-top:8vh}
 .case-story h2,.detail-panel h2,.resume-section h2,.skill-box h2{font-size:clamp(26px,3vw,36px);letter-spacing:-.04em;line-height:1.1;margin-bottom:16px}
 .case-story p{font-size:20px;line-height:1.6;max-width:62ch}
+.case-story>p+p{margin-top:20px}
+.case-steps{list-style:none;margin:30px 0;padding:0;max-width:62ch;border-top:1px solid var(--line)}
+.case-steps li{display:grid;grid-template-columns:5.5em 1fr;gap:6px 22px;padding:20px 0;border-bottom:1px solid var(--line)}
+.case-steps .when{padding-top:4px;font-size:14px;font-weight:600;color:var(--ink-2)}
+.case-steps h3{font-size:21px;letter-spacing:-.02em;line-height:1.25;margin-bottom:6px}
+.case-steps p{font-size:17px;line-height:1.55;color:var(--ink-2)}
 .case-facts,.detail-panel,.skill-box{padding:26px;border-radius:22px;background:var(--card);box-shadow:0 1px 2px rgba(11,27,58,.06),0 0 0 1px rgba(11,27,58,.06);align-self:start}
 .details-list dt{font-size:13px;font-weight:600;color:var(--ink-2)}
 .details-list dd{margin:2px 0 18px;font-size:17px}
@@ -106,6 +112,8 @@ h1,h2,h3,p,dl,dd{margin:0}
   .topbar nav{gap:18px}
   .search-form{grid-template-columns:1fr}
   .case-body{grid-template-columns:1fr}
+  .case-steps li{grid-template-columns:1fr;gap:2px}
+  .case-steps .when{padding-top:0}
   .resume-section{grid-template-columns:1fr}
   .resume-item{grid-column:1}
   .resume-section h2{grid-row:auto}

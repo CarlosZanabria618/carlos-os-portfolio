@@ -11,6 +11,20 @@ app.config['DATABASE'] = os.environ.get('PORTFOLIO_DB', str(ROOT / 'data/portfol
 initialize(app.config['DATABASE'])
 
 
+@app.template_filter('blocks')
+def blocks(text):
+    # Blank lines split a case study into paragraphs; lines starting with "- " form a list of steps.
+    parsed = []
+    for chunk in (text or '').split('\n\n'):
+        lines = [line.strip() for line in chunk.strip().splitlines() if line.strip()]
+        if lines and all(line.startswith('- ') for line in lines):
+            steps = [tuple(part.strip() for part in line[2:].split(' | ', 2)) for line in lines]
+            parsed.append(('steps', [step for step in steps if len(step) == 3]))
+        elif lines:
+            parsed.append(('text', ' '.join(lines)))
+    return parsed
+
+
 def projects(category='', query=''):
     # Parameters keep user-supplied search text out of SQL syntax.
     sql = 'SELECT * FROM projects WHERE 1=1'

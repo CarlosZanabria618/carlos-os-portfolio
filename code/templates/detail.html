@@ -18,9 +18,13 @@
   {% if item.slug == 'plus1-speed-catch-animals' %}<div class="content-wrap"><img class="case-shot" src="{{ url_for('static',filename='img/game-hud.webp') }}" width="1920" height="694" alt="A play test of +1 Speed Catch Animals showing the speed counter, level bar and training buttons."></div>{% endif %}
   {% if item.slug == 'hokiewallet' %}<div class="content-wrap"><img class="case-shot" src="{{ url_for('static',filename='img/hw-overview.webp') }}" width="1600" height="900" alt="The Hokie Wallet overview screen in dark mode, showing bank balance, campus funds and spending this month, with sample data."></div>{% endif %}
   <div class="content-wrap case-body">
-    <section class="case-story"><h2>What I did</h2><p>{{ item.detail }}</p></section>
+    <section class="case-story"><h2>What I did</h2>
+      {% for kind, body in item.detail|blocks %}{% if kind == 'steps' %}
+      <ol class="case-steps">{% for when, name, text in body %}<li><span class="when">{{ when }}</span><div><h3>{{ name }}</h3><p>{{ text }}</p></div></li>{% endfor %}</ol>
+      {% else %}<p>{{ body }}</p>{% endif %}{% endfor %}
+    </section>
     <aside class="case-facts" aria-label="Project overview">
-      <dl class="details-list"><dt>My role</dt><dd>{{ item.role }}</dd><dt>Built with</dt><dd>{{ item.stack }}</dd><dt>Status</dt><dd>{{ item.status }}</dd></dl>
+      <dl class="details-list"><dt>My role</dt><dd>{{ item.role }}</dd><dt>Built with</dt><dd>{{ item.stack }}</dd><dt>Status</dt><dd>{{ item.status }}</dd>{% if item.slug == 'topsecret' %}<dt>Course</dt><dd>Software Development Essentials, University of Virginia</dd><dt>When</dt><dd>February to April 2026</dd>{% endif %}</dl>
     </aside>
   </div>
 </main>
