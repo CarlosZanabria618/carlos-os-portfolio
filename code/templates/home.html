@@ -16,9 +16,10 @@
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="{{ url_for('static',filename='favicon.svg') }}" type="image/svg+xml">
-<link rel="stylesheet" href="{{ url_for('static',filename='home.css') }}?v=16">
+<link rel="stylesheet" href="{{ url_for('static',filename='home.css') }}?v=17">
 <script>document.documentElement.classList.replace('no-js','js')</script>
 <script defer src="{{ url_for('static',filename='story.js') }}?v=16"></script>
+<script defer src="{{ url_for('static',filename='fx.js') }}?v=2"></script>
 </head>
 <body class="home">
 <a class="skip" href="#main">Skip to content</a>
@@ -160,7 +161,7 @@
       <div class="story">
         <article class="beat" data-beat="0">
           <p class="kicker">Java and SQLite, team of four at UVA</p>
-          <h2 id="secret-title" class="beat-title big">TopSecret</h2>
+          <h2 id="secret-title" class="beat-title big"><span class="decrypt" data-decrypt>TopSecret</span></h2>
           <p>One Java app, grown over a semester. I built four parts of it.</p>
         </article>
         <article class="beat" data-beat="1">

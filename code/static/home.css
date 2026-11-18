@@ -522,3 +522,6 @@ body:not(.ink-dark) .next-btn{background:var(--navy);color:#fff}
   .console-body{min-height:0}
 }
 .console-msg{overflow-wrap:anywhere}
+
+/* TopSecret title decodes (static/fx.js) */
+.decrypt{font-family:var(--mono);letter-spacing:-.04em;white-space:nowrap}

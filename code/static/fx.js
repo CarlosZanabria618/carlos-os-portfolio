@@ -20,17 +20,17 @@
     const target = el.dataset.text;
     el.dataset.busy = '1';
     let frame = 0;
-    const total = target.length * 2 + 8;
+    const total = target.length * 3 + 12;
     const tick = () => {
       frame += 1;
-      const settled = Math.max(0, Math.floor((frame - 8) / 2));
+      const settled = Math.max(0, Math.floor((frame - 12) / 3));
       let out = '';
       for (let i = 0; i < target.length; i += 1) {
         const ch = target[i];
         out += i < settled || ch === ' ' ? ch : GLYPHS[(Math.random() * GLYPHS.length) | 0];
       }
       el.firstChild.textContent = out;
-      if (frame < total) setTimeout(tick, 40);
+      if (frame < total) setTimeout(tick, 45);
       else { el.firstChild.textContent = target; delete el.dataset.busy; }
     };
     tick();
@@ -45,7 +45,20 @@
     span.textContent = text;
     el.appendChild(span);
     if (still) return;
-    seen(el, () => decrypt(el));
+    // On the home page the title sits in a story beat that fades in; decode
+    // each time that beat turns on. Elsewhere, decode when it scrolls into view.
+    const beat = el.closest('.beat');
+    if (beat && 'MutationObserver' in window) {
+      let on = beat.classList.contains('is-on');
+      if (on) decrypt(el);
+      new MutationObserver(() => {
+        const now = beat.classList.contains('is-on');
+        if (now && !on) decrypt(el);
+        on = now;
+      }).observe(beat, { attributes: true, attributeFilter: ['class'] });
+    } else {
+      seen(el, () => decrypt(el));
+    }
     const trigger = el.closest('.project-card') || el;
     trigger.addEventListener('mouseenter', () => decrypt(el));
     trigger.addEventListener('focusin', () => decrypt(el));
