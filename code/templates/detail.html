@@ -7,7 +7,7 @@
     <div class="content-wrap">
       <a class="back" href="{{ url_for('project_list') }}">All projects</a>
       <p class="case-meta">{{ item.category }}, {{ item.year }}<span class="badge">{{ item.status }}</span></p>
-      <h1 class="page-heading">{{ item.title }}</h1>
+      <h1 class="page-heading">{% if item.slug == 'topsecret' %}<span class="decrypt" data-decrypt>{{ item.title }}</span>{% else %}{{ item.title }}{% endif %}</h1>
       <p class="page-intro">{{ item.summary }}</p>
       <div class="page-actions">
         {% if chapter %}<a class="button primary" href="{{ url_for('home') }}#{{ chapter }}">Watch it play</a>{% endif %}
@@ -23,7 +23,13 @@
       <ol class="case-steps">{% for when, name, text in body %}<li><span class="when">{{ when }}</span><div><h3>{{ name }}</h3><p>{{ text }}</p></div></li>{% endfor %}</ol>
       {% else %}<p>{{ body }}</p>{% endif %}{% endfor %}
     </section>
-    <aside class="case-facts" aria-label="Project overview">
+    <aside class="case-facts" aria-label="Project overview" data-spotlight>
+      {% set stats = {
+        'hokiewallet': [(10, '', 'languages supported'), (3, '', 'accessibility settings'), (4, '', 'people on the team')],
+        'topsecret': [(47, '', "of the team's 132 commits"), (433, '', 'JUnit tests across the team'), (4, '', 'people on the team')],
+        'carlos-os-portfolio': [(11, '', 'Python tests, including SQL injection checks')],
+      }.get(item.slug) %}
+      {% if stats %}<ul class="case-stats">{% for n, suffix, label in stats %}<li><strong data-count="{{ n }}" data-suffix="{{ suffix }}">{{ n }}{{ suffix }}</strong><span>{{ label }}</span></li>{% endfor %}</ul>{% endif %}
       <dl class="details-list"><dt>My role</dt><dd>{{ item.role }}</dd><dt>Built with</dt><dd>{{ item.stack }}</dd><dt>Status</dt><dd>{{ item.status }}</dd>{% if item.slug == 'topsecret' %}<dt>Course</dt><dd>Software Development Essentials, University of Virginia</dd><dt>When</dt><dd>February to April 2026</dd>{% endif %}</dl>
     </aside>
   </div>

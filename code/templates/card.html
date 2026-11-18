@@ -31,5 +31,5 @@
 </svg>
 {% else %}<span class="cover-word" aria-hidden="true">{{ item.title }}</span>{% endif %}
 </a>
-<div class="card-body"><p class="card-meta"><span>{{ item.category }}, {{ item.year }}</span><span class="badge">{{ item.status }}</span></p><h2><a href="{{ url_for('project_detail',slug=item.slug) }}">{{ item.title }}</a></h2><p>{{ item.summary }}</p><p class="card-stack">{{ item.stack }}</p></div>
+<div class="card-body"><p class="card-meta"><span>{{ item.category }}, {{ item.year }}</span><span class="badge">{{ item.status }}</span></p><h2><a href="{{ url_for('project_detail',slug=item.slug) }}">{% if item.slug == 'topsecret' %}<span class="decrypt" data-decrypt>{{ item.title }}</span>{% else %}{{ item.title }}{% endif %}</a></h2><p>{{ item.summary }}</p><p class="card-stack">{{ item.stack }}</p></div>
 </article>
