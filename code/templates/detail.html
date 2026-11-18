@@ -28,9 +28,10 @@
         'hokiewallet': [(10, '', 'languages supported'), (3, '', 'accessibility settings'), (4, '', 'people on the team')],
         'topsecret': [(47, '', "of the team's 132 commits"), (433, '', 'JUnit tests across the team'), (4, '', 'people on the team')],
         'carlos-os-portfolio': [(11, '', 'Python tests, including SQL injection checks')],
+        'merge-a-brainrot': [(63, '', 'updates shipped in eight days'), (428, '', 'automated tests passing on every publish'), (463, '', 'visits before we shelved it')],
       }.get(item.slug) %}
       {% if stats %}<ul class="case-stats">{% for n, suffix, label in stats %}<li><strong data-count="{{ n }}" data-suffix="{{ suffix }}">{{ n }}{{ suffix }}</strong><span>{{ label }}</span></li>{% endfor %}</ul>{% endif %}
-      <dl class="details-list"><dt>My role</dt><dd>{{ item.role }}</dd><dt>Built with</dt><dd>{{ item.stack }}</dd><dt>Status</dt><dd>{{ item.status }}</dd>{% if item.slug == 'topsecret' %}<dt>Course</dt><dd>Software Development Essentials, University of Virginia</dd><dt>When</dt><dd>February to April 2026</dd>{% endif %}</dl>
+      <dl class="details-list"><dt>My role</dt><dd>{{ item.role }}</dd><dt>Built with</dt><dd>{{ item.stack }}</dd><dt>Status</dt><dd>{{ item.status }}</dd>{% if item.slug == 'merge-a-brainrot' %}<dt>Art</dt><dd>Thumbnails rendered with AI tools under my direction; character models from a purchased pack</dd>{% endif %}{% if item.slug == 'topsecret' %}<dt>Course</dt><dd>Software Development Essentials, University of Virginia</dd><dt>When</dt><dd>February to April 2026</dd>{% endif %}</dl>
     </aside>
   </div>
 </main>
