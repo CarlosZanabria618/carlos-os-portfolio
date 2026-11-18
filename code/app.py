@@ -36,7 +36,9 @@ def projects(category='', query=''):
         sql += ' AND (instr(lower(title), lower(?)) > 0 OR instr(lower(summary), lower(?)) > 0 OR instr(lower(stack), lower(?)) > 0)'
         parameters.extend([query] * 3)
     with connect(app.config['DATABASE']) as db:
-        return db.execute(sql + ' ORDER BY rowid', parameters).fetchall()
+        # Strongest work first; anything new falls in after, in insert order.
+        order = " ORDER BY CASE slug WHEN 'hokiewallet' THEN 1 WHEN 'plus1-speed-catch-animals' THEN 2 WHEN 'topsecret' THEN 3 WHEN 'carlos-os-portfolio' THEN 4 WHEN 'merge-a-brainrot' THEN 5 WHEN 'trucking-tools' THEN 6 ELSE 7 END, rowid"
+        return db.execute(sql + order, parameters).fetchall()
 
 
 @app.route('/')
