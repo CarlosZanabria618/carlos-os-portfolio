@@ -23,6 +23,41 @@
       <ol class="case-steps">{% for when, name, text in body %}<li><span class="when">{{ when }}</span><div><h3>{{ name }}</h3><p>{{ text }}</p></div></li>{% endfor %}</ol>
       {% else %}<p>{{ body }}</p>{% endif %}{% endfor %}
     {% if item.slug == 'topsecret' %}
+    <div class="case-code">
+      <h3>From the code</h3>
+      <p>My access-level rule in Java. An admin can promote another user but never themselves, the caller has to be an admin, and every change is written to the audit log.</p>
+<pre tabindex="0"><code>public void promoteUser(String callerUsername, String targetUsername) throws SQLException {
+    if (callerUsername.equals(targetUsername)) {
+        throw new IllegalArgumentException("You cannot promote yourself.");
+    }
+
+    User caller = userRepository.findByUsername(callerUsername);
+    if (caller == null || !caller.isAdmin()) {
+        throw new IllegalArgumentException("Only admins can promote users.");
+    }
+
+    User target = userRepository.findByUsername(targetUsername);
+    if (target == null) {
+        throw new IllegalArgumentException("User not found: " + targetUsername);
+    }
+
+    userRepository.setAdmin(targetUsername, true);
+    auditRepository.log(callerUsername, "PROMOTE_USER", targetUsername);
+}</code></pre>
+      <p>Each change lands as a row in the team's SQLite audit table, written through a prepared statement:</p>
+<pre tabindex="0"><code>CREATE TABLE IF NOT EXISTS audit_log (
+    id        INTEGER PRIMARY KEY AUTOINCREMENT,
+    username  TEXT,
+    action    TEXT NOT NULL,
+    target    TEXT,
+    timestamp TEXT
+);
+
+INSERT INTO audit_log(username, action, target, timestamp)
+VALUES (?, ?, ?, datetime('now'));</code></pre>
+    </div>
+    {% endif %}
+    {% if item.slug == 'topsecret' %}
     <div class="cipher" data-cipher hidden aria-labelledby="cipher-title">
       <h3 id="cipher-title">Try the cipher</h3>
       <p>Type a message. It is scrambled with a key, then deciphered with the same key. This demo is rebuilt in JavaScript for this page with a made-up key, and follows the same rules as the Java version: every letter is swapped through the key, and anything the key does not cover passes through unchanged.</p>

@@ -224,3 +224,7 @@ h1,h2,h3,p,dl,dd{margin:0}
 .cipher-key{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;margin:0!important;font:13px var(--mono);overflow-wrap:anywhere}
 .cipher button{padding:8px 16px;border-radius:999px;border:1px solid #ffb000;background:none;color:#ffb000;font:600 14px var(--font);cursor:pointer}
 .cipher button:hover{background:#ffb000;color:#0d0d0d}
+.case-code{margin-top:34px}
+.case-code h3{font-size:22px;margin-bottom:8px}
+.case-code p{margin-bottom:12px}
+.case-code pre{margin:0 0 18px;padding:18px 20px;border-radius:14px;background:#0b1b3a;color:#e6ecf8;font:13.5px/1.6 var(--mono);overflow-x:auto;white-space:pre}
