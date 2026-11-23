@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block content %}
+<main id="main" class="page-main stats">
+  <div class="content-wrap">
+  <header class="page-header">
+    <h1 class="page-heading">Site stats</h1>
+    <p class="page-intro">Visits in the last {{ days }} days. No cookies and no personal data are stored. Your own visits from this browser are not counted.</p>
+    <p class="stats-range">{% for d in (7, 30, 90) %}<a href="?days={{ d }}" {% if d == days %}aria-current="true"{% endif %}>{{ d }} days</a>{% endfor %}</p>
+  </header>
+  {% if not s.visits %}
+  <p class="stats-empty">No visits recorded yet. Open the site in a private window, click around, then reload this page.</p>
+  {% else %}
+  <ul class="stats-tiles">
+    <li><strong>{{ s.visits }}</strong><span>visits</span></li>
+    <li><strong>{{ s.views }}</strong><span>page views</span></li>
+    <li><strong>{{ s.pages_per_visit }}</strong><span>pages per visit</span></li>
+    <li><strong>{% if s.median_visit is not none %}{{ s.median_visit // 60 }}m {{ s.median_visit % 60 }}s{% else %}n/a{% endif %}</strong><span>typical visit length</span></li>
+    <li><strong>{{ s.one_page }}%</strong><span>left after one page</span></li>
+  </ul>
+  <section class="stats-box"><h2>Visits per day</h2>
+    <div class="stats-days" role="img" aria-label="Visits per day for the last {{ days }} days">{% for d in s.daily %}<i style="--h:{{ (100 * d.count / s.daily_max)|round|int }}%" title="{{ d.day }}: {{ d.count }}"></i>{% endfor %}</div>
+    <p class="stats-axis"><span>{{ s.daily[0].day }}</span><span>{{ s.daily[-1].day }}</span></p>
+  </section>
+  <section class="stats-box"><h2>Pages</h2>
+    <table><thead><tr><th>Page</th><th>Views</th><th>Typical time</th><th>Scrolled</th></tr></thead><tbody>
+    {% for p in s.pages %}<tr><td>{{ p.path }}</td><td>{{ p.views }}</td><td>{% if p.seconds is not none %}{{ p.seconds }}s{% else %}n/a{% endif %}</td><td>{% if p.depth is not none %}{{ p.depth }}%{% else %}n/a{% endif %}</td></tr>{% endfor %}
+    </tbody></table>
+  </section>
+  <div class="stats-grid">
+  {% for heading, rows in [('What people clicked', s.clicks), ('Home sections reached', s.sections), ('Last page before leaving', s.exits), ('Where visits came from', s.sources), ('Countries', s.countries), ('Devices', s.devices)] %}
+    <section class="stats-box"><h2>{{ heading }}</h2>
+      {% if rows %}<ol class="stats-list">{% for r in rows %}<li style="--w:{{ r.share }}%"><span>{{ r.name }}</span><b>{{ r.count }}</b></li>{% endfor %}</ol>
+      {% else %}<p class="stats-none">Nothing yet.</p>{% endif %}
+    </section>
+  {% endfor %}
+  </div>
+  {% endif %}
+  </div>
+</main>
+<script>try { localStorage.setItem('cz-notrack', '1'); } catch (e) {}</script>
+{% endblock %}

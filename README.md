@@ -53,6 +53,15 @@ Create a Docker Web Service from this repository. The Dockerfile binds Gunicorn 
 
 The read-only catalog is initialized from `data/projects.json` at startup. It needs no external database or persistent disk; a replaced SQLite file is safely recreated. Set `PORTFOLIO_DB` only to override the database location. Render's Free instance may take time to wake after inactivity.
 
+## Visit analytics
+
+The site counts visits itself instead of using a third-party tracker. `code/static/track.js` reports page views, clicks on links and buttons, which home sections were reached, time on page and scroll depth to `POST /t`. `code/analytics.py` validates every event and stores it.
+
+- No cookies, no IP addresses and no personal data. A visit is a random id kept in the browser tab only.
+- Do Not Track and Global Privacy Control are honored, crawlers are dropped, and text fields are length-capped and stored through parameterized queries.
+- Events go to Postgres when `DATABASE_URL` is set, because the host's filesystem is cleared on every deploy. Without it they go to the local SQLite file, which is what the tests use.
+- `/stats` is a private summary page. It exists only when `STATS_KEY` is set and asks for that value as the password.
+
 ## Project background and assistance
 
 Originally developed for a Virginia Tech CS 2104 class project and deployed on the university's Discovery environment. This repository is a separate public copy for portfolio hosting.

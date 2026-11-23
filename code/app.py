@@ -1,14 +1,19 @@
 # As a Hokie, I will conduct myself with honor and integrity at all times. I will not lie, cheat, or steal, nor will I accept the actions of those who do.
 # LLM use: AI coding tools assisted with this file.
+import hmac
 import os
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
-from flask import Flask, abort, render_template, request
+from flask import Flask, Response, abort, render_template, request
+import analytics
 from database import connect, initialize
 
 ROOT = Path(__file__).resolve().parent.parent
 app = Flask(__name__)
 app.config['DATABASE'] = os.environ.get('PORTFOLIO_DB', str(ROOT / 'data/portfolio.sqlite3'))
 initialize(app.config['DATABASE'])
+app.config['MAX_CONTENT_LENGTH'] = 64 * 1024
+events = analytics.Store(app.config['DATABASE'])
 
 
 @app.template_filter('blocks')
@@ -89,6 +94,41 @@ def resume():
 @app.route('/skills')
 def skills():
     return render_template('skills.html', active='skills', title='Skills & toolbox')
+
+
+@app.post('/t')
+def track():
+    # Visit analytics: validated, stored without cookies or IP addresses. Always answers 204
+    # so a storage problem can never break a page for a visitor.
+    origin = request.headers.get('Origin')
+    if origin and origin.split('://')[-1] != request.host:
+        return '', 204
+    event = analytics.clean(request.get_json(force=True, silent=True), request.headers)
+    if event:
+        try:
+            events.add(event)
+        except Exception:
+            app.logger.exception('analytics write failed')
+    return '', 204
+
+
+@app.get('/stats')
+def stats():
+    # Private page. The password comes from the STATS_KEY setting; without it the page does not exist.
+    key = os.environ.get('STATS_KEY', '')
+    if not key:
+        abort(404)
+    given = request.authorization.password if request.authorization else ''
+    if not hmac.compare_digest((given or '').encode(), key.encode()):
+        return Response('Sign in to see site stats.', 401, {'WWW-Authenticate': 'Basic realm="Site stats"'})
+    days = request.args.get('days', default=30, type=int)
+    days = days if days in (7, 30, 90) else 30
+    start = (datetime.now(timezone.utc) - timedelta(days=days)).strftime('%Y-%m-%dT%H:%M:%S')
+    response = app.make_response(render_template('stats.html', active='', title='Site stats', days=days,
+                                                 s=analytics.summarize(events.since(start), days)))
+    response.headers['Cache-Control'] = 'no-store'
+    response.headers['X-Robots-Tag'] = 'noindex'
+    return response
 
 
 @app.errorhandler(404)

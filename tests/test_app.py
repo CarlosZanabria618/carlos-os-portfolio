@@ -107,6 +107,47 @@ class PortfolioTests(unittest.TestCase):
                 self.assertEqual(db.execute('SELECT count(*) FROM projects').fetchone()[0],
                                  len(catalog))
 
+    def event(self, **changes):
+        body = {'kind': 'view', 'sid': 'abcdefgh12', 'pv': 'pv00000001', 'path': '/projects', 'w': 390}
+        body.update(changes)
+        return self.client.post('/t', json=body, headers={'User-Agent': 'Mozilla/5.0 test'})
+
+    def rows(self):
+        with sqlite3.connect(os.environ['PORTFOLIO_DB']) as db:
+            return db.execute('SELECT kind, path, label, device, ms FROM events').fetchall()
+
+    def test_tracking_stores_valid_events_and_drops_bad_ones(self):
+        before = len(self.rows())
+        self.assertEqual(self.event().status_code, 204)
+        self.assertEqual(self.event(kind='leave', ms=99999999, depth=250).status_code, 204)
+        # Dropped: unknown kind, path that is not a site path, malformed ids, crawlers, SQL in a label is just text
+        self.event(kind='admin')
+        self.event(path='https://evil.example')
+        self.event(sid="x' OR 1=1 --")
+        self.client.post('/t', json={'kind': 'view', 'sid': 'abcdefgh12', 'pv': 'pv00000001', 'path': '/'},
+                         headers={'User-Agent': 'Googlebot/2.1'})
+        self.event(kind='click', label="'); DROP TABLE events; --")
+        rows = self.rows()[before:]
+        self.assertEqual([r[0] for r in rows], ['view', 'leave', 'click'])
+        self.assertEqual(rows[0][3], 'Phone')
+        self.assertEqual(rows[1][4], 3_600_000)  # time is capped at one hour
+        self.assertEqual(rows[2][2], "'); DROP TABLE events; --")
+
+    def test_stats_page_is_hidden_without_a_key_and_locked_with_one(self):
+        os.environ.pop('STATS_KEY', None)
+        self.assertEqual(self.client.get('/stats').status_code, 404)
+        os.environ['STATS_KEY'] = 'test-key'
+        try:
+            self.assertEqual(self.client.get('/stats').status_code, 401)
+            self.assertEqual(self.client.get('/stats', auth=('me', 'wrong')).status_code, 401)
+            self.event()
+            page = self.client.get('/stats', auth=('me', 'test-key'))
+            self.assertEqual(page.status_code, 200)
+            self.assertIn(b'page views', page.data)
+            self.assertEqual(page.headers['Cache-Control'], 'no-store')
+        finally:
+            os.environ.pop('STATS_KEY', None)
+
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
