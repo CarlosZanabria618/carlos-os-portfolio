@@ -375,19 +375,25 @@
   if (nextBtn) nextBtn.addEventListener('click', () => go(1));
 
   let last = performance.now();
+  // Write a CSS variable only when its value changes, so idle frames do no style work
+  const setVar = (el, name, value) => {
+    const v = String(value);
+    const cache = el._vars || (el._vars = {});
+    if (cache[name] !== v) { cache[name] = v; el.style.setProperty(name, v); }
+  };
   function frame(now) {
     const dt = Math.min(100, now - last);
     last = now;
     const mid = window.innerHeight * .5;
     for (const ch of chapters) {
       const r = ch.el.getBoundingClientRect();
-      if (ch.name === 'intro') { ch.el.style.setProperty('--p', clamp(-r.top / Math.max(1, r.height)).toFixed(4)); continue; }
+      if (ch.name === 'intro') { setVar(ch.el, '--p', clamp(-r.top / Math.max(1, r.height)).toFixed(4)); continue; }
       // Entrance effects follow the section as it scrolls in
       const enter = reduced.matches ? 1 : clamp(1 - r.top / window.innerHeight);
-      ch.el.style.setProperty('--enter', enter.toFixed(4));
+      setVar(ch.el, '--enter', enter.toFixed(4));
       if (ch.name === 'secret') {
-        ch.el.style.setProperty('--crtX', reduced.matches ? 1 : clamp((enter - .5) / .2).toFixed(4));
-        ch.el.style.setProperty('--crtY', reduced.matches ? 1 : clamp((enter - .72) / .26).toFixed(4));
+        setVar(ch.el, '--crtX', reduced.matches ? 1 : clamp((enter - .5) / .2).toFixed(4));
+        setVar(ch.el, '--crtY', reduced.matches ? 1 : clamp((enter - .72) / .26).toFixed(4));
       }
       if (!ch.durs) continue;
       const active = r.top <= mid && r.bottom > mid;
@@ -397,7 +403,7 @@
       const [step, local] = timeline(ch);
       setStep(ch, step);
       const done = ch.t >= ch.total;
-      ch.segs.forEach((s, k) => s.style.setProperty('--fill', k < step ? 1 : k > step ? 0 : (done ? 1 : local).toFixed(3)));
+      ch.segs.forEach((s, k) => setVar(s, '--fill', k < step ? 1 : k > step ? 0 : (done ? 1 : local).toFixed(3)));
       const state = done ? 'replay' : ch.paused ? 'play' : 'pause';
       if (ch.pp.dataset.state !== state) {
         ch.pp.dataset.state = state;

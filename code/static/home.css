@@ -525,3 +525,13 @@ body:not(.ink-dark) .next-btn{background:var(--navy);color:#fff}
 
 /* TopSecret title decodes (static/fx.js) */
 .decrypt{font-family:var(--mono);letter-spacing:-.04em;white-space:nowrap}
+
+/* Phones: one swipe moves exactly one project. Each section fills the screen and the
+   page always comes to rest on a section start, never halfway between two. */
+@media (max-width:860px){
+  html{scroll-snap-type:y mandatory}
+  [data-snap]{scroll-snap-stop:always}
+  .foot{scroll-snap-align:end}
+  .chapter{height:100svh;height:100lvh}
+  .ch-secret .stage{filter:none}
+}
