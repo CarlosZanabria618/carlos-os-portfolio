@@ -185,3 +185,8 @@ h1,h2,h3,p,dl,dd{margin:0}
 .stats-list span{overflow-wrap:anywhere}
 .stats-list b{font-variant-numeric:tabular-nums}
 .stats-none,.stats-empty{color:var(--ink-2)}
+
+.sr-only{position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+/* Review fix: 24px minimum tap targets */
+.topbar nav a,.topbar-name,.foot a{display:inline-flex;align-items:center;min-height:24px}
+.back{display:inline-flex;align-items:center;min-height:24px}

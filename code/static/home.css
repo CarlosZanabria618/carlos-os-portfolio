@@ -535,3 +535,14 @@ body:not(.ink-dark) .next-btn{background:var(--navy);color:#fff}
   .chapter{height:100svh;height:100lvh}
   .ch-secret .stage{filter:none}
 }
+
+.sr-only{position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+/* Review fixes: text contrast of at least 4.5:1 and 24px minimum tap targets */
+.ch-game .how summary{color:#042a43}
+.retro-hello,.retro-sub{color:#5f564c}
+.seg{height:24px}
+.topbar nav a,.topbar-name{display:inline-flex;align-items:center;min-height:24px}
+.foot a,.contact-links a{display:inline-flex;align-items:center;min-height:24px}
+.player .seg{min-height:24px}
+.how summary{padding:7px 14px;min-height:24px}
+.ch-game .beat p:not(.kicker):not(.actions){color:#062c48}

@@ -37,5 +37,5 @@
   {% endif %}
   </div>
 </main>
-<script>try { localStorage.setItem('cz-notrack', '1'); } catch (e) {}</script>
+<script nonce="{{ csp_nonce }}">try { localStorage.setItem('cz-notrack', '1'); } catch (e) {}</script>
 {% endblock %}

@@ -29,20 +29,24 @@
         const ch = target[i];
         out += i < settled || ch === ' ' ? ch : GLYPHS[(Math.random() * GLYPHS.length) | 0];
       }
-      el.firstChild.textContent = out;
+      el.lastChild.textContent = out;
       if (frame < total) setTimeout(tick, 45);
-      else { el.firstChild.textContent = target; delete el.dataset.busy; }
+      else { el.lastChild.textContent = target; delete el.dataset.busy; }
     };
     tick();
   };
   document.querySelectorAll('[data-decrypt]').forEach((el) => {
     const text = el.textContent.trim();
     el.dataset.text = text;
-    el.setAttribute('aria-label', text);
     el.textContent = '';
+    // Screen readers get the real text once; the scrambling copy is hidden from them
+    const real = document.createElement('span');
+    real.className = 'sr-only';
+    real.textContent = text;
     const span = document.createElement('span');
     span.setAttribute('aria-hidden', 'true');
     span.textContent = text;
+    el.appendChild(real);
     el.appendChild(span);
     if (still) return;
     // On the home page the title sits in a story beat that fades in; decode

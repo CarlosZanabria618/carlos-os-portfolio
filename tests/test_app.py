@@ -148,6 +148,20 @@ class PortfolioTests(unittest.TestCase):
         finally:
             os.environ.pop('STATS_KEY', None)
 
+    def test_security_headers_caching_and_robots(self):
+        page = self.client.get('/')
+        policy = page.headers['Content-Security-Policy']
+        self.assertIn("script-src 'self' 'nonce-", policy)
+        self.assertIn("frame-ancestors 'none'", policy)
+        self.assertNotIn("'unsafe-inline'", policy.split('script-src')[1].split(';')[0])
+        self.assertEqual(page.headers['X-Content-Type-Options'], 'nosniff')
+        with self.client.get('/static/pages.css?v=1') as versioned:
+            self.assertIn('immutable', versioned.headers['Cache-Control'])
+        with self.client.get('/static/Carlos_Zanabria_Resume_Updated.pdf') as pdf:
+            self.assertEqual(pdf.headers['Cache-Control'], 'no-cache')
+        self.assertIn(b'Disallow: /stats', self.client.get('/robots.txt').data)
+        self.assertIn(b'/projects/topsecret</loc>', self.client.get('/sitemap.xml').data)
+
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)

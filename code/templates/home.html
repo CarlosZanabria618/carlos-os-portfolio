@@ -16,10 +16,10 @@
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="{{ url_for('static',filename='favicon.svg') }}" type="image/svg+xml">
-<link rel="stylesheet" href="{{ url_for('static',filename='home.css') }}?v=18">
-<script>document.documentElement.classList.replace('no-js','js')</script>
+<link rel="stylesheet" href="{{ url_for('static',filename='home.css') }}?v=19">
+<script nonce="{{ csp_nonce }}">document.documentElement.classList.replace('no-js','js')</script>
 <script defer src="{{ url_for('static',filename='story.js') }}?v=17"></script>
-<script defer src="{{ url_for('static',filename='fx.js') }}?v=2"></script>
+<script defer src="{{ url_for('static',filename='fx.js') }}?v=3"></script>
 <script defer src="{{ url_for('static',filename='track.js') }}?v=1"></script>
 </head>
 <body class="home">
@@ -265,7 +265,7 @@
         <div class="track-view" aria-hidden="true">
           <div class="track">
             <div class="retro win-1">
-              <div class="retro-bar"><span>welcome.exe</span><span>_ □ ×</span></div>
+              <div class="retro-bar"><span>welcome.exe</span><span aria-hidden="true">_ □ ×</span></div>
               <div class="retro-body">
                 <p class="retro-hello">Hello, world. I'm</p>
                 <p class="retro-name">Carlos Zanabria.</p>
@@ -273,11 +273,11 @@
               </div>
             </div>
             <div class="retro win-2 real">
-              <div class="retro-bar"><span>/projects?q=wallet</span><span>_ □ ×</span></div>
+              <div class="retro-bar"><span>/projects?q=wallet</span><span aria-hidden="true">_ □ ×</span></div>
               <img src="{{ url_for('static',filename='img/site-search.webp') }}" width="1100" height="640" alt="" loading="lazy">
             </div>
             <div class="retro win-3">
-              <div class="retro-bar"><span>tests.exe</span><span>_ □ ×</span></div>
+              <div class="retro-bar"><span>tests.exe</span><span aria-hidden="true">_ □ ×</span></div>
               <div class="retro-body">
                 <ul class="retro-checks" data-checks>
                   <li>pages and résumé link</li><li>search finds a project</li><li>category filters</li><li>escaped input</li><li>queries can't change data</li><li>briefings load</li>

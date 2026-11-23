@@ -2,9 +2,10 @@
 # LLM use: AI coding tools assisted with this file.
 import hmac
 import os
+import secrets
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
-from flask import Flask, Response, abort, render_template, request
+from flask import Flask, Response, abort, g, render_template, request, url_for
 import analytics
 from database import connect, initialize
 
@@ -14,6 +15,50 @@ app.config['DATABASE'] = os.environ.get('PORTFOLIO_DB', str(ROOT / 'data/portfol
 initialize(app.config['DATABASE'])
 app.config['MAX_CONTENT_LENGTH'] = 64 * 1024
 events = analytics.Store(app.config['DATABASE'])
+
+
+@app.context_processor
+def csp_nonce():
+    # One random value per request; only inline scripts carrying it may run.
+    g.nonce = secrets.token_urlsafe(16)
+    return {'csp_nonce': g.nonce}
+
+
+@app.after_request
+def harden(response):
+    nonce = g.get('nonce', '')
+    script = f"'self' 'nonce-{nonce}'" if nonce else "'self'"
+    response.headers.setdefault('Content-Security-Policy',
+        f"default-src 'self'; script-src {script}; style-src 'self' 'unsafe-inline'; img-src 'self' data:; "
+        "connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'")
+    response.headers.setdefault('X-Content-Type-Options', 'nosniff')
+    response.headers.setdefault('Referrer-Policy', 'strict-origin-when-cross-origin')
+    response.headers.setdefault('Permissions-Policy', 'camera=(), microphone=(), geolocation=()')
+    response.headers.setdefault('Strict-Transport-Security', 'max-age=31536000')
+    if request.path.startswith('/static/') and response.status_code == 200:
+        # Versioned files (?v=) never change, so browsers may keep them. The résumé PDF is always re-checked.
+        if request.args.get('v'):
+            response.headers['Cache-Control'] = 'public, max-age=31536000, immutable'
+        elif request.path.endswith('.pdf'):
+            response.headers['Cache-Control'] = 'no-cache'
+        else:
+            response.headers['Cache-Control'] = 'public, max-age=86400'
+    return response
+
+
+@app.get('/robots.txt')
+def robots():
+    lines = ['User-agent: *', 'Disallow: /stats', 'Disallow: /t', f"Sitemap: {url_for('sitemap', _external=True, _scheme='https')}"]
+    return Response('\n'.join(lines) + '\n', mimetype='text/plain')
+
+
+@app.get('/sitemap.xml')
+def sitemap():
+    paths = ['/', '/projects', '/resume', '/skills'] + [f"/projects/{item['slug']}" for item in projects()]
+    host = url_for('home', _external=True, _scheme='https').rstrip('/')
+    body = ''.join(f'<url><loc>{host}{path}</loc></url>' for path in paths)
+    return Response(f'<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{body}</urlset>',
+                    mimetype='application/xml')
 
 
 @app.template_filter('blocks')
