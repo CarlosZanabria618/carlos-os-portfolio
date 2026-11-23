@@ -54,7 +54,7 @@ def robots():
 
 @app.get('/sitemap.xml')
 def sitemap():
-    paths = ['/', '/projects', '/resume', '/skills'] + [f"/projects/{item['slug']}" for item in projects()]
+    paths = ['/', '/projects', '/resume', '/skills', '/built'] + [f"/projects/{item['slug']}" for item in projects()]
     host = url_for('home', _external=True, _scheme='https').rstrip('/')
     body = ''.join(f'<url><loc>{host}{path}</loc></url>' for path in paths)
     return Response(f'<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{body}</urlset>',
@@ -170,10 +170,15 @@ def stats():
     days = days if days in (7, 30, 90) else 30
     start = (datetime.now(timezone.utc) - timedelta(days=days)).strftime('%Y-%m-%dT%H:%M:%S')
     response = app.make_response(render_template('stats.html', active='', title='Site stats', days=days,
-                                                 s=analytics.summarize(events.since(start), days)))
+                                                 s=analytics.summarize(events, start, days)))
     response.headers['Cache-Control'] = 'no-store'
     response.headers['X-Robots-Tag'] = 'noindex'
     return response
+
+
+@app.route('/built')
+def built():
+    return render_template('built.html', active='', title='How this site is built')
 
 
 @app.errorhandler(404)

@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+{% block content %}
+<main id="main" class="page-main built">
+  <div class="content-wrap">
+    <header class="page-header">
+      <h1 class="page-heading">How this site is built</h1>
+      <p class="page-intro">The engineering behind this portfolio: where the data lives, how it is tested, how it is secured and how I measure it. Every number on this page comes from the code or from a measurement of the live site.</p>
+    </header>
+
+    <section class="built-box" aria-labelledby="b-arch">
+      <h2 id="b-arch">Architecture</h2>
+      <ol class="built-flow">
+        <li><strong>Browser</strong><span>HTML, CSS and plain JavaScript. No framework and no third-party scripts.</span></li>
+        <li><strong>Flask app</strong><span>Python on Gunicorn in a Docker container, hosted on Render and deployed from GitHub on every push.</span></li>
+        <li><strong>Two databases</strong><span>SQLite holds the project catalog. Postgres on Neon holds visit analytics, because the host clears its disk on every deploy.</span></li>
+      </ol>
+    </section>
+
+    <section class="built-box" aria-labelledby="b-data">
+      <h2 id="b-data">Data and SQL</h2>
+      <p>I chose to build the site's analytics instead of adding a tracker. The browser reports page views, clicks, sections reached, time on page and scroll depth. The server validates each event and stores one row per event.</p>
+      <p>The reports are plain SQL that runs unchanged on SQLite and Postgres. This query ranks each visit's pages with window functions, so one pass finds where the visit started, where it ended and how many pages it saw:</p>
+<pre tabindex="0"><code>WITH ranked AS (
+  SELECT sid, path, ref, country, device,
+         ROW_NUMBER() OVER (PARTITION BY sid ORDER BY ts, pv)           AS first_rank,
+         ROW_NUMBER() OVER (PARTITION BY sid ORDER BY ts DESC, pv DESC) AS last_rank,
+         COUNT(*)     OVER (PARTITION BY sid)                           AS pages
+  FROM events WHERE kind = 'view' AND ts &gt;= ?)
+SELECT path, COUNT(*) AS visits
+FROM ranked WHERE last_rank = 1      -- the last page of each visit
+GROUP BY 1 ORDER BY 2 DESC LIMIT 10;</code></pre>
+      <p>The same 40 sample visits were run through both databases and every report compared. They matched, and the comparison caught one real bug: Postgres returns <code>SUM</code> as a decimal where SQLite returns an integer.</p>
+      <ul class="built-facts">
+        <li><strong>0</strong><span>cookies set</span></li>
+        <li><strong>0</strong><span>IP addresses or personal details stored</span></li>
+        <li><strong>4</strong><span>event types: view, click, section, leave</span></li>
+      </ul>
+      <p>Visitors who turn on Do Not Track or Global Privacy Control are not counted, and neither are crawlers.</p>
+    </section>
+
+    <section class="built-box" aria-labelledby="b-test">
+      <h2 id="b-test">Testing</h2>
+      <p>14 automated tests run against a throwaway database. They cover navigation, search and filters, escaped input, SQL injection attempts, analytics validation, the locked stats page and the security headers.</p>
+      <p>This one posts hostile and malformed events and checks that only the valid ones are stored, with a SQL fragment kept as harmless text:</p>
+<pre tabindex="0"><code>self.event(kind='admin')                       # unknown event type
+self.event(path='https://evil.example')        # not a path on this site
+self.event(sid="x' OR 1=1 --")                 # malformed visit id
+self.event(kind='click', label="'); DROP TABLE events; --")
+rows = self.rows()[before:]
+self.assertEqual([r[0] for r in rows], ['view', 'leave', 'click'])
+self.assertEqual(rows[2][2], "'); DROP TABLE events; --")</code></pre>
+      <p>The same habit shows up in my other projects: 433 JUnit tests on <a href="{{ url_for('project_detail', slug='topsecret') }}">TopSecret</a> as a team, and 428 automated tests plus simulated-player runs on <a href="{{ url_for('project_detail', slug='merge-a-brainrot') }}">Merge a Brainrot</a>.</p>
+    </section>
+
+    <section class="built-box" aria-labelledby="b-sec">
+      <h2 id="b-sec">Security</h2>
+      <ul class="built-list">
+        <li><strong>Queries are parameterized.</strong> Search text and analytics fields never become part of the SQL itself.</li>
+        <li><strong>A content security policy</strong> allows scripts only from this site. The two inline scripts carry a random value that changes on every request.</li>
+        <li><strong>Other headers</strong> block framing by other sites, content-type guessing and unneeded device permissions, and require HTTPS.</li>
+        <li><strong>The stats page is private.</strong> It does not exist until a password is configured, compares it in constant time and is excluded from search engines.</li>
+        <li><strong>Input is bounded.</strong> Event text is length-capped, numbers are clamped and requests over 64 KB are refused.</li>
+      </ul>
+<pre tabindex="0"><code>Content-Security-Policy: default-src 'self'; script-src 'self' 'nonce-…';
+  object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'</code></pre>
+    </section>
+
+    <section class="built-box" aria-labelledby="b-a11y">
+      <h2 id="b-a11y">Accessibility and speed</h2>
+      <p>The site is reviewed against a fixed checklist based on WCAG 2.2 AA and Core Web Vitals, using axe and Lighthouse at laptop and phone sizes. Scores from the review on November 23, 2026 (Lighthouse, mobile):</p>
+      <table>
+        <thead><tr><th>Page</th><th>Performance</th><th>Accessibility</th><th>Best practices</th><th>SEO</th></tr></thead>
+        <tbody>
+          <tr><td>Home</td><td>98</td><td>96</td><td>100</td><td>100</td></tr>
+          <tr><td>TopSecret case study</td><td>100</td><td>100</td><td>100</td><td>100</td></tr>
+        </tbody>
+      </table>
+      <p>That review found and fixed missing security headers, static files that were never cached, a screen-reader problem in the text decode effect, three text colors just under the 4.5:1 contrast minimum and tap targets under 24 pixels. The home page is at 96 because Lighthouse measures some text while it is faded between animation steps.</p>
+      <ul class="built-list">
+        <li>Every animation turns off when a visitor asks for reduced motion.</li>
+        <li>Pages work by keyboard, with a visible focus ring and a skip link.</li>
+        <li>Pages stay readable with JavaScript turned off.</li>
+      </ul>
+    </section>
+
+    <section class="built-box" aria-labelledby="b-ai">
+      <h2 id="b-ai">How I work with AI tools</h2>
+      <p>AI coding tools helped write this site's code. I set the direction, decide what gets built and why, read what comes back, and hold it to tests and measurements before it ships. The choices on this page were mine to make: building the analytics myself, storing no personal data, and reviewing against a fixed checklist.</p>
+      <p><a class="button secondary" href="https://github.com/CarlosZanabria618/carlos-os-portfolio">View the code</a></p>
+    </section>
+  </div>
+</main>
+{% endblock %}

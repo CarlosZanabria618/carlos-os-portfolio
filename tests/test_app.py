@@ -20,7 +20,7 @@ class PortfolioTests(unittest.TestCase):
         self.client = app.test_client()
 
     def test_linked_pages_and_resume_download(self):
-        for route in ['/', '/projects', '/games', '/resume', '/skills']:
+        for route in ['/', '/projects', '/games', '/resume', '/skills', '/built']:
             response = self.client.get(route)
             self.assertEqual(response.status_code, 200, route)
             self.assertIn(b'<main id="main"', response.data)

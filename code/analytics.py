@@ -13,7 +13,7 @@ import os
 import re
 import sqlite3
 import statistics
-from collections import Counter, defaultdict
+from collections import defaultdict
 from datetime import datetime, timedelta, timezone
 
 KINDS = {'view', 'click', 'section', 'leave'}
@@ -63,11 +63,9 @@ class Store:
         self._run(f"INSERT INTO events ({','.join(COLUMNS)}) VALUES ({marks})",
                   tuple(event[column] for column in COLUMNS))
 
-    def since(self, start):
-        rows = self._run(f"SELECT {','.join(COLUMNS)} FROM events WHERE ts >= ? ORDER BY ts LIMIT 50000",
-                         (start,), fetch=True)
-        text = lambda value: value.decode('utf-8', 'replace') if isinstance(value, bytes) else value
-        return [dict(zip(COLUMNS, map(text, row))) for row in rows]
+    def query(self, text, parameters=()):
+        decode = lambda value: value.decode('utf-8', 'replace') if isinstance(value, bytes) else value
+        return [tuple(map(decode, row)) for row in self._run(text, parameters, fetch=True)]
 
 
 def clean(payload, headers):
@@ -93,7 +91,7 @@ def clean(payload, headers):
     device = None if width is None else 'Phone' if width < 600 else 'Tablet' if width < 1000 else 'Computer'
     country = (headers.get('CF-IPCountry') or '').upper()
     return {
-        'ts': datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%S'),
+        'ts': datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%S.%f')[:-3],
         'sid': sid, 'pv': pv, 'kind': kind, 'path': path.split('?')[0][:200],
         'label': text('label', 80), 'ref': text('ref', 100),
         'country': country if re.fullmatch(r'[A-Z]{2}', country) and country not in ('XX', 'T1') else None,
@@ -101,54 +99,72 @@ def clean(payload, headers):
     }
 
 
-def summarize(rows, days):
-    """Turn raw events into the numbers the stats page shows."""
-    views = [r for r in rows if r['kind'] == 'view']
-    visits = defaultdict(list)
-    for r in views:
-        visits[r['sid']].append(r)
-    # A page view can report "leave" more than once (tab hidden, then closed); keep the longest.
-    stay, depth = {}, {}
-    for r in rows:
-        if r['kind'] == 'leave':
-            stay[r['pv']] = max(stay.get(r['pv'], 0), r['ms'] or 0)
-            depth[r['pv']] = max(depth.get(r['pv'], 0), r['depth'] or 0)
+# The reports below are plain SQL that runs unchanged on SQLite and Postgres.
+# Every visit is ranked with window functions so one pass gives its first page
+# (where it came from), its last page (where it left) and how many pages it saw.
+VISITS = """WITH ranked AS (
+    SELECT sid, path, ref, country, device, substr(ts, 1, 10) AS day,
+           ROW_NUMBER() OVER (PARTITION BY sid ORDER BY ts, pv) AS first_rank,
+           ROW_NUMBER() OVER (PARTITION BY sid ORDER BY ts DESC, pv DESC) AS last_rank,
+           COUNT(*) OVER (PARTITION BY sid) AS pages
+    FROM events WHERE kind = 'view' AND ts >= ?)
+"""
+Q_TOTALS = VISITS + """SELECT COUNT(*), COALESCE(SUM(pages), 0), COALESCE(SUM(CASE WHEN pages = 1 THEN 1 ELSE 0 END), 0)
+FROM ranked WHERE first_rank = 1"""
+Q_ENTRY = VISITS + """SELECT COALESCE({column}, '{blank}') AS name, COUNT(*) AS visits
+FROM ranked WHERE first_rank = 1 GROUP BY 1 ORDER BY 2 DESC, 1 LIMIT {limit}"""
+Q_EXITS = VISITS + """SELECT path, COUNT(*) AS visits
+FROM ranked WHERE last_rank = 1 GROUP BY 1 ORDER BY 2 DESC, 1 LIMIT 10"""
+Q_PAGES = """SELECT path, COUNT(*) AS views FROM events
+WHERE kind = 'view' AND ts >= ? GROUP BY path ORDER BY views DESC, path LIMIT 15"""
+Q_LABELS = """SELECT label, COUNT(*) AS times FROM events
+WHERE kind = ? AND ts >= ? AND label IS NOT NULL GROUP BY label ORDER BY times DESC, label LIMIT 15"""
+# A page can report "leave" several times (tab hidden, check-ins, close); keep the longest per page view.
+Q_STAYS = """WITH stay AS (
+    SELECT pv, MAX(ms) AS ms, MAX(depth) AS depth FROM events
+    WHERE kind = 'leave' AND ts >= ? GROUP BY pv)
+SELECT v.sid, v.path, stay.ms, stay.depth
+FROM events v JOIN stay ON stay.pv = v.pv
+WHERE v.kind = 'view' AND v.ts >= ?"""
 
-    pages = defaultdict(lambda: {'views': 0, 'ms': [], 'depth': []})
-    for r in views:
-        page = pages[r['path']]
-        page['views'] += 1
-        if r['pv'] in stay:
-            page['ms'].append(stay[r['pv']])
-            page['depth'].append(depth[r['pv']])
-    page_rows = sorted(({'path': path, 'views': p['views'],
-                         'seconds': round(statistics.median(p['ms']) / 1000) if p['ms'] else None,
-                         'depth': round(statistics.mean(p['depth'])) if p['depth'] else None}
-                        for path, p in pages.items()), key=lambda p: -p['views'])
 
-    def top(counter, limit=10):
-        total = sum(counter.values()) or 1
-        return [{'name': name, 'count': count, 'share': round(100 * count / total)}
-                for name, count in counter.most_common(limit)]
+def summarize(store, start, days):
+    """Run the reports and shape them for the stats page."""
+    def share(rows):
+        total = sum(count for _, count in rows) or 1
+        return [{'name': name, 'count': count, 'share': round(100 * count / total)} for name, count in rows]
 
-    first = {sid: pages_seen[0] for sid, pages_seen in visits.items()}
+    def entry(column, blank, limit=10):
+        # column and blank come from the fixed calls below, never from a request
+        return store.query(Q_ENTRY.format(column=column, blank=blank, limit=limit), (start,))
+
+    # Postgres returns SUM as a Decimal; make all three plain integers
+    visits, views, one_page = (int(value) for value in store.query(Q_TOTALS, (start,))[0])
+    # Medians are worked out here because SQLite has no median function.
+    page_ms, page_depth, visit_ms = defaultdict(list), defaultdict(list), defaultdict(int)
+    for sid, path, ms, depth in store.query(Q_STAYS, (start, start)):
+        page_ms[path].append(ms or 0)
+        page_depth[path].append(depth or 0)
+        visit_ms[sid] += ms or 0
+    visit_ms = [ms for ms in visit_ms.values() if ms]
+    per_day = dict(entry('day', '', limit=400))
     today = datetime.now(timezone.utc).date()
-    per_day = Counter(v['ts'][:10] for v in first.values())
-    daily = [{'day': (today - timedelta(days=k)).isoformat(), 'count': per_day.get((today - timedelta(days=k)).isoformat(), 0)}
-             for k in range(days - 1, -1, -1)]
-    visit_ms = [sum(stay.get(v['pv'], 0) for v in seen) for seen in visits.values()]
-    visit_ms = [ms for ms in visit_ms if ms]
+    daily = [{'day': day, 'count': per_day.get(day, 0)}
+             for day in ((today - timedelta(days=k)).isoformat() for k in range(days - 1, -1, -1))]
     return {
-        'visits': len(visits), 'views': len(views),
-        'pages_per_visit': round(len(views) / len(visits), 1) if visits else 0,
+        'visits': visits, 'views': views,
+        'pages_per_visit': round(views / visits, 1) if visits else 0,
         'median_visit': round(statistics.median(visit_ms) / 1000) if visit_ms else None,
-        'one_page': round(100 * sum(1 for seen in visits.values() if len(seen) == 1) / len(visits)) if visits else 0,
+        'one_page': round(100 * one_page / visits) if visits else 0,
         'daily': daily, 'daily_max': max([d['count'] for d in daily] + [1]),
-        'pages': page_rows[:15],
-        'clicks': top(Counter(r['label'] for r in rows if r['kind'] == 'click' and r['label']), 15),
-        'sections': top(Counter(SECTIONS.get(r['label'], r['label']) for r in rows if r['kind'] == 'section' and r['label'])),
-        'exits': top(Counter(seen[-1]['path'] for seen in visits.values())),
-        'sources': top(Counter(v['ref'] or 'Direct or unknown' for v in first.values())),
-        'countries': top(Counter(v['country'] or 'Unknown' for v in first.values())),
-        'devices': top(Counter(v['device'] or 'Unknown' for v in first.values())),
+        'pages': [{'path': path, 'views': count,
+                   'seconds': round(statistics.median(page_ms[path]) / 1000) if page_ms[path] else None,
+                   'depth': round(statistics.mean(page_depth[path])) if page_depth[path] else None}
+                  for path, count in store.query(Q_PAGES, (start,))],
+        'clicks': share(store.query(Q_LABELS, ('click', start))),
+        'sections': share([(SECTIONS.get(label, label), count) for label, count in store.query(Q_LABELS, ('section', start))]),
+        'exits': share(store.query(Q_EXITS, (start,))),
+        'sources': share(entry('ref', 'Direct or unknown')),
+        'countries': share(entry('country', 'Unknown')),
+        'devices': share(entry('device', 'Unknown')),
     }

@@ -22,6 +22,19 @@
       {% for kind, body in item.detail|blocks %}{% if kind == 'steps' %}
       <ol class="case-steps">{% for when, name, text in body %}<li><span class="when">{{ when }}</span><div><h3>{{ name }}</h3><p>{{ text }}</p></div></li>{% endfor %}</ol>
       {% else %}<p>{{ body }}</p>{% endif %}{% endfor %}
+    {% if item.slug == 'topsecret' %}
+    <div class="cipher" data-cipher hidden aria-labelledby="cipher-title">
+      <h3 id="cipher-title">Try the cipher</h3>
+      <p>Type a message. It is scrambled with a key, then deciphered with the same key. This demo is rebuilt in JavaScript for this page with a made-up key, and follows the same rules as the Java version: every letter is swapped through the key, and anything the key does not cover passes through unchanged.</p>
+      <label for="cipher-in">Your message</label>
+      <input id="cipher-in" data-plain type="text" maxlength="80" value="Meet at the Drillfield at noon" autocomplete="off" spellcheck="false">
+      <dl>
+        <dt>Enciphered</dt><dd data-coded aria-live="polite"></dd>
+        <dt>Deciphered with the key</dt><dd data-decoded></dd>
+      </dl>
+      <p class="cipher-key"><span data-key></span> <button type="button" data-shuffle>Shuffle the key</button></p>
+    </div>
+    {% endif %}
     </section>
     <aside class="case-facts" aria-label="Project overview" data-spotlight>
       {% set stats = {
@@ -31,8 +44,9 @@
         'merge-a-brainrot': [(63, '', 'updates shipped in eight days'), (428, '', 'automated tests passing on every publish'), (463, '', 'visits before we shelved it')],
       }.get(item.slug) %}
       {% if stats %}<ul class="case-stats">{% for n, suffix, label in stats %}<li><strong data-count="{{ n }}" data-suffix="{{ suffix }}">{{ n }}{{ suffix }}</strong><span>{{ label }}</span></li>{% endfor %}</ul>{% endif %}
-      <dl class="details-list"><dt>My role</dt><dd>{{ item.role }}</dd><dt>Built with</dt><dd>{{ item.stack }}</dd><dt>Status</dt><dd>{{ item.status }}</dd>{% if item.slug == 'merge-a-brainrot' %}<dt>Art</dt><dd>Thumbnails rendered with AI tools under my direction; character models from a purchased pack</dd>{% endif %}{% if item.slug == 'topsecret' %}<dt>Course</dt><dd>Software Development Essentials, University of Virginia</dd><dt>When</dt><dd>February to April 2026</dd>{% endif %}</dl>
+      <dl class="details-list"><dt>My role</dt><dd>{{ item.role }}</dd><dt>Built with</dt><dd>{{ item.stack }}</dd><dt>Status</dt><dd>{{ item.status }}</dd>{% if item.slug == 'carlos-os-portfolio' %}<dt>Engineering</dt><dd><a href="{{ url_for('built') }}">How this site is built</a></dd>{% endif %}{% if item.slug == 'merge-a-brainrot' %}<dt>Art</dt><dd>Thumbnails rendered with AI tools under my direction; character models from a purchased pack</dd>{% endif %}{% if item.slug == 'topsecret' %}<dt>Course</dt><dd>Software Development Essentials, University of Virginia</dd><dt>When</dt><dd>February to April 2026</dd>{% endif %}</dl>
     </aside>
   </div>
 </main>
+{% if item.slug == 'topsecret' %}<script src="{{ url_for('static',filename='cipher.js') }}?v=1" defer></script>{% endif %}
 {% endblock %}
