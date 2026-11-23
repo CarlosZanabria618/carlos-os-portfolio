@@ -228,3 +228,21 @@ h1,h2,h3,p,dl,dd{margin:0}
 .case-code h3{font-size:22px;margin-bottom:8px}
 .case-code p{margin-bottom:12px}
 .case-code pre{margin:0 0 18px;padding:18px 20px;border-radius:14px;background:#0b1b3a;color:#e6ecf8;font:13.5px/1.6 var(--mono);overflow-x:auto;white-space:pre}
+/* Review 2: fixes */
+.case-body>*,.built-box,.case-story,.case-code,.cipher{min-width:0}
+.case-meta,.back{opacity:1}
+.back:hover{text-decoration:underline}
+.details-list dd a,.resume .contact-links a,.contact-links a{display:inline-flex;align-items:center;min-height:24px}
+/* project galleries and stack chips */
+.case-gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:-5vh;margin-bottom:6vh}
+.case-gallery figure{margin:0}
+.case-gallery .lead{grid-column:1/-1}
+.case-gallery img{display:block;width:100%;height:auto;border-radius:14px;box-shadow:0 18px 40px -22px rgba(11,27,58,.5),0 0 0 1px rgba(11,27,58,.1)}
+.case-gallery .lead img{border-radius:18px;box-shadow:0 40px 80px -30px rgba(11,27,58,.55),0 0 0 1px rgba(11,27,58,.1)}
+.case-gallery figcaption{margin-top:8px;font-size:14px;color:var(--ink-2)}
+.case-gallery.single{grid-template-columns:1fr;max-width:860px}
+@media (max-width:700px){.case-gallery{grid-template-columns:1fr 1fr}.case-gallery figure:last-child:nth-child(even){grid-column:1/-1}}
+.stack-chips{margin-top:8px}
+.stack-chips li{font-size:14px;padding:6px 12px}
+.built table{display:block;overflow-x:auto}
+.built-flow li,.built-facts li{min-width:0}

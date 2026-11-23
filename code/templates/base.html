@@ -4,11 +4,12 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#f1f5fc"><meta name="color-scheme" content="light">
 <title>{{ title }} · Carlos Zanabria</title>
-<meta name="description" content="Carlos Zanabria builds front ends. Computer Science at Virginia Tech, seeking Summer 2027 internships.">
+<meta name="description" content="{{ description or 'Carlos Zanabria builds front ends. Computer Science at Virginia Tech, seeking Summer 2027 internships.' }}">
+{% if canonical %}<link rel="canonical" href="{{ canonical }}"><meta property="og:url" content="{{ canonical }}">{% endif %}
 <meta property="og:title" content="{{ title }} · Carlos Zanabria"><meta property="og:description" content="I build front ends. Computer science at Virginia Tech."><meta property="og:type" content="website">
 <meta property="og:image" content="https://carlos-os-portfolio.onrender.com/static/img/og.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="{{ url_for('static',filename='favicon.svg') }}" type="image/svg+xml">
-<link rel="stylesheet" href="{{ url_for('static',filename='pages.css') }}?v=10">
+<link rel="stylesheet" href="{{ url_for('static',filename='pages.css') }}?v=11">
 </head><body>
 <a class="skip" href="#main">Skip to content</a>
 <header class="topbar">

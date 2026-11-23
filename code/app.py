@@ -21,7 +21,8 @@ events = analytics.Store(app.config['DATABASE'])
 def csp_nonce():
     # One random value per request; only inline scripts carrying it may run.
     g.nonce = secrets.token_urlsafe(16)
-    return {'csp_nonce': g.nonce}
+    # Canonical address: always https, never with query strings like ?q= or ?days=
+    return {'csp_nonce': g.nonce, 'canonical': 'https://' + request.host + request.path}
 
 
 @app.after_request
@@ -113,6 +114,7 @@ def project_list():
     if category not in ('', 'Software', 'Games'):
         abort(400)
     return render_template('projects.html', active='projects', title='Projects',
+                           description='Projects by Carlos Zanabria: a hackathon finance dashboard, two Roblox games, a Java team project and this site.',
                            items=projects(category, query), query=query, category=category)
 
 
@@ -128,17 +130,20 @@ def project_detail(slug):
         item = db.execute('SELECT * FROM projects WHERE slug = ?', (slug,)).fetchone()
     if item is None:
         abort(404)
-    return render_template('detail.html', active='projects', title=item['title'], item=item)
+    return render_template('detail.html', active='projects', title=item['title'], item=item,
+                           description=item['summary'])
 
 
 @app.route('/resume')
 def resume():
-    return render_template('resume.html', active='resume', title='Resume')
+    return render_template('resume.html', active='resume', title='Resume',
+                           description='Résumé of Carlos Zanabria, a computer science student at Virginia Tech graduating May 2028.')
 
 
 @app.route('/skills')
 def skills():
-    return render_template('skills.html', active='skills', title='Skills & toolbox')
+    return render_template('skills.html', active='skills', title='Skills & toolbox',
+                           description='Languages, tools and methods Carlos Zanabria works with, from Python and Java to testing and accessibility.')
 
 
 @app.post('/t')
@@ -178,12 +183,13 @@ def stats():
 
 @app.route('/built')
 def built():
-    return render_template('built.html', active='', title='How this site is built')
+    return render_template('built.html', active='', title='How this site is built',
+                           description='The engineering behind this portfolio: SQL analytics, automated tests, security headers and measured accessibility.')
 
 
 @app.errorhandler(404)
 def not_found(error):
-    return render_template('error.html', active='', title='File not found'), 404
+    return render_template('error.html', active='', title='File not found', canonical=''), 404
 
 
 if __name__ == '__main__':

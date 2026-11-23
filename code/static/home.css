@@ -213,7 +213,7 @@ kbd{font:inherit;font-size:.9em;padding:1px 7px;border-radius:6px;background:#ff
 /* ───── This site ───── */
 .track-view{width:100%;max-width:680px;overflow:hidden;padding:16px 20px 26px;margin:0 -20px}
 .track{display:flex;gap:48px;transform:translate3d(var(--hx,0px),0,0);will-change:transform}
-.retro{flex:0 0 100%;background:#f1ebe0;border:3px solid var(--bark);box-shadow:10px 10px 0 var(--bark);font-family:var(--mono);color:var(--bark);overflow:hidden;transform:rotate(calc(var(--d,0)*4deg)) scale(calc(1 - var(--ad,0)*.08));opacity:calc(1 - var(--ad,0)*.45)}
+.retro{flex:0 0 100%;background:#f1ebe0;border:3px solid var(--bark);box-shadow:10px 10px 0 var(--bark);font-family:var(--mono);color:var(--bark);overflow:hidden;transform:rotate(calc(var(--d,0)*4deg)) scale(calc(1 - var(--ad,0)*.08));opacity:calc(1 - var(--ad,0)*.18)}
 .retro-bar{display:flex;justify-content:space-between;padding:8px 14px;background:var(--bark);color:#f1ebe0;font-size:13px}
 .retro-body{padding:28px 30px 32px;min-height:300px}
 .retro-hello{font-size:13px;letter-spacing:.06em}
@@ -539,7 +539,7 @@ body:not(.ink-dark) .next-btn{background:var(--navy);color:#fff}
 .sr-only{position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
 /* Review fixes: text contrast of at least 4.5:1 and 24px minimum tap targets */
 .ch-game .how summary{color:#042a43}
-.retro-hello,.retro-sub{color:#5f564c}
+.retro-hello,.retro-sub{color:#4f473f}
 .seg{height:24px}
 .topbar nav a,.topbar-name{display:inline-flex;align-items:center;min-height:24px}
 .foot a,.contact-links a{display:inline-flex;align-items:center;min-height:24px}

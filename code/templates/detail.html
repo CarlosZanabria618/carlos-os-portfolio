@@ -15,8 +15,41 @@
       </div>
     </div>
   </header>
-  {% if item.slug == 'plus1-speed-catch-animals' %}<div class="content-wrap"><img class="case-shot" src="{{ url_for('static',filename='img/game-hud.webp') }}" width="1920" height="694" alt="A play test of +1 Speed Catch Animals showing the speed counter, level bar and training buttons."></div>{% endif %}
-  {% if item.slug == 'hokiewallet' %}<div class="content-wrap"><img class="case-shot" src="{{ url_for('static',filename='img/hw-overview.webp') }}" width="1600" height="900" alt="The Hokie Wallet overview screen in dark mode, showing bank balance, campus funds and spending this month, with sample data."></div>{% endif %}
+  {% set shots = {
+    'hokiewallet': [
+      ('hw-overview', 1600, 900, 'The Hokie Wallet overview screen in dark mode, showing bank balance, campus funds and spending this month, with sample data.', 'Overview, with sample data'),
+      ('hw-savings', 1600, 900, 'The Hokie Wallet savings screen with progress toward savings goals.', 'Savings goals'),
+      ('hw-access', 1600, 900, 'The Hokie Wallet accessibility settings for text size, contrast and reduced motion.', 'Accessibility settings'),
+      ('hw-spanish', 1600, 900, 'The Hokie Wallet interface shown in Spanish.', 'One of 10 languages'),
+    ],
+    'plus1-speed-catch-animals': [
+      ('game-hud', 1920, 694, 'A play test of +1 Speed Catch Animals showing the speed counter, level bar and training buttons.', 'Training screen in a play test'),
+      ('game-start', 1920, 694, 'The starting area of +1 Speed Catch Animals.', 'Starting area'),
+      ('game-race', 1920, 694, 'A race in +1 Speed Catch Animals.', 'Racing'),
+      ('game-stage', 1920, 694, 'A cow running toward Stage 1 in +1 Speed Catch Animals.', 'Stage 1'),
+    ],
+    'merge-a-brainrot': [
+      ('merge-thumb', 768, 432, 'Merge a Brainrot thumbnail: two small Brainrots merging into a giant one.', 'Merging, the core loop'),
+      ('merge-army', 768, 432, 'Merge a Brainrot thumbnail showing a crowd of collected Brainrots.', 'Collecting'),
+      ('merge-fish', 768, 432, 'Merge a Brainrot thumbnail showing a player fishing up a golden egg.', 'Fishing for eggs'),
+      ('merge-halloween', 768, 432, 'Merge a Brainrot thumbnail for the Halloween event.', 'Halloween event'),
+    ],
+    'topsecret': [
+      ('topsecret-console', 860, 590, 'The TopSecret command line listing files and deciphering one.', 'The command line, recreated for this site'),
+    ],
+    'carlos-os-portfolio': [
+      ('site-home', 960, 562, 'The home page of this portfolio.', 'Home page'),
+      ('site-projects', 1280, 800, 'The Projects page of this portfolio with a card for each project.', 'Projects page'),
+      ('site-built', 1280, 800, 'The page explaining how this portfolio is built.', 'How this site is built'),
+    ],
+  }.get(item.slug, []) %}
+  {% if shots %}
+  <div class="content-wrap case-gallery{% if shots|length == 1 %} single{% endif %}">
+    {% for file, w, h, alt, caption in shots %}
+    <figure{% if loop.first %} class="lead"{% endif %}><img src="{{ url_for('static',filename='img/' ~ file ~ '.webp') }}" width="{{ w }}" height="{{ h }}" alt="{{ alt }}"{% if not loop.first %} loading="lazy"{% endif %}><figcaption>{{ caption }}</figcaption></figure>
+    {% endfor %}
+  </div>
+  {% endif %}
   <div class="content-wrap case-body">
     <section class="case-story"><h2>What I did</h2>
       {% for kind, body in item.detail|blocks %}{% if kind == 'steps' %}
@@ -79,7 +112,7 @@ VALUES (?, ?, ?, datetime('now'));</code></pre>
         'merge-a-brainrot': [(63, '', 'updates shipped in eight days'), (428, '', 'automated tests passing on every publish'), (463, '', 'visits before we shelved it')],
       }.get(item.slug) %}
       {% if stats %}<ul class="case-stats">{% for n, suffix, label in stats %}<li><strong data-count="{{ n }}" data-suffix="{{ suffix }}">{{ n }}{{ suffix }}</strong><span>{{ label }}</span></li>{% endfor %}</ul>{% endif %}
-      <dl class="details-list"><dt>My role</dt><dd>{{ item.role }}</dd><dt>Built with</dt><dd>{{ item.stack }}</dd><dt>Status</dt><dd>{{ item.status }}</dd>{% if item.slug == 'carlos-os-portfolio' %}<dt>Engineering</dt><dd><a href="{{ url_for('built') }}">How this site is built</a></dd>{% endif %}{% if item.slug == 'merge-a-brainrot' %}<dt>Art</dt><dd>Thumbnails rendered with AI tools under my direction; character models from a purchased pack</dd>{% endif %}{% if item.slug == 'topsecret' %}<dt>Course</dt><dd>Software Development Essentials, University of Virginia</dd><dt>When</dt><dd>February to April 2026</dd>{% endif %}</dl>
+      <dl class="details-list"><dt>My role</dt><dd>{{ item.role }}</dd><dt>Built with</dt><dd>{% include 'stack_chips.html' %}</dd><dt>Status</dt><dd>{{ item.status }}</dd>{% if item.slug == 'carlos-os-portfolio' %}<dt>Engineering</dt><dd><a href="{{ url_for('built') }}">How this site is built</a></dd>{% endif %}{% if item.slug == 'merge-a-brainrot' %}<dt>Art</dt><dd>Thumbnails rendered with AI tools under my direction; character models from a purchased pack</dd>{% endif %}{% if item.slug == 'topsecret' %}<dt>Course</dt><dd>Software Development Essentials, University of Virginia</dd><dt>When</dt><dd>February to April 2026</dd>{% endif %}</dl>
     </aside>
   </div>
 </main>
